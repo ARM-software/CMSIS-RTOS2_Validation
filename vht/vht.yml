@@ -1,0 +1,33 @@
+suite:
+  name: "CMSIS-RTOS2 Validation"
+  model: "VHT_Corstone_SSE-300_Ethos-U55"
+  configuration: ""
+  working_dir: "/home/ubuntu/vhtwork"
+  pre: ""
+  post: ""
+
+  builds:
+   - "RTX5 build":
+      shell: "cbuild.sh ./Project/RTX5/SSE-300-MPS3/Validation.SSE-300-MPS3.cprj"
+      pre:
+      post: "cp ./Project/RTX5/SSE-300-MPS3/Output/Validation.axf out/Validation-RTX5.axf"
+
+   - "FreeRTOS build":
+      shell: "cbuild.sh ./Project/FreeRTOS/SSE-300-MPS3/Validation.SSE-300-MPS3.cprj"
+      pre:
+      post: "cp ./Project/FreeRTOS/SSE-300-MPS3/Output/Validation.axf out/Validation-FreeRTOS.axf"
+
+  tests:
+   - "RTX5 run":
+      executable: ./Project/RTX5/SSE-300-MPS3/Output/Validation.axf
+      arguments: "-f ./vht_config.txt --stat --cyclelimit 768000000"
+      pre: ""
+      post: ""
+      timeout: 20
+
+   - "FreeRTOS run":
+      executable: ./Project/FreeRTOS/SSE-300-MPS3/Output/Validation.axf
+      arguments: "-f ./vht_config.txt --stat --cyclelimit 768000000"
+      pre: ""
+      post: ""
+      timeout: 20
