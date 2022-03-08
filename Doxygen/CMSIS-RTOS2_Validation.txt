@@ -3,8 +3,7 @@
 \mainpage Introduction
 
 This manual explains the scope and the usage of the software pack for \b CMSIS-RTOS2 \b Validation.
-<a href="http://www.keil.com/cmsis/rtos" target="_blank">CMSIS-RTOS2 API</a> is a generic RTOS2 interface for ARM&reg;
-Cortex&reg;-M processor-based devices.
+<a href="https://arm-software.github.io/CMSIS_5/RTOS2/html/index.html" target="_blank">CMSIS-RTOS2 API</a> is a generic RTOS2 interface for ARM&reg; Cortex&reg;-M processor-based devices.
 
 The software pack for CMSIS-RTOS2 validation provides:
   - Configurable validation tests
@@ -26,7 +25,7 @@ This manual contains the following chapters:
   - \ref config - Contains information about test suite configuration options
   - <a class="el" href="./modules.html">Reference</a> - Explains the individual CMSIS-RTOS2 API tests.
 
-This manual assumes that you are familiar with MDK. Refer to
+This manual assumes that you are familiar with Keil MDK. Refer to
 <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
 
 <hr>
