@@ -343,7 +343,7 @@
 //   <e>Global Initialization
 //   <i> Initialize Event Recorder during 'osKernelInitialize'.
 #ifndef OS_EVR_INIT
-#define OS_EVR_INIT                 1
+#define OS_EVR_INIT                 0
 #endif
  
 //     <q>Start recording
@@ -498,67 +498,67 @@
 //     <q>Memory Management
 //     <i> Enables Memory Management event generation.
 #ifndef OS_EVR_MEMORY
-#define OS_EVR_MEMORY               1
+#define OS_EVR_MEMORY               0
 #endif
  
 //     <q>Kernel
 //     <i> Enables Kernel event generation.
 #ifndef OS_EVR_KERNEL
-#define OS_EVR_KERNEL               1
+#define OS_EVR_KERNEL               0
 #endif
  
 //     <q>Thread
 //     <i> Enables Thread event generation.
 #ifndef OS_EVR_THREAD
-#define OS_EVR_THREAD               1
+#define OS_EVR_THREAD               0
 #endif
  
 //     <q>Generic Wait
 //     <i> Enables Generic Wait event generation.
 #ifndef OS_EVR_WAIT
-#define OS_EVR_WAIT                 1
+#define OS_EVR_WAIT                 0
 #endif
  
 //     <q>Thread Flags
 //     <i> Enables Thread Flags event generation.
 #ifndef OS_EVR_THFLAGS
-#define OS_EVR_THFLAGS              1
+#define OS_EVR_THFLAGS              0
 #endif
  
 //     <q>Event Flags
 //     <i> Enables Event Flags event generation.
 #ifndef OS_EVR_EVFLAGS
-#define OS_EVR_EVFLAGS              1
+#define OS_EVR_EVFLAGS              0
 #endif
  
 //     <q>Timer
 //     <i> Enables Timer event generation.
 #ifndef OS_EVR_TIMER
-#define OS_EVR_TIMER                1
+#define OS_EVR_TIMER                0
 #endif
  
 //     <q>Mutex
 //     <i> Enables Mutex event generation.
 #ifndef OS_EVR_MUTEX
-#define OS_EVR_MUTEX                1
+#define OS_EVR_MUTEX                0
 #endif
  
 //     <q>Semaphore
 //     <i> Enables Semaphore event generation.
 #ifndef OS_EVR_SEMAPHORE
-#define OS_EVR_SEMAPHORE            1
+#define OS_EVR_SEMAPHORE            0
 #endif
  
 //     <q>Memory Pool
 //     <i> Enables Memory Pool event generation.
 #ifndef OS_EVR_MEMPOOL
-#define OS_EVR_MEMPOOL              1
+#define OS_EVR_MEMPOOL              0
 #endif
  
 //     <q>Message Queue
 //     <i> Enables Message Queue event generation.
 #ifndef OS_EVR_MSGQUEUE
-#define OS_EVR_MSGQUEUE             1
+#define OS_EVR_MSGQUEUE             0
 #endif
  
 //   </h>

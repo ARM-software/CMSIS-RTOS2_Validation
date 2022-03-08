@@ -18,7 +18,11 @@
 
 #include "cmsis_rv2.h"
 
+extern int stdio_init (void);
+
 int main (void) {
+  /* Initialize stdio */
+  stdio_init();
 
   /* CMSIS-RTOS2 validation entry */
   cmsis_rv2();

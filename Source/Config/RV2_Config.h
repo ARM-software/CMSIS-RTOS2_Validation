@@ -19,9 +19,6 @@
 #ifndef RV2_CONFIG_H__
 #define RV2_CONFIG_H__
 
-#include "RTE_Components.h"
-#include CMSIS_device_header
-
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
 
 // <h> CMSIS-RTOS2 Test Suite Configuration

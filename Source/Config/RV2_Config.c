@@ -17,7 +17,6 @@
  */
 
 #include "cmsis_rv2.h"
-
 #include "RV2_Config_Device.h"
 
 #if defined(__CORTEX_A)
@@ -30,6 +29,7 @@ void TST_IRQ_HANDLER_B (void);
 void (*TST_IRQHandler_A)(void);
 void (*TST_IRQHandler_B)(void);
 
+extern int stdout_putchar (int ch);
 
 /*
   Primary interrupt handler
@@ -55,6 +55,7 @@ void TST_IRQ_HANDLER_B (void) {
   Test suite initialization
 */
 void TS_Init (void) {
+
 #if defined(__ARM_ARCH_7A__) && defined(__CORTEX_A)
   IRQn_ID_t irq = (IRQn_ID_t)TST_IRQ_NUM_A;
 
@@ -77,7 +78,13 @@ void TS_Init (void) {
 */
 void TS_Uninit (void) {
   /* Close debug session here */
-  __BKPT();
+
+  /* Note:
+     VHT model shall have parameter shutdown_on_eot set to true.
+     Simulation is then shutdown when EOT, ASCII4, character is
+     transmitted via UART.
+   */
+  stdout_putchar (0x04);
 }
 
 /*
