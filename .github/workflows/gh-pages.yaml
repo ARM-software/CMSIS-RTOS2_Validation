@@ -27,7 +27,7 @@ jobs:
       - name: Install packages
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y graphviz plantuml libclang1-9 libclang-cpp1-9 ninja-build python
+          sudo apt-get install --no-install-recommends -y libclang1-9 libclang-cpp1-9 python
           sudo pip install LinkChecker
 
       - name: Install doxygen 1.9.2
