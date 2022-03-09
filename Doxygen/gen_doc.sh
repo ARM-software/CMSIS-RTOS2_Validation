@@ -53,7 +53,8 @@ echo "Checking PDCS version against Git..."
 
 pdsc_version=$(pack_version "${DIRNAME}/../ARM.CMSIS-RTOS2_Validation.pdsc")
 if [ -z $VERSION ]; then
-  VERSION=$(git_describe ${pdsc_version})
+  VERSION_FULL=$(git_describe ${pdsc_version})
+  VERSION=${VERSION_FULL%+*}
 fi
  
 echo "Generating documentation ..."
@@ -76,7 +77,7 @@ fi
 sed -e "s/{datetime}/${datetime}/" "${DIRNAME}/_DoxyTemplates/footer.js.in" \
   | sed -e "s/{year}/${year}/" \
   | sed -e "s/{projectName}/${projectName}/" \
-  | sed -e "s/{projectNumber}/${VERSION}/" \
+  | sed -e "s/{projectNumber}/${VERSION_FULL}/" \
   > "${DIRNAME}/html/footer.js"
 
 popd > /dev/null
