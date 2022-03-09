@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['g_5fexecarr',['G_ExecArr',['../_r_v2___mutex_8c.html#a9347a2ae21d187b1f0bf79b753a43cfe',1,'RV2_Mutex.c']]],
-  ['generic_20wait_20functions',['Generic Wait Functions',['../group__genwait__funcs.html',1,'']]]
+  ['generic_20wait_20functions_0',['Generic Wait Functions',['../group__genwait__funcs.html',1,'']]]
 ];
