@@ -32,53 +32,48 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }} 
+  AWS_IAM_PROFILE: ${{ secrets.AWS_IAM_PROFILE }}
+  AWS_SECURITY_GROUP_ID: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+  AWS_SUBNET_ID: ${{ secrets.AWS_SUBNET_ID }}
 jobs:
   ci_test:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v2
-
-#    - name: Install Python packages
-#      run: pip install -r basic/requirements.txt
-
-    - name: Sync workspace
-      run: |
-        rsync -rR Include ./vht/Include
-        rsync -rR Project ./vht/Project
-        rsync -rR Source ./vht/Source
-
-    - uses: ARM-Software/VHT-AMI@v2.1
-      id: vht
+      uses: actions/checkout@v3
+      
+    - name: Checkout Python AVH Client
+      uses: actions/checkout@v3
       with:
-        ec2_instance_type: t2.micro
-        ec2_security_group_id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
-        iam_profile: ${{ secrets.AWS_IAM_PROFILE }}
-        s3_bucket_name: ${{ secrets.AWS_S3_BUCKET_NAME }}
-        subnet_id: ${{ secrets.AWS_SUBNET_ID }}
-        terminate_ec2_instance: 'true'
-        vht_ami_version: '1.1.0'
-        vht_in: ./vht/
+        repository: JonatanAntoni/VHT
+        ref: refactoring
+        path: VHT
 
-    - name: Fetch results from VHT
-      id: result
+    - name: Install Python AVH Client
       run: |
-          tar xvzf out.tar
-          ls -lah ./home/ubuntu/vhtwork/out
+        pip install -e VHT/infrastructure/python_resources
+
+    - uses: ammaraskar/gcc-problem-matcher@master
+
+    - name: Run tests
+      run: |
+        vht_cli -b aws --ami-version 1.1.0 run --specfile Project/vht.yml
 
     - name: Archive results
       uses: actions/upload-artifact@v2
       with:
         name: results
         path: |
-          ./home/ubuntu/vhtwork/out
+          Project/RTOS2_Validation-*.zip
+          Project/RTOS2_Validation-*.junit
         retention-days: 1
         if-no-files-found: error
       if: always()
 
-#    - name: Publish test results
-#      uses: mikepenz/action-junit-report@v2
-#      with:
-#        check_name: "Test results"
-#        report_paths: basic/basic-*.xunit
-
+    - name: Publish test results
+      uses: mikepenz/action-junit-report@v2
+      with:
+        check_name: "Test results"
+        report_paths: Project/RTOS2_Validation-*.junit
+      if: always()

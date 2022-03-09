@@ -1,5 +1,8 @@
+.idea
 Doxygen/CMSIS_RV2.dxy
 Doxygen/html
 Doxygen/linkchecker-out.csv
 Project/**/Output
 Project/**/RTE_Components.h
+Project/*.zip
+Project/*.junit
