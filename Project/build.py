@@ -111,7 +111,7 @@ def cbuildsh(project):
                                                                     f"{result.command.config.rtxcfg}."
                                                                     f"{title}"))
 def avhrun(config):
-    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--cyclelimit", 1000000000, "-f", f"{project_dir(config)}/vht_config.txt"]
+    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 10, "-f", f"{project_dir(config)}/vht_config.txt"]
     cmdline += AVH_EXECUTABLE[config.device][1]
     cmdline += ["-a", f"{project_dir(config)}/Output/Validation.axf"]
     return cmdline
