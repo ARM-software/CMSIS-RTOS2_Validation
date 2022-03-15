@@ -23,12 +23,9 @@ on:
       - Include/**/*
       - Project/**/*
       - Source/**/*
-
-# To allow you to run this workflow manually from the GitHub Actions tab add
   workflow_dispatch:
 
 env:
-  # VHT-AMI expects those environments be presented.
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
@@ -42,23 +39,23 @@ jobs:
     steps:
     - name: Check out repository code
       uses: actions/checkout@v3
-      
+
     - name: Checkout Python AVH Client
       uses: actions/checkout@v3
       with:
         repository: JonatanAntoni/VHT
         ref: refactoring
-        path: VHT
+        path: AVH
 
     - name: Install Python AVH Client
       run: |
-        pip install -e VHT/infrastructure/python_resources
+        pip install -e AVH/infrastructure/python_resources
 
     - uses: ammaraskar/gcc-problem-matcher@master
 
     - name: Run tests
       run: |
-        vht_cli -b aws --ami-version 1.1.0 run --specfile Project/vht.yml
+        arm-vhc -b aws execute --specfile Project/avh.yml
 
     - name: Archive results
       uses: actions/upload-artifact@v2
