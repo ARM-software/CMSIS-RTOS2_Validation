@@ -60,7 +60,7 @@ jobs:
 
     - name: Run tests
       run: |
-        arm-vhc -b aws execute --specfile Project/avh.yml
+        arm-vhclient -b aws execute --specfile Project/avh.yml
 
     - name: Archive results
       uses: actions/upload-artifact@v2
