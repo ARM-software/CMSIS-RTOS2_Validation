@@ -1,0 +1,23 @@
+name: "RTOS2 Validation"
+workdir: ../
+backend:
+  aws:
+    ami-version: ~=1.1
+    instance-type: t2.micro
+upload:
+  - README.md
+  - Include/**/*
+  - Project/**/*
+  - -:Project/RTOS2_Validation-*.zip
+  - -:Project/RTOS2_Validation-*.junit
+  - -:Project/**/Output/**/*
+  - -:Project/**/RTE/**/RTE_Components.h
+  - Source/**/*
+steps:
+  - run: |
+      cd Project
+      pip install -r requirements.txt
+      python build.py --verbose build run
+download:
+  - Project/RTOS2_Validation-*.zip
+  - Project/RTOS2_Validation-*.junit
