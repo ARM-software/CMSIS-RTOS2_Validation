@@ -87,12 +87,12 @@ void TC_GenWaitInterrupts (void) {
 
   Isr_s32 = 0; /* Test: osDelay */
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   Isr_s32 = 1; /* Test: osDelayUntil */
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 }
 #endif

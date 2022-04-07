@@ -208,7 +208,7 @@ void TC_osThreadNew_1 (void) {
   /* Call osThreadNew from ISR */
   TST_IRQHandler = Irq_osThreadNew_1;
   ThreadId = (osThreadId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (ThreadId == NULL);
 #endif
 }
@@ -432,7 +432,7 @@ void TC_osThreadGetName_1 (void) {
   TST_IRQHandler = Irq_osThreadGetName_1;
   ThreadId   = id;
   ThreadName = name;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (strcmp(ThreadName, name) != 0U);
 
   /* Delete thread object */
@@ -496,7 +496,7 @@ void TC_osThreadGetId_1 (void) {
   /* Call osThreadGetId from ISR */
   TST_IRQHandler = Irq_osThreadGetId_1;
   Isr_osThreadId = (osThreadId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osThreadId == osThreadGetId());
 #endif
 }
@@ -563,7 +563,7 @@ void TC_osThreadGetState_1 (void) {
   TST_IRQHandler = Irq_osThreadGetState_1;
   Isr_osThreadState = osThreadRunning;
   ThreadId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osThreadState == osThreadError);
 
   /* Terminate thread */
@@ -765,7 +765,7 @@ void TC_osThreadSetPriority_2 (void) {
   TST_IRQHandler = Irq_osThreadSetPriority_2;
   Isr_osStatus = osOK;
   ThreadId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Terminate thread */
@@ -812,7 +812,7 @@ void TC_osThreadGetPriority_1 (void) {
   TST_IRQHandler = Irq_osThreadGetPriority_1;
   Isr_osPriority = osPriorityNone;
   ThreadId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osPriority == osPriorityError);
 
   /* Call osThreadGetPriority with null object */
@@ -850,7 +850,7 @@ void TC_osThreadYield_1 (void) {
   /* Call osThreadYield from ISR */
   TST_IRQHandler = Irq_osThreadYield_1;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 #endif
 }
@@ -925,7 +925,7 @@ void TC_osThreadSuspend_1 (void) {
   /* Call osThreadSuspend from ISR */
   TST_IRQHandler = Irq_osThreadSuspend_1;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Terminate thread */
@@ -1018,7 +1018,7 @@ void TC_osThreadResume_1 (void) {
   /* Call osThreadResume from ISR */
   TST_IRQHandler = Irq_osThreadResume_1;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Terminate thread */
@@ -1134,7 +1134,7 @@ void TC_osThreadDetach_2 (void) {
   TST_IRQHandler = Irq_osThreadDetach_2;
   ThreadId = id;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Terminate */
@@ -1312,7 +1312,7 @@ void TC_osThreadJoin_2 (void) {
   TST_IRQHandler = Irq_osThreadJoin_2;
   ThreadId = tid;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Ensure that Th_SelfTerminate executes */
@@ -1458,7 +1458,7 @@ void TC_osThreadTerminate_1 (void) {
   TST_IRQHandler = Irq_osThreadTerminate_1;
   Isr_osStatus = osOK;
   ThreadId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Terminate created thread */
@@ -1522,7 +1522,7 @@ void TC_osThreadGetStackSize_1 (void) {
   TST_IRQHandler = Irq_osThreadGetStackSize_1;
   Isr_u32 = 128U;
   ThreadId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Terminate thread */
@@ -1585,7 +1585,7 @@ void TC_osThreadGetStackSpace_1 (void) {
   TST_IRQHandler = Irq_osThreadGetStackSpace_1;
   Isr_u32 = 128U;
   ThreadId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Terminate thread */
@@ -1649,7 +1649,7 @@ void TC_osThreadGetCount_1 (void) {
   /* Call osThreadGetCount from ISR */
   TST_IRQHandler = Irq_osThreadGetCount_1;
   Isr_u32 = UINT32_MAX;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 #endif
 }
@@ -1734,7 +1734,7 @@ void TC_osThreadEnumerate_1 (void) {
   /* Call osThreadEnumerate from ISR */
   TST_IRQHandler = Irq_osThreadEnumerate_1;
   Isr_u32 = UINT32_MAX;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 #endif
 }

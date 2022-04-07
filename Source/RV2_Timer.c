@@ -126,7 +126,7 @@ void TC_osTimerNew_1 (void) {
   /* Call osTimerNew from ISR */
   TST_IRQHandler = Irq_osTimerNew_1;
   TimerId = (osTimerId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (TimerId == NULL);
 
   /* Call osTimerNew with null timer function */
@@ -234,7 +234,7 @@ void TC_osTimerGetName_1 (void) {
   TST_IRQHandler = Irq_osTimerGetName_1;
   TimerId   = tid;
   TimerName = name;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (strcmp(TimerName, name) != 0U);
 
   /* Delete timer object */
@@ -321,7 +321,7 @@ void TC_osTimerStart_1 (void) {
   TST_IRQHandler = Irq_osTimerStart_1;
   Isr_osStatus = osOK;
   TimerId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osTimerStart with invalid ticks value */
@@ -403,7 +403,7 @@ void TC_osTimerStop_1 (void) {
   TST_IRQHandler = Irq_osTimerStop_1;
   Isr_osStatus = osOK;
   TimerId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the timer */
@@ -540,7 +540,7 @@ void TC_osTimerIsRunning_1 (void) {
   TST_IRQHandler = Irq_osTimerIsRunning_1;
   Isr_u32 = 1U;
   TimerId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete the timer */
@@ -626,7 +626,7 @@ void TC_osTimerDelete_1 (void) {
   TST_IRQHandler = Irq_osTimerDelete_1;
   Isr_osStatus = osOK;
   TimerId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the timer */

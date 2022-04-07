@@ -88,7 +88,7 @@ void TC_osMessageQueueNew_1 (void) {
   /* Call osMessageQueueNew from ISR */
   TST_IRQHandler = Irq_osMessageQueueNew_1;
   MessageQueueId = (osMessageQueueId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (MessageQueueId == NULL);
 #endif
 }
@@ -195,7 +195,7 @@ void TC_osMessageQueueGetName_1 (void) {
   TST_IRQHandler = Irq_osMessageQueueGetName_1;
   MessageQueueId   = id;
   MessageQueueName = name;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (strcmp(MessageQueueName, name) != 0U);
 
   /* Delete message queue object */
@@ -270,13 +270,13 @@ void TC_osMessageQueuePut_1 (void) {
   /* Call osMessageQueuePut from ISR with timeout == 0 */
   Isr_u32 = 0U;
   Isr_osStatus = osErrorISR;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Call osMessageQueuePut from ISR with timeout != 0 */
   Isr_u32 = 1U;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete Message Queue */
@@ -288,7 +288,7 @@ void TC_osMessageQueuePut_1 (void) {
   /* Call osMessageQueuePut from ISR with null object */
   Isr_u32 = 2U;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 #endif
 }
@@ -339,7 +339,7 @@ void TC_osMessageQueuePut_2 (void) {
   /* Call osMessageQueuePut from ISR to put all available messages into the message queue */
   TST_IRQHandler = Irq_osMessageQueuePut_2;
   MessageQueueId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
 
   /* Retrieve all queued messages */
   msg = 1U;
@@ -460,14 +460,14 @@ void TC_osMessageQueueGet_1 (void) {
   /* Call osMessageQueueGet from ISR with timeout == 0 */
   Isr_s32 = 0;
   Isr_osStatus = osErrorISR;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osOK);
   ASSERT_TRUE (Isr_u32 = msg_in);
 
   /* Call osMessageQueueGet from ISR with timeout != 0 */
   Isr_s32 = 1;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete Message Queue */
@@ -479,7 +479,7 @@ void TC_osMessageQueueGet_1 (void) {
   /* Call osMessageQueueGet from ISR with null object */
   Isr_s32 = 2;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 #endif
 }
@@ -545,7 +545,7 @@ void TC_osMessageQueueGet_2 (void) {
   /* Call osMessageQueueGet from ISR to retrieve all queued messages */
   TST_IRQHandler = Irq_osMessageQueueGet_2;
   MessageQueueId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
 
   /* Delete Message Queue */
   ASSERT_TRUE (osMessageQueueDelete (id) == osOK);
@@ -608,13 +608,13 @@ void TC_osMessageQueueGetCapacity_1 (void) {
   MessageQueueId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == MSGQ_CNT);
 
   /* Call osMessageQueueGetCapacity from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MSGQ_CNT;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete Message Queue */
@@ -675,13 +675,13 @@ void TC_osMessageQueueGetMsgSize_1 (void) {
   MessageQueueId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == MSGQ_SZ);
 
   /* Call osMessageQueueGetMsgSize from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MSGQ_SZ;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete Message Queue */
@@ -747,13 +747,13 @@ void TC_osMessageQueueGetCount_1 (void) {
   MessageQueueId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 1U);
 
   /* Call osMessageQueueGetCount from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MSGQ_CNT;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete Message Queue */
@@ -819,13 +819,13 @@ void TC_osMessageQueueGetSpace_1 (void) {
   MessageQueueId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == (MSGQ_CNT-1U));
 
   /* Call osMessageQueueGetSpace from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MSGQ_CNT;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete Message Queue */
@@ -892,7 +892,7 @@ void TC_osMessageQueueReset_1 (void) {
   TST_IRQHandler = Irq_osMessageQueueReset_1;
   MessageQueueId = id;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete message queue */
@@ -958,7 +958,7 @@ void TC_osMessageQueueDelete_1 (void) {
   TST_IRQHandler = Irq_osMessageQueueDelete_1;
   Isr_osStatus = osOK;
   MessageQueueId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the message queue */

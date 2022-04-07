@@ -73,7 +73,7 @@ void TC_osKernelInitialize_1 (void) {
   /* Call osKernelInitialize from ISR */
   TST_IRQHandler = Irq_osKernelInitialize;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 #endif
 }
@@ -142,7 +142,7 @@ void TC_osKernelGetInfo_1 (void) {
   /* Call osKernelGetInfo from ISR */
   TST_IRQHandler = Irq_osKernelGetInfo;
   Isr_osStatus = osError;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osOK);
 #endif
 }
@@ -194,7 +194,7 @@ void TC_osKernelGetState_1 (void) {
   /* Call osKernelGetState from ISR */
   TST_IRQHandler = Irq_osKernelGetState;
   Isr_osKernelState = osKernelError;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osKernelState == osKernelRunning);
 #endif
 }
@@ -251,7 +251,7 @@ void TC_osKernelStart_1 (void) {
   /* Call osKernelStart from ISR */
   TST_IRQHandler = Irq_osKernelStart;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 #endif
 }
@@ -296,7 +296,7 @@ void TC_osKernelLock_1 (void) {
   /* Call osKernelLock from ISR */
   TST_IRQHandler = Irq_osKernelLock;
   Isr_s32 = 0;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_s32 == (int32_t)osErrorISR);
 #endif
 }
@@ -357,7 +357,7 @@ void TC_osKernelUnlock_1 (void) {
   /* Call osKernelUnlock from ISR */
   TST_IRQHandler = Irq_osKernelUnlock;
   Isr_s32 = 0;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_s32 == (int32_t)osErrorISR);
 #endif
 }
@@ -411,7 +411,7 @@ void TC_osKernelRestoreLock_1 (void) {
   /* Call osKernelRestoreLock from ISR */
   TST_IRQHandler = Irq_osKernelRestoreLock;
   Isr_s32 = 0;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_s32 == (int32_t)osErrorISR);
 #endif
 }
@@ -480,7 +480,7 @@ void TC_osKernelSuspend_1 (void) {
   /* Call osKernelSuspend from ISR */
   TST_IRQHandler = Irq_osKernelSuspend;
   Isr_u32 = osWaitForever;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 #endif
 }
@@ -568,7 +568,7 @@ void TC_osKernelResume_1 (void) {
 
   /* Call osKernelResume from ISR */
   TST_IRQHandler = Irq_osKernelResume;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (osKernelGetState() == osKernelSuspended);
 
   /* Resume suspended kernel */
@@ -638,7 +638,7 @@ void TC_osKernelGetTickCount_1 (void) {
   /* Call osKernelGetTickCount from ISR */
   TST_IRQHandler = Irq_osKernelGetTickCount;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 > 0);
 #endif
 }
@@ -677,7 +677,7 @@ void TC_osKernelGetTickFreq_1 (void) {
   /* Call osKernelGetTickFreq from ISR */
   TST_IRQHandler = Irq_osKernelGetTickFreq;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 > 0);
 #endif
 }
@@ -726,7 +726,7 @@ void TC_osKernelGetSysTimerCount_1 (void) {
   /* Call osKernelGetSysTimerCount from ISR */
   TST_IRQHandler = Irq_osKernelGetSysTimerCount;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 > 0);
 #endif
 }
@@ -761,7 +761,7 @@ void TC_osKernelGetSysTimerFreq_1 (void) {
   /* Call osKernelGetSysTimerFreq from ISR */
   TST_IRQHandler = Irq_osKernelGetSysTimerFreq;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 > 0);
 #endif
 }

@@ -90,7 +90,7 @@ void TC_osMemoryPoolNew_1 (void) {
   /* Call osMemoryPoolNew from ISR */
   TST_IRQHandler = Irq_osMemoryPoolNew_1;
   MemoryPoolId = (osMemoryPoolId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (MemoryPoolId == NULL);
 #endif
 }
@@ -197,7 +197,7 @@ void TC_osMemoryPoolGetName_1 (void) {
   TST_IRQHandler = Irq_osMemoryPoolGetName_1;
   MemoryPoolId   = id;
   MemoryPoolName = name;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (strcmp(MemoryPoolName, name) != 0U);
 
   /* Delete memory pool object */
@@ -272,13 +272,13 @@ void TC_osMemoryPoolAlloc_1 (void) {
   /* Call osMemoryPoolAlloc from ISR with timeout == 0 */
   Isr_s32 = 0;
   Isr_pv  = NULL;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_pv != NULL);
 
   /* Call osMemoryPoolAlloc from ISR with timeout != 0 */
   Isr_s32 = 1;
   Isr_pv  = (void *)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_pv == NULL);
 
   /* Delete memory pool */
@@ -291,7 +291,7 @@ void TC_osMemoryPoolAlloc_1 (void) {
   /* Call osMemoryPoolAlloc from ISR with null object */
   Isr_s32 = 2;
   Isr_pv  = (void *)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_pv == NULL);
 #endif
 }
@@ -366,7 +366,7 @@ void TC_osMemoryPoolFree_1 (void) {
   MemoryPoolId = id;
   Isr_u32 = 0U;
   Isr_pv  = p;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Allocate one block */
@@ -380,14 +380,14 @@ void TC_osMemoryPoolFree_1 (void) {
   Isr_u32 = 1U;
   Isr_pv  = p;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Call osMemoryPoolFree from ISR with null block pointer */
   Isr_u32 = 2U;
   Isr_pv  = NULL;
   Isr_osStatus = osOK;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete memory pool */
@@ -454,13 +454,13 @@ void TC_osMemoryPoolGetCapacity_1 (void) {
   MemoryPoolId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == MEMBL_CNT);
 
   /* Call osMemoryPoolGetCapacity from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MEMBL_CNT;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete memory pool */
@@ -521,13 +521,13 @@ void TC_osMemoryPoolGetBlockSize_1 (void) {
   MemoryPoolId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == MEMBL_SZ);
 
   /* Call osMemoryPoolGetBlockSize from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MEMBL_SZ;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete memory pool */
@@ -593,13 +593,13 @@ void TC_osMemoryPoolGetCount_1 (void) {
   MemoryPoolId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 1U);
 
   /* Call osMemoryPoolGetCount from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MEMBL_CNT;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete memory pool */
@@ -665,13 +665,13 @@ void TC_osMemoryPoolGetSpace_1 (void) {
   MemoryPoolId = id;
   Isr_s32 = 0;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == (MEMBL_CNT-1U));
 
   /* Call osMemoryPoolGetSpace from ISR with null object */
   Isr_s32 = 1;
   Isr_u32 = MEMBL_CNT;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Delete memory pool */
@@ -734,7 +734,7 @@ void TC_osMemoryPoolDelete_1 (void) {
   TST_IRQHandler = Irq_osMemoryPoolDelete_1;
   Isr_osStatus = osOK;
   MemoryPoolId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the memory pool */

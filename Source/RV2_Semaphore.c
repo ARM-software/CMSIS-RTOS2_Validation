@@ -170,7 +170,7 @@ void TC_osSemaphoreNew_1 (void) {
   /* Call osSemaphoreNew from ISR */
   TST_IRQHandler = Irq_osSemaphoreNew_1;
   SemaphoreId = (osSemaphoreId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (SemaphoreId == NULL);
 #endif
 }
@@ -275,7 +275,7 @@ void TC_osSemaphoreGetName_1 (void) {
   TST_IRQHandler = Irq_osSemaphoreGetName_1;
   SemaphoreId   = id;
   SemaphoreName = name;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (strcmp(SemaphoreName, name) != 0U);
 
   /* Delete semaphore object */
@@ -344,7 +344,7 @@ void TC_osSemaphoreAcquire_1 (void) {
   TST_IRQHandler = Irq_osSemaphoreAcquire_1;
   Isr_osStatus = osOK;
   SemaphoreId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete the semaphore */
@@ -449,7 +449,7 @@ void TC_osSemaphoreRelease_1 (void) {
   TST_IRQHandler = Irq_osSemaphoreRelease_1;
   Isr_osStatus = osError;
   SemaphoreId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Delete the semaphore */
@@ -513,7 +513,7 @@ void TC_osSemaphoreGetCount_1 (void) {
   TST_IRQHandler = Irq_osSemaphoreGetCount_1;
   SemaphoreId = id;
   Isr_u32 = 0U;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == MAX_SEMAPHORE_TOKEN_CNT);
 
   /* Delete the semaphore */
@@ -566,7 +566,7 @@ void TC_osSemaphoreDelete_1 (void) {
   TST_IRQHandler = Irq_osSemaphoreDelete_1;
   Isr_osStatus = osOK;
   SemaphoreId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the semaphore */

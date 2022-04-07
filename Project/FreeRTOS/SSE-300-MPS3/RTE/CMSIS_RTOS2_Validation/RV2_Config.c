@@ -56,21 +56,35 @@ void TST_IRQ_HANDLER_B (void) {
 */
 void TS_Init (void) {
 
-#if defined(__ARM_ARCH_7A__) && defined(__CORTEX_A)
-  IRQn_ID_t irq = (IRQn_ID_t)TST_IRQ_NUM_A;
+#if defined(__CORTEX_M)
+  /* Set primary and secondary interrupt priority */
+  NVIC_SetPriority ((IRQn_Type)TST_IRQ_NUM_A, 5U);
+  NVIC_SetPriority ((IRQn_Type)TST_IRQ_NUM_B, 4U);
 
-  // Disable corresponding IRQ first
-  IRQ_Disable(irq);
-  IRQ_ClearPending(irq);
+  /* Enable interrupts */
+  NVIC_EnableIRQ((IRQn_Type)TST_IRQ_NUM_A);
+  NVIC_EnableIRQ((IRQn_Type)TST_IRQ_NUM_B);
 
-  // Set edge-triggered IRQ
-  IRQ_SetMode (irq, IRQ_MODE_TRIG_EDGE);
+#elif defined(__CORTEX_A)
+  /* Disable interrupts and clear potential pending bits */
+  IRQ_Disable ((IRQn_ID_t)TST_IRQ_NUM_A);
+  IRQ_Disable ((IRQn_ID_t)TST_IRQ_NUM_B);
 
-  // Register interrupt handler
-  IRQ_SetHandler(irq, TST_IRQ_HANDLER_A);
+  IRQ_ClearPending ((IRQn_ID_t)TST_IRQ_NUM_A);
+  IRQ_ClearPending ((IRQn_ID_t)TST_IRQ_NUM_B);
+
+  /* Set edge-triggered IRQ */
+  IRQ_SetMode ((IRQn_ID_t)TST_IRQ_NUM_A, IRQ_MODE_TRIG_EDGE);
+  IRQ_SetMode ((IRQn_ID_t)TST_IRQ_NUM_B, IRQ_MODE_TRIG_EDGE);
+
+  /* Register interrupt handlers */
+  IRQ_SetHandler((IRQn_ID_t)TST_IRQ_NUM_A, TST_IRQ_HANDLER_A);
+  IRQ_SetHandler((IRQn_ID_t)TST_IRQ_NUM_B, TST_IRQ_HANDLER_B);
+
+  /* Enable interrupts */
+  IRQ_Enable((IRQn_ID_t)TST_IRQ_NUM_A);
+  IRQ_Enable((IRQn_ID_t)TST_IRQ_NUM_B);
 #endif
-
-  EnableIRQ();
 }
 
 /*
@@ -90,45 +104,68 @@ void TS_Uninit (void) {
 /*
   Enable interrupt trigger in the IRQ controller.
 */
-void EnableIRQ(void) {
-#if defined(__CORTEX_A)
-  IRQ_Enable((IRQn_ID_t)TST_IRQ_NUM_A);
-#elif defined(__CORTEX_M)
-  NVIC_EnableIRQ((IRQn_Type)TST_IRQ_NUM_A);
+void EnableIRQ (int32_t irq_num) {
+
+  if (irq_num == IRQ_A) {
+    irq_num = TST_IRQ_NUM_A;
+  } else {
+    irq_num = TST_IRQ_NUM_B;
+  }
+
+#if defined(__CORTEX_M)
+  NVIC_EnableIRQ((IRQn_Type)irq_num);
+#elif defined(__CORTEX_A)
+  IRQ_Enable((IRQn_ID_t)irq_num);
 #endif
 }
 
 /*
   Disable interrupt trigger in the IRQ controller.
 */
-void DisableIRQ(void) {
-#if defined(__CORTEX_A)
-  IRQ_Disable((IRQn_ID_t)TST_IRQ_NUM_A);
-#elif defined(__CORTEX_M)
-  NVIC_DisableIRQ((IRQn_Type)TST_IRQ_NUM_A);
+void DisableIRQ (int32_t irq_num) {
+
+  if (irq_num == IRQ_A) {
+    irq_num = TST_IRQ_NUM_A;
+  } else {
+    irq_num = TST_IRQ_NUM_B;
+  }
+
+#if defined(__CORTEX_M)
+  NVIC_DisableIRQ((IRQn_Type)irq_num);
+#elif defined(__CORTEX_A)
+  IRQ_Disable((IRQn_ID_t)irq_num);
 #endif
 }
 
 /*
   Set pending interrupt in the IRQ controller.
 */
-void SetPendingIRQ(void) {
-#if defined(__CORTEX_A)
-  __disable_irq();
-  IRQ_SetPending((IRQn_ID_t)TST_IRQ_NUM_A);
-  __enable_irq();
-#elif defined(__CORTEX_M)
-  NVIC_SetPendingIRQ((IRQn_Type)TST_IRQ_NUM_A);
-#endif
+void SetPendingIRQ (int32_t irq_num) {
 
-  /* Data/Instruction Synchronization and Memory Barrier */
+  if (irq_num == IRQ_A) {
+    irq_num = TST_IRQ_NUM_A;
+  } else {
+    irq_num = TST_IRQ_NUM_B;
+  }
+
+#if defined(__CORTEX_M)
+  NVIC_SetPendingIRQ((IRQn_Type)irq_num);
+
   __DSB();
   __ISB();
   __DMB();
 
-#if defined(__CORTEX_A)
-  while (IRQ_GetPending((IRQn_ID_t)TST_IRQ_NUM_A) != 0);
-#elif defined(__CORTEX_M)
-  while (NVIC_GetPendingIRQ((IRQn_Type)TST_IRQ_NUM_A) != 0);
+  while (NVIC_GetPendingIRQ((IRQn_Type)irq_num) != 0);
+
+#elif defined(__CORTEX_A)
+  __disable_irq();
+  IRQ_SetPending((IRQn_ID_t)irq_num);
+  __enable_irq();
+
+  __DSB();
+  __ISB();
+  __DMB();
+
+  while (IRQ_GetPending((IRQn_ID_t)irq_num) != 0);
 #endif
 }

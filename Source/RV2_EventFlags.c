@@ -181,7 +181,7 @@ void TC_osEventFlagsNew_1 (void) {
   /* Call osEventFlags from ISR */
   TST_IRQHandler = Irq_osEventFlagsNew_1;
   EventFlagsId = (osEventFlagsId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (EventFlagsId == NULL);
 #endif
 }
@@ -303,7 +303,7 @@ void TC_osEventFlagsSet_1 (void) {
   /* Call osEventFlagsSet from ISR */
   TST_IRQHandler = Irq_osEventFlagsSet_1;
   EventFlagsId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
 
   /* Delete event flags object */
   ASSERT_TRUE (osEventFlagsDelete (id) == osOK);
@@ -407,7 +407,7 @@ void TC_osEventFlagsClear_1 (void) {
   /* Call osEventFlagsClear from ISR */
   TST_IRQHandler = Irq_osEventFlagsClear_1;
   EventFlagsId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
 
   /* Delete event flags object */
   ASSERT_TRUE (osEventFlagsDelete (id) == osOK);
@@ -483,7 +483,7 @@ void TC_osEventFlagsGet_1 (void) {
   /* Call osEventFlagsGet from ISR */
   TST_IRQHandler = Irq_osEventFlagsGet_1;
   EventFlagsId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
 
   /* Delete event flags object */
   ASSERT_TRUE (osEventFlagsDelete (id) == osOK);
@@ -566,7 +566,7 @@ void TC_osEventFlagsWait_1 (void) {
   /* Call osEventFlagsWait from ISR (with and without timeout) */
   TST_IRQHandler = Irq_osEventFlagsWait_1;
   EventFlagsId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_u32 == (0x55AA55AA & EVENT_FLAGS_MSK));
 
   /* Delete event flags object */
@@ -652,7 +652,7 @@ void TC_osEventFlagsDelete_1 (void) {
   TST_IRQHandler = Irq_osEventFlagsDelete_1;
   Isr_osStatus = osOK;
   EventFlagsId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete event flags object */
@@ -718,7 +718,7 @@ void TC_osEventFlagsGetName_1 (void) {
   TST_IRQHandler = Irq_osEventFlagsGetName_1;
   EventFlagsId   = id;
   EventFlagsName = name;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (strcmp(EventFlagsName, name) != 0U);
 
   /* Delete event flags object */
