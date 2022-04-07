@@ -256,7 +256,7 @@ void Irq_osTimerGetName_1 (void) {
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
-\brief Test case: osTimerStart_1
+\brief Test case: TC_osTimerStart_1
 \details
   - Call osTimerStart to start the one-shot timer
   - Call osTimerStart to start the periodic timer
@@ -268,7 +268,7 @@ void Irq_osTimerGetName_1 (void) {
 void TC_osTimerStart_1 (void) {
 #if (TC_OSTIMERSTART_1_EN)
   osTimerId_t id;
-  uint32_t arg;
+  uint32_t arg = 1U;
 
   Tim_Var_Os = 0U;
 
