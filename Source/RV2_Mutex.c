@@ -261,7 +261,7 @@ void TC_osMutexNew_1 (void) {
   /* Call osMutexNew from ISR */
   TST_IRQHandler = Irq_osMutexNew_1;
   MutexId = (osMutexId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (MutexId == NULL);
 #endif
 }
@@ -426,7 +426,7 @@ void TC_osMutexGetName_1 (void) {
   TST_IRQHandler = Irq_osMutexGetName_1;
   MutexId   = id;
   MutexName = name;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (strcmp(MutexName, name) != 0U);
 
   /* Delete mutex object */
@@ -482,7 +482,7 @@ void TC_osMutexAcquire_1 (void) {
   TST_IRQHandler = Irq_osMutexAcquire_1;
   Isr_osStatus = osOK;
   MutexId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the mutex */
@@ -614,7 +614,7 @@ void TC_osMutexRelease_1 (void) {
   TST_IRQHandler = Irq_osMutexRelease_1;
   Isr_osStatus = osOK;
   MutexId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the mutex */
@@ -670,7 +670,7 @@ void TC_osMutexGetOwner_1 (void) {
   TST_IRQHandler = Irq_osMutexGetOwner_1;
   MutexId  = id;
   ThreadId = (osThreadId_t)(-1);
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (ThreadId == NULL);
 
   /* Delete mutex object */
@@ -723,7 +723,7 @@ void TC_osMutexDelete_1 (void) {
   TST_IRQHandler = Irq_osMutexDelete_1;
   Isr_osStatus = osOK;
   MutexId = id;
-  SetPendingIRQ();
+  SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Delete the mutex */

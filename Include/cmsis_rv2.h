@@ -28,9 +28,12 @@
 #include "tf_main.h"
 
 /* Interrupt handling */
-extern void EnableIRQ     (void);
-extern void DisableIRQ    (void);
-extern void SetPendingIRQ (void);
+#define IRQ_A          0
+#define IRQ_B          1
+
+extern void EnableIRQ     (int32_t irq_num);
+extern void DisableIRQ    (int32_t irq_num);
+extern void SetPendingIRQ (int32_t irq_num);
 
 extern void (*TST_IRQHandler_A)(void);
 extern void (*TST_IRQHandler_B)(void);

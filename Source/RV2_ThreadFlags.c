@@ -533,29 +533,29 @@ void TC_ThreadFlagsInterrupts (void) {
 
     Isr_s32 = 0; /* Test: osThreadFlagsSet */
     Isr_u32 = 0U;
-    SetPendingIRQ();
+    SetPendingIRQ(IRQ_A);
     ASSERT_TRUE (osThreadFlagsWait (0x00000001U, 0, 100) == 0x00000001U);
     ASSERT_TRUE (Isr_u32 == 0x00000001U);
 
     Isr_s32 = 1; /* Test: osThreadFlagsClear */
     Isr_u32 = 0U;
     ASSERT_TRUE (osThreadFlagsSet (ThreadId, 0x00000001U) == 0x00000001U);
-    SetPendingIRQ();
+    SetPendingIRQ(IRQ_A);
     ASSERT_TRUE (Isr_u32 == (uint32_t)osErrorISR);
 
     Isr_s32 = 2; /* Test: osThreadFlagsWait (no timeout) */
     Isr_u32 = 0U;
-    SetPendingIRQ();
+    SetPendingIRQ(IRQ_A);
     ASSERT_TRUE (Isr_u32 == (uint32_t)osErrorISR);
 
     Isr_s32 = 3; /* Test: osThreadFlagsWait (with timeout) */
     Isr_u32 = 0U;
-    SetPendingIRQ();
+    SetPendingIRQ(IRQ_A);
     ASSERT_TRUE (Isr_u32 == (uint32_t)osErrorISR);
 
     Isr_s32 = 4; /* Test: osThreadFlagsWait (with infinite timeout) */
     Isr_u32 = 0U;
-    SetPendingIRQ();
+    SetPendingIRQ(IRQ_A);
     ASSERT_TRUE (Isr_u32 == (uint32_t)osErrorISR);
 
     /* Clear all main thread thread flags */
