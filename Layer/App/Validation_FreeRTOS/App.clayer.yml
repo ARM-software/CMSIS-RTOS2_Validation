@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/0.9.1/tools/projmgr/schemas/clayer.schema.json
+
+layer:
+  # type: App
+  # name: CMSIS-RTOS2_Validation
+  description: Validation of CMSIS-RTOS2 FreeRTOS implementation
+
+  # packs:
+  #   - pack: ARM::CMSIS
+  #   - pack: ARM::CMSIS-FreeRTOS
+
+  defines:
+    - PRINT_XML_REPORT=1
+  
+  add-paths:
+    - ../../Include
+    - ./RTE/CMSIS_RTOS2_Validation
+
+  misc:
+    - C*:
+      - -Wno-macro-redefined
+      - -Wno-pragma-pack
+      - -Wno-parentheses-equality
+
+  components:
+    # [Cvendor::]Cclass[&Cbundle]:Cgroup[:Csub][&Cvariant][@[>=]Cversion]
+    - component: ARM::CMSIS:RTOS2:FreeRTOS&Cortex-M
+
+    - component: ARM::RTOS&FreeRTOS:Config&CMSIS RTOS2
+    - component: ARM::RTOS&FreeRTOS:Core&Cortex-M
+    - component: ARM::RTOS&FreeRTOS:Event Groups
+    - component: ARM::RTOS&FreeRTOS:Heap&Heap_4
+    - component: ARM::RTOS&FreeRTOS:Stream Buffer
+    - component: ARM::RTOS&FreeRTOS:Timers
+
+  groups:
+    - group: Documentation
+      files:
+        - file: ../../README.md
+
+    - group: Source files
+      files:
+        - file: ./main.c 
+        - file: ./retarget_stdio.c
+
+    - group: CMSIS-RTOS2_Validation
+      files:
+        - file: ../../Source/cmsis_rv2.c
+        - file: ../../Source/RV2_Kernel.c
+        - file: ../../Source/RV2_Thread.c
+        - file: ../../Source/RV2_ThreadFlags.c
+        - file: ../../Source/RV2_GenWait.c
+        - file: ../../Source/RV2_Timer.c
+        - file: ../../Source/RV2_EventFlags.c
+        - file: ../../Source/RV2_Mutex.c
+        - file: ../../Source/RV2_Semaphore.c
+        - file: ../../Source/RV2_MemoryPool.c
+        - file: ../../Source/RV2_MessageQueue.c
+        - file: ../../Source/RV2_Common.c
+        - file: ./RTE/CMSIS_RTOS2_Validation/RV2_Config.c
+        - file: ./RTE/CMSIS_RTOS2_Validation/RV2_Config.h
+    
+    - group: Validation Framework
+      files:
+        - file: ../../Source/tf_main.c
+        - file: ../../Source/tf_report.c

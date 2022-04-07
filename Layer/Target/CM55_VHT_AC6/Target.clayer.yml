@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/0.9.1/tools/projmgr/schemas/clayer.schema.json
+
+layer:
+  # type: Target
+  description: Target setup
+
+  # packs:
+  #   - pack: ARM::CMSIS
+  #   - pack: ARM::V2M_MPS3_SSE_300_BSP
+
+  components:
+    # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
+    - component: ARM::CMSIS:CORE
+    - component: ARM::CMSIS Driver:USART
+
+    - component: ARM::Device:Startup&Baremetal
+    - component: ARM::Device:Definition
+
+    - component: ARM::Native Driver:SysCounter
+    - component: ARM::Native Driver:SysTimer
+    - component: ARM::Native Driver:Timeout
+    - component: ARM::Native Driver:UART
+
+  groups:
+    - group: VHT
+      files:
+        - file: ./vht_config.txt
