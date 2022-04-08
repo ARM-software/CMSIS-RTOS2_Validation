@@ -166,7 +166,7 @@ bool tr_File_Open (const char *title, const char *date, const char *time, const 
   PRINT(("<test_cases>%s", TF_EOL));
 #else
 bool tr_File_Open (const char *title, const char *date, const char *time, const char __attribute__((unused)) *fn) {
-  PRINT(("%s   %s   %s %s%s", title, date, time, TF_EOL));
+  PRINT(("%s   %s   %s %s%s", title, date, time, TF_EOL, TF_EOL));
 #endif
   FLUSH();
 
@@ -268,7 +268,7 @@ bool As_File_Dbgi (TC_RES __attribute__((unused)) res, const char *fn, uint32_t 
   PRINT(("</detail>%s", TF_EOL));
 #else
 bool As_File_Dbgi (TC_RES res, const char *fn, uint32_t ln, char *desc) {
-  PRINT(("\n  %s (%d)", fn, ln));
+  PRINT(("%s  %s (%d)", TF_EOL, fn, ln));
   if (res==WARNING) PRINT((" [WARNING]"));
   if (res==FAILED) PRINT((" [FAILED]"));
   if (desc!=NULL) PRINT((" %s", desc));
