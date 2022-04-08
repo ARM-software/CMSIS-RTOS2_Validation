@@ -120,8 +120,9 @@ void TC_osTimerNew_1 (void) {
 
   /* Call osTimerNew with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osTimerNew (TimCb_Dummy, osTimerOnce, NULL, NULL) == NULL);
+  TimerId = osTimerNew (TimCb_Dummy, osTimerOnce, NULL, NULL);
   __enable_irq();
+  ASSERT_TRUE (TimerId == NULL);
 
   /* Call osTimerNew from ISR */
   TST_IRQHandler = Irq_osTimerNew_1;
@@ -227,8 +228,9 @@ void TC_osTimerGetName_1 (void) {
 
   /* Call osTimerGetName with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (strcmp(osTimerGetName(tid), name) != 0U);
+  TimerName = osTimerGetName(tid);
   __enable_irq();
+  ASSERT_TRUE (strcmp(TimerName, name) != 0U);
 
   /* Call osTimerGetName from ISR */
   TST_IRQHandler = Irq_osTimerGetName_1;
@@ -314,8 +316,9 @@ void TC_osTimerStart_1 (void) {
 
   /* Call osTimerStart with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osTimerStart (id, 10U) == osErrorISR);
+  Isr_osStatus = osTimerStart (id, 10U);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osTimerStart from ISR */
   TST_IRQHandler = Irq_osTimerStart_1;
@@ -396,7 +399,8 @@ void TC_osTimerStop_1 (void) {
 
   /* Call osTimerStop with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osTimerStop (id) == osErrorISR);
+  Isr_osStatus = osTimerStop (id);
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
   __enable_irq();
 
   /* Call osTimerStop from ISR */
@@ -533,8 +537,9 @@ void TC_osTimerIsRunning_1 (void) {
 
   /* Call osTimerIsRunning with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osTimerIsRunning (id) == 0U);
+  Isr_u32 = osTimerIsRunning (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osTimerIsRunning from ISR */
   TST_IRQHandler = Irq_osTimerIsRunning_1;
@@ -619,8 +624,9 @@ void TC_osTimerDelete_1 (void) {
 
   /* Call osTimerDelete with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osTimerDelete (id) == osErrorISR);
+  Isr_osStatus = osTimerDelete (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osTimerDelete from ISR */
   TST_IRQHandler = Irq_osTimerDelete_1;

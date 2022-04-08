@@ -82,8 +82,9 @@ void TC_osMessageQueueNew_1 (void) {
 
   /* Call osMessageQueueNew with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMessageQueueNew (1U, 4U, NULL) == NULL);
+  MessageQueueId = osMessageQueueNew (1U, 4U, NULL);
   __enable_irq();
+  ASSERT_TRUE (MessageQueueId == NULL);
 
   /* Call osMessageQueueNew from ISR */
   TST_IRQHandler = Irq_osMessageQueueNew_1;
@@ -188,8 +189,9 @@ void TC_osMessageQueueGetName_1 (void) {
 
   /* Call osMessageQueueGetName with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (strcmp(osMessageQueueGetName(id), name) != 0U);
+  MessageQueueName = osMessageQueueGetName(id);
   __enable_irq();
+  ASSERT_TRUE (strcmp(MessageQueueName, name) != 0U);
 
   /* Call osMessageQueueGetName from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetName_1;
@@ -247,13 +249,17 @@ void TC_osMessageQueuePut_1 (void) {
   id = osMessageQueueNew (MSGQ_CNT, MSGQ_SZ, NULL);
   ASSERT_TRUE (id != NULL);
 
-  __disable_irq();
   /* Call osMessageQueuePut with masked interrupts and timeout == 0 */
-  ASSERT_TRUE (osMessageQueuePut (id, &msg, 0U, 0U) == osOK);
+  __disable_irq();
+  Isr_osStatus = osMessageQueuePut (id, &msg, 0U, 0U);
+  __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Call osMessageQueuePut with masked interrupts and timeout != 0 */
-  ASSERT_TRUE (osMessageQueuePut (id, &msg, 0U, osWaitForever) == osErrorParameter);
+  __disable_irq();
+  Isr_osStatus = osMessageQueuePut (id, &msg, 0U, osWaitForever);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete Message Queue */
   ASSERT_TRUE (osMessageQueueDelete (id) == osOK);
@@ -430,16 +436,20 @@ void TC_osMessageQueueGet_1 (void) {
   msg_in = 2U;
   ASSERT_TRUE (osMessageQueuePut (id, &msg_in, 0U, 0U) == osOK);
 
-  __disable_irq();
   /* Call osMessageQueueGet with masked interrupts and timeout == 0 */
-  ASSERT_TRUE (osMessageQueueGet (id, &msg, 0U, 0U) == osOK);
+  __disable_irq();
+  Isr_osStatus = osMessageQueueGet (id, &msg, 0U, 0U);
+  __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Check that correct message was retrieved */
   ASSERT_TRUE (msg == msg_in);
 
   /* Call osMessageQueueGet with masked interrupts and timeout != 0 */
-  ASSERT_TRUE (osMessageQueueGet (id, &msg, 0U, osWaitForever) == osErrorParameter);
+  __disable_irq();
+  Isr_osStatus = osMessageQueueGet (id, &msg, 0U, osWaitForever);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete Message Queue */
   ASSERT_TRUE (osMessageQueueDelete (id) == osOK);
@@ -600,8 +610,9 @@ void TC_osMessageQueueGetCapacity_1 (void) {
 
   /* Call osMessageQueueGetCapacity with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMessageQueueGetCapacity (id) == MSGQ_CNT);
+  Isr_u32 = osMessageQueueGetCapacity (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == MSGQ_CNT);
 
   /* Call osMessageQueueGetCapacity from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetCapacity_1;
@@ -667,8 +678,9 @@ void TC_osMessageQueueGetMsgSize_1 (void) {
 
   /* Call osMessageQueueGetMsgSize with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMessageQueueGetMsgSize (id) == MSGQ_SZ);
+  Isr_u32 = osMessageQueueGetMsgSize (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == MSGQ_SZ);
 
   /* Call osMessageQueueGetMsgSize from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetMsgSize_1;
@@ -739,8 +751,9 @@ void TC_osMessageQueueGetCount_1 (void) {
 
   /* Call osMessageQueueGetCount with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMessageQueueGetCount (id) == 1U);
+  Isr_u32 = osMessageQueueGetCount (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 1U);
 
   /* Call osMessageQueueGetCount from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetCount_1;
@@ -811,8 +824,9 @@ void TC_osMessageQueueGetSpace_1 (void) {
 
   /* Call osMessageQueueGetSpace with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMessageQueueGetSpace (id) == (MSGQ_CNT-1U));
+  Isr_u32 = osMessageQueueGetSpace (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == (MSGQ_CNT-1U));
 
   /* Call osMessageQueueGetSpace from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetSpace_1;
@@ -885,8 +899,9 @@ void TC_osMessageQueueReset_1 (void) {
 
   /* Call osMessageQueueReset with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMessageQueueReset (id) == osErrorISR);
+  Isr_osStatus = osMessageQueueReset (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMessageQueueReset from ISR */
   TST_IRQHandler = Irq_osMessageQueueReset_1;
@@ -951,8 +966,9 @@ void TC_osMessageQueueDelete_1 (void) {
 
   /* Call osMessageQueueDelete with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMessageQueueDelete (id) == osErrorISR);
+  Isr_osStatus = osMessageQueueDelete (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMessageQueueDelete from ISR */
   TST_IRQHandler = Irq_osMessageQueueDelete_1;

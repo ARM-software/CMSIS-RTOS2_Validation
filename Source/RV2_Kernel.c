@@ -67,8 +67,9 @@ void TC_osKernelInitialize_1 (void) {
 
   /* Call osKernelInitialize with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelInitialize() == osErrorISR);
+  Isr_osStatus = osKernelInitialize();
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osKernelInitialize from ISR */
   TST_IRQHandler = Irq_osKernelInitialize;
@@ -115,8 +116,9 @@ void TC_osKernelGetInfo_1 (void) {
 
   /* Call osKernelGetInfo with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelGetInfo(&os_version, id, sizeof(id)) == osOK);
+  Isr_osStatus = osKernelGetInfo(&os_version, id, sizeof(id));
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Call osKernelGetInfo with argument version equal to NULL */
   id[0] = '\0';
@@ -188,8 +190,9 @@ void TC_osKernelGetState_1 (void) {
 
   /* Call osKernelGetState with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelGetState() == osKernelRunning);
+  Isr_osKernelState = osKernelGetState();
   __enable_irq();
+  ASSERT_TRUE (Isr_osKernelState == osKernelRunning);
 
   /* Call osKernelGetState from ISR */
   TST_IRQHandler = Irq_osKernelGetState;
@@ -245,8 +248,9 @@ void TC_osKernelStart_1 (void) {
 
   /* Call osKernelStart with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelStart() == osErrorISR);
+  Isr_osStatus = osKernelStart();
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osKernelStart from ISR */
   TST_IRQHandler = Irq_osKernelStart;
@@ -290,8 +294,9 @@ void TC_osKernelLock_1 (void) {
 
   /* Call osKernelLock with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelLock() == osErrorISR);
+  Isr_s32 = osKernelLock();
   __enable_irq();
+  ASSERT_TRUE (Isr_s32 == osErrorISR);
 
   /* Call osKernelLock from ISR */
   TST_IRQHandler = Irq_osKernelLock;
@@ -351,8 +356,9 @@ void TC_osKernelUnlock_1 (void) {
 
   /* Call osKernelUnlock with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelUnlock() == osErrorISR);
+  Isr_s32 = osKernelUnlock();
   __enable_irq();
+  ASSERT_TRUE (Isr_s32 == osErrorISR);
 
   /* Call osKernelUnlock from ISR */
   TST_IRQHandler = Irq_osKernelUnlock;
@@ -474,8 +480,9 @@ void TC_osKernelSuspend_1 (void) {
 
   /* Call osKernelSuspend with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelSuspend() == 0U);
+  Isr_u32 = osKernelSuspend();
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osKernelSuspend from ISR */
   TST_IRQHandler = Irq_osKernelSuspend;
@@ -632,8 +639,9 @@ void TC_osKernelGetTickCount_1 (void) {
 
   /* Call osKernelGetTickCount with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelGetTickCount() > 0U);
+  Isr_u32 = osKernelGetTickCount();
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 > 0U);
 
   /* Call osKernelGetTickCount from ISR */
   TST_IRQHandler = Irq_osKernelGetTickCount;
@@ -671,8 +679,9 @@ void TC_osKernelGetTickFreq_1 (void) {
 
   /* Call osKernelGetTickFreq with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelGetTickFreq() == RTOS2_TICK_FREQ);
+  Isr_u32 = osKernelGetTickFreq();
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == RTOS2_TICK_FREQ);
 
   /* Call osKernelGetTickFreq from ISR */
   TST_IRQHandler = Irq_osKernelGetTickFreq;
@@ -720,8 +729,9 @@ void TC_osKernelGetSysTimerCount_1 (void) {
 
   /* Call osKernelGetSysTimerCount with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelGetSysTimerCount() > 0U);
+  Isr_u32 = osKernelGetSysTimerCount();
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 > 0U);
 
   /* Call osKernelGetSysTimerCount from ISR */
   TST_IRQHandler = Irq_osKernelGetSysTimerCount;
@@ -755,8 +765,9 @@ void TC_osKernelGetSysTimerFreq_1 (void) {
 
   /* Call osKernelGetSysTimerFreq with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osKernelGetSysTimerFreq() > 0U);
+  Isr_u32 = osKernelGetSysTimerFreq();
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 > 0U);
 
   /* Call osKernelGetSysTimerFreq from ISR */
   TST_IRQHandler = Irq_osKernelGetSysTimerFreq;

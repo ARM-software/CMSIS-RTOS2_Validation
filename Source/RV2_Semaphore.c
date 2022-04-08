@@ -164,8 +164,9 @@ void TC_osSemaphoreNew_1 (void) {
 
   /* Call osSemaphoreNew with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osSemaphoreNew (1U, 1U, NULL) == NULL);
+  SemaphoreId = osSemaphoreNew (1U, 1U, NULL);
   __enable_irq();
+  ASSERT_TRUE (SemaphoreId == NULL);
 
   /* Call osSemaphoreNew from ISR */
   TST_IRQHandler = Irq_osSemaphoreNew_1;
@@ -268,8 +269,9 @@ void TC_osSemaphoreGetName_1 (void) {
 
   /* Call osSemaphoreGetName with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (strcmp(osSemaphoreGetName(id), name) != 0U);
+  SemaphoreName = osSemaphoreGetName(id);
   __enable_irq();
+  ASSERT_TRUE (strcmp(SemaphoreName, name) != 0U);
 
   /* Call osSemaphoreGetName from ISR */
   TST_IRQHandler = Irq_osSemaphoreGetName_1;
@@ -337,8 +339,9 @@ void TC_osSemaphoreAcquire_1 (void) {
 
   /* Call osSemaphoreAcquire with masked interrupts (non-zero timeout) */
   __disable_irq();
-  ASSERT_TRUE (osSemaphoreAcquire (id, osWaitForever) == osErrorParameter);
+  Isr_osStatus = osSemaphoreAcquire (id, osWaitForever);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Call osSemaphoreAcquire from ISR (non-zero timeout) */
   TST_IRQHandler = Irq_osSemaphoreAcquire_1;
@@ -439,8 +442,9 @@ void TC_osSemaphoreRelease_1 (void) {
 
   /* Call osSemaphoreRelease with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osSemaphoreRelease (id) == osOK);
+  Isr_osStatus = osSemaphoreRelease (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Call osSemaphoreAcquire to acquire semaphore */
   ASSERT_TRUE (osSemaphoreAcquire(id, osWaitForever) == osOK);
@@ -506,8 +510,9 @@ void TC_osSemaphoreGetCount_1 (void) {
 
   /* Call osSemaphoreGetCount with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osSemaphoreGetCount (id) == MAX_SEMAPHORE_TOKEN_CNT);
+  Isr_u32 = osSemaphoreGetCount (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == MAX_SEMAPHORE_TOKEN_CNT);
 
   /* Call osSemaphoreGetCount from ISR */
   TST_IRQHandler = Irq_osSemaphoreGetCount_1;
@@ -559,8 +564,9 @@ void TC_osSemaphoreDelete_1 (void) {
 
   /* Call osSemaphoreDelete with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osSemaphoreDelete (id) == osErrorISR);
+  Isr_osStatus = osSemaphoreDelete (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osSemaphoreDelete from ISR */
   TST_IRQHandler = Irq_osSemaphoreDelete_1;

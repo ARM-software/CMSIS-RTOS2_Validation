@@ -175,8 +175,9 @@ void TC_osEventFlagsNew_1 (void) {
 
   /* Call osEventFlagsNew with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osEventFlagsNew (NULL) == NULL);
+  EventFlagsId = osEventFlagsNew (NULL);
   __enable_irq();
+  ASSERT_TRUE (EventFlagsId == NULL);
 
   /* Call osEventFlags from ISR */
   TST_IRQHandler = Irq_osEventFlagsNew_1;
@@ -277,21 +278,19 @@ void TC_osEventFlagsSet_1 (void) {
   ASSERT_TRUE(id != NULL);
 
   /* Call osEventFlagsSet with masked interrupts */
-  __disable_irq();
-
-  /* Set all flags */
   flags = 0U;
   set   = 1U;
   do {
     flags = (flags << 1U) | 1U;
     /* Call osEventFlagsSet to set all available flags in event flags object */
+      __disable_irq();
     rflags = osEventFlagsSet (id, set);
+    __enable_irq();
+
     ASSERT_TRUE (rflags == flags);
     set   = set << 1U;
   }
   while ((rflags == flags) && (set <= EVENT_FLAGS_MSK));
-
-  __enable_irq();
 
   /* Delete event flags object */
   ASSERT_TRUE (osEventFlagsDelete (id) == osOK);
@@ -378,21 +377,20 @@ void TC_osEventFlagsClear_1 (void) {
   osEventFlagsSet (id, EVENT_FLAGS_MSK);
 
   /* Call osEventFlagsClear with masked interrupts */
-  __disable_irq();
-
   flags = EVENT_FLAGS_MSK;
   clr   = 1U;
   while ((clr & EVENT_FLAGS_MSK) != 0U) {
     /* Call osEventFlagsClear to clear all available flags in event flags object */
+    __disable_irq();
     rflags = osEventFlagsClear (id, clr);
+    __enable_irq();
+
     if (ASSERT_TRUE (rflags == flags) == false) {
       break;
     }
     clr   = (clr   << 1U);
     flags = (flags << 1U) & EVENT_FLAGS_MSK;
   }
-
-  __enable_irq();
 
   /* Delete event flags object */
   ASSERT_TRUE (osEventFlagsDelete (id) == osOK);
@@ -477,8 +475,9 @@ void TC_osEventFlagsGet_1 (void) {
 
   /* Call osEventFlagsGet with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osEventFlagsGet(id) == (0x55AA55AA & EVENT_FLAGS_MSK));
+  Isr_u32 = osEventFlagsGet(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == (0x55AA55AA & EVENT_FLAGS_MSK));
 
   /* Call osEventFlagsGet from ISR */
   TST_IRQHandler = Irq_osEventFlagsGet_1;
@@ -556,9 +555,14 @@ void TC_osEventFlagsWait_1 (void) {
 
   /* Call osEventFlagsWait with masked interrupts (with and without timeout) */
   __disable_irq();
-  ASSERT_TRUE (osEventFlagsWait (id, 0x55AA55AA & EVENT_FLAGS_MSK, osFlagsWaitAll, osWaitForever) == osFlagsErrorParameter);
-  ASSERT_TRUE (osEventFlagsWait (id, 0x55AA55AA & EVENT_FLAGS_MSK, osFlagsWaitAny, 0U) == (0x55AA55AA & EVENT_FLAGS_MSK));
+  Isr_u32 = osEventFlagsWait (id, 0x55AA55AA & EVENT_FLAGS_MSK, osFlagsWaitAll, osWaitForever);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == osFlagsErrorParameter);
+
+  __disable_irq();
+  Isr_u32 = osEventFlagsWait (id, 0x55AA55AA & EVENT_FLAGS_MSK, osFlagsWaitAny, 0U);
+  __enable_irq();
+  ASSERT_TRUE (Isr_u32 == (0x55AA55AA & EVENT_FLAGS_MSK));
 
   /* Set flags of random pattern */
   osEventFlagsSet (id, 0x55AA55AA & EVENT_FLAGS_MSK);
@@ -645,8 +649,9 @@ void TC_osEventFlagsDelete_1 (void) {
 
   /* Call osEventFlagsDelete with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osEventFlagsDelete (id) == osErrorISR);
+  Isr_osStatus = osEventFlagsDelete (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osEventFlagsDelete from ISR */
   TST_IRQHandler = Irq_osEventFlagsDelete_1;
@@ -711,8 +716,9 @@ void TC_osEventFlagsGetName_1 (void) {
 
   /* Call osEventFlagsGetName with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (strcmp(osEventFlagsGetName(id), name) != 0U);
+  EventFlagsName = osEventFlagsGetName(id);
   __enable_irq();
+  ASSERT_TRUE (strcmp(EventFlagsName, name) != 0U);
 
   /* Call osEventFlagsGetName from ISR */
   TST_IRQHandler = Irq_osEventFlagsGetName_1;

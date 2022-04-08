@@ -255,8 +255,9 @@ void TC_osMutexNew_1 (void) {
 
   /* Call osMutexNew with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMutexNew (NULL) == NULL);
+  MutexId = osMutexNew (NULL);
   __enable_irq();
+  ASSERT_TRUE (MutexId == NULL);
 
   /* Call osMutexNew from ISR */
   TST_IRQHandler = Irq_osMutexNew_1;
@@ -419,8 +420,9 @@ void TC_osMutexGetName_1 (void) {
 
   /* Call osMutexGetName with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (strcmp(osMutexGetName(id), name) != 0U);
+  MutexName = osMutexGetName(id);
   __enable_irq();
+  ASSERT_TRUE (strcmp(MutexName, name) != 0U);
 
   /* Call osMutexGetName from ISR */
   TST_IRQHandler = Irq_osMutexGetName_1;
@@ -475,8 +477,9 @@ void TC_osMutexAcquire_1 (void) {
 
   /* Call osMutexAcquire with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMutexAcquire (id, 0U) == osErrorISR);
+  Isr_osStatus = osMutexAcquire (id, 0U);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMutexAcquire from ISR */
   TST_IRQHandler = Irq_osMutexAcquire_1;
@@ -607,8 +610,9 @@ void TC_osMutexRelease_1 (void) {
 
   /* Call osMutexRelease with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMutexRelease (id) == osErrorISR);
+  Isr_osStatus = osMutexRelease (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMutexRelease from ISR */
   TST_IRQHandler = Irq_osMutexRelease_1;
@@ -663,8 +667,9 @@ void TC_osMutexGetOwner_1 (void) {
 
   /* Call osMutexGetOwner with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMutexGetOwner (id) == NULL);
+  ThreadId = osMutexGetOwner (id);
   __enable_irq();
+  ASSERT_TRUE (ThreadId == NULL);
 
   /* Call osMutexGetOwner from ISR */
   TST_IRQHandler = Irq_osMutexGetOwner_1;
@@ -716,8 +721,9 @@ void TC_osMutexDelete_1 (void) {
 
   /* Call osMutexDelete with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMutexDelete (id) == osErrorISR);
+  Isr_osStatus = osMutexDelete (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMutexDelete from ISR */
   TST_IRQHandler = Irq_osMutexDelete_1;

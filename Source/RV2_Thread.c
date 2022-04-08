@@ -202,8 +202,9 @@ void TC_osThreadNew_1 (void) {
 
   /* Call osThreadNew with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadNew (Th_Run, NULL, NULL) == NULL);
+  ThreadId = osThreadNew (Th_Run, NULL, NULL);
   __enable_irq();
+  ASSERT_TRUE (ThreadId == NULL);
 
   /* Call osThreadNew from ISR */
   TST_IRQHandler = Irq_osThreadNew_1;
@@ -425,8 +426,9 @@ void TC_osThreadGetName_1 (void) {
 
   /* Call osThreadGetName with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (strcmp(osThreadGetName(id), name) != 0U);
+  ThreadName = osThreadGetName(id);
   __enable_irq();
+  ASSERT_TRUE (strcmp(ThreadName, name) != 0U);
 
   /* Call osThreadGetName from ISR */
   TST_IRQHandler = Irq_osThreadGetName_1;
@@ -490,8 +492,9 @@ void TC_osThreadGetId_1 (void) {
 
   /* Call osThreadGetId with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadGetId() == id);
+  Isr_osThreadId = osThreadGetId();
   __enable_irq();
+  ASSERT_TRUE (Isr_osThreadId == id);
 
   /* Call osThreadGetId from ISR */
   TST_IRQHandler = Irq_osThreadGetId_1;
@@ -556,8 +559,9 @@ void TC_osThreadGetState_1 (void) {
 
   /* Call osThreadGetState with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadGetState(id) == osThreadError);
+  Isr_osThreadState = osThreadGetState(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osThreadState == osThreadError);
 
   /* Call osThreadGetState from ISR */
   TST_IRQHandler = Irq_osThreadGetState_1;
@@ -758,8 +762,9 @@ void TC_osThreadSetPriority_2 (void) {
 
   /* Call osThreadSetPriority with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadSetPriority(id, osPriorityBelowNormal) == osErrorISR);
+  Isr_osStatus = osThreadSetPriority(id, osPriorityBelowNormal);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadSetPriority from ISR */
   TST_IRQHandler = Irq_osThreadSetPriority_2;
@@ -805,8 +810,9 @@ void TC_osThreadGetPriority_1 (void) {
 
   /* Call osThreadGetPriority with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadGetPriority(id) == osPriorityError);
+  Isr_osPriority = osThreadGetPriority(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osPriority == osPriorityError);
 
   /* Call osThreadGetPriority from ISR */
   TST_IRQHandler = Irq_osThreadGetPriority_1;
@@ -844,8 +850,9 @@ void TC_osThreadYield_1 (void) {
 
   /* Call osThreadYield with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadYield() == osErrorISR);
+  Isr_osStatus = osThreadYield();
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadYield from ISR */
   TST_IRQHandler = Irq_osThreadYield_1;
@@ -919,8 +926,9 @@ void TC_osThreadSuspend_1 (void) {
 
   /* Call osThreadSuspend with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadSuspend(id) == osErrorISR);
+  Isr_osStatus = osThreadSuspend(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadSuspend from ISR */
   TST_IRQHandler = Irq_osThreadSuspend_1;
@@ -1012,8 +1020,9 @@ void TC_osThreadResume_1 (void) {
 
   /* Call osThreadResume with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadResume(id) == osErrorISR);
+  Isr_osStatus = osThreadResume(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadResume from ISR */
   TST_IRQHandler = Irq_osThreadResume_1;
@@ -1127,8 +1136,9 @@ void TC_osThreadDetach_2 (void) {
 
   /* Call osThreadDetach with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadDetach (id) == osErrorISR);
+  Isr_osStatus = osThreadDetach (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadDetach from ISR */
   TST_IRQHandler = Irq_osThreadDetach_2;
@@ -1305,8 +1315,9 @@ void TC_osThreadJoin_2 (void) {
 
   /* Call osThreadJoin with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadJoin(tid) == osErrorISR);
+  Isr_osStatus = osThreadJoin(tid);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadJoin from ISR */
   TST_IRQHandler = Irq_osThreadJoin_2;
@@ -1451,8 +1462,9 @@ void TC_osThreadTerminate_1 (void) {
 
   /* Call osThreadTerminate with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadTerminate(id) == osErrorISR);
+  Isr_osStatus = osThreadTerminate(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadTerminate from ISR */
   TST_IRQHandler = Irq_osThreadTerminate_1;
@@ -1515,8 +1527,9 @@ void TC_osThreadGetStackSize_1 (void) {
 
   /* Call osThreadGetStackSize with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadGetStackSize(id) == 0U);
+  Isr_u32 = osThreadGetStackSize(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadGetStackSize from ISR */
   TST_IRQHandler = Irq_osThreadGetStackSize_1;
@@ -1578,8 +1591,9 @@ void TC_osThreadGetStackSpace_1 (void) {
 
   /* Call osThreadGetStackSpace with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadGetStackSpace(id) == 0U);
+  Isr_u32 = osThreadGetStackSpace(id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadGetStackSpace from ISR */
   TST_IRQHandler = Irq_osThreadGetStackSpace_1;
@@ -1643,8 +1657,9 @@ void TC_osThreadGetCount_1 (void) {
 
   /* Call osThreadGetCount with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadGetCount() == 0U);
+  Isr_u32 = osThreadGetCount();
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadGetCount from ISR */
   TST_IRQHandler = Irq_osThreadGetCount_1;
@@ -1728,8 +1743,9 @@ void TC_osThreadEnumerate_1 (void) {
 
   /* Call osThreadEnumerate with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osThreadEnumerate(id_enum, 10U) == 0U);
+  Isr_u32 = osThreadEnumerate(id_enum, 10U);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadEnumerate from ISR */
   TST_IRQHandler = Irq_osThreadEnumerate_1;

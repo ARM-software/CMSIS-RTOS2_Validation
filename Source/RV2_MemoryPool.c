@@ -84,8 +84,9 @@ void TC_osMemoryPoolNew_1 (void) {
 
   /* Call osMemoryPoolNew with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMemoryPoolNew (1U, 4U, NULL) == NULL);
+  MemoryPoolId = osMemoryPoolNew (1U, 4U, NULL);
   __enable_irq();
+  ASSERT_TRUE (MemoryPoolId == NULL);
 
   /* Call osMemoryPoolNew from ISR */
   TST_IRQHandler = Irq_osMemoryPoolNew_1;
@@ -190,8 +191,9 @@ void TC_osMemoryPoolGetName_1 (void) {
 
   /* Call osMemoryPoolGetName with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (strcmp(osMemoryPoolGetName(id), name) != 0U);
+  MemoryPoolName = osMemoryPoolGetName(id);
   __enable_irq();
+  ASSERT_TRUE (strcmp(MemoryPoolName, name) != 0U);
 
   /* Call osMemoryPoolGetName from ISR */
   TST_IRQHandler = Irq_osMemoryPoolGetName_1;
@@ -249,13 +251,17 @@ void TC_osMemoryPoolAlloc_1 (void) {
   id = osMemoryPoolNew (MEMBL_CNT, MEMBL_SZ, NULL);
   ASSERT_TRUE(id != NULL);
 
-  __disable_irq();
   /* Call osMemoryPoolAlloc with masked interrupts and timeout == 0 */
-  ASSERT_TRUE (osMemoryPoolAlloc (id, 0U) != NULL);
+  __disable_irq();
+  Isr_pv = osMemoryPoolAlloc (id, 0U);
+  __enable_irq();
+  ASSERT_TRUE (Isr_pv != NULL);
 
   /* Call osMemoryPoolAlloc with masked interrupts and timeout != 0*/
-  ASSERT_TRUE (osMemoryPoolAlloc (id, osWaitForever) == NULL);
+  __disable_irq();
+  Isr_pv = osMemoryPoolAlloc (id, osWaitForever);
   __enable_irq();
+  ASSERT_TRUE (Isr_pv == NULL);
 
   /* Delete memory pool */
   osMemoryPoolDelete (id);
@@ -352,10 +358,11 @@ void TC_osMemoryPoolFree_1 (void) {
   p = osMemoryPoolAlloc (id, 10U);
   ASSERT_TRUE (p != NULL);
 
-  __disable_irq();
   /* Call osMemoryPoolFree with masked interrupts */
-  ASSERT_TRUE (osMemoryPoolFree (id, p) == osOK);
+  __disable_irq();
+  Isr_osStatus = osMemoryPoolFree (id, p);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Allocate one block */
   p = osMemoryPoolAlloc (id, 10U);
@@ -446,8 +453,9 @@ void TC_osMemoryPoolGetCapacity_1 (void) {
 
   /* Call osMemoryPoolGetCapacity with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMemoryPoolGetCapacity (id) == MEMBL_CNT);
+  Isr_u32 = osMemoryPoolGetCapacity (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == MEMBL_CNT);
 
   /* Call osMemoryPoolGetCapacity from ISR */
   TST_IRQHandler = Irq_osMemoryPoolGetCapacity_1;
@@ -513,8 +521,9 @@ void TC_osMemoryPoolGetBlockSize_1 (void) {
 
   /* Call osMemoryPoolGetBlockSize with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMemoryPoolGetBlockSize (id) == MEMBL_SZ);
+  Isr_u32 = osMemoryPoolGetBlockSize (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == MEMBL_SZ);
 
   /* Call osMemoryPoolGetBlockSize from ISR */
   TST_IRQHandler = Irq_osMemoryPoolGetBlockSize_1;
@@ -585,8 +594,9 @@ void TC_osMemoryPoolGetCount_1 (void) {
 
   /* Call osMemoryPoolGetCount with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMemoryPoolGetCount (id) == 1U);
+  Isr_u32 = osMemoryPoolGetCount (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == 1U);
 
   /* Call osMemoryPoolGetCount from ISR */
   TST_IRQHandler = Irq_osMemoryPoolGetCount_1;
@@ -657,8 +667,9 @@ void TC_osMemoryPoolGetSpace_1 (void) {
 
   /* Call osMemoryPoolGetSpace with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMemoryPoolGetSpace (id) == (MEMBL_CNT-1U));
+  Isr_u32 = osMemoryPoolGetSpace (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_u32 == (MEMBL_CNT-1U));
 
   /* Call osMemoryPoolGetSpace from ISR */
   TST_IRQHandler = Irq_osMemoryPoolGetSpace_1;
@@ -727,8 +738,9 @@ void TC_osMemoryPoolDelete_1 (void) {
 
   /* Call osMemoryPoolDelete with masked interrupts */
   __disable_irq();
-  ASSERT_TRUE (osMemoryPoolDelete (id) == osErrorISR);
+  Isr_osStatus = osMemoryPoolDelete (id);
   __enable_irq();
+  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMemoryPoolDelete from ISR */
   TST_IRQHandler = Irq_osMemoryPoolDelete_1;
