@@ -17,6 +17,7 @@ steps:
   - run: |
       cd Project
       pip install -r requirements.txt
+      csolution convert -s Validation.csolution.yml -o .
       python build.py --verbose build run
 download:
   - Project/RTOS2_Validation-*.zip

@@ -16,7 +16,14 @@ from matrix_runner import main, matrix_axis, matrix_action, matrix_command, Cons
 
 @matrix_axis("device", "d", "Device(s) to be considered.")
 class DeviceAxis(Enum):
-    SSE_300 = ('SSE-300-MPS3', 'SSE300')
+    CM0plus = ('CMSDK_CM0plus_VHT', 'CM0plus')
+    CM3 = ('CMSDK_CM3_VHT', 'CM3')
+    CM4_FP = ('CMSDK_CM4_FP_VHT', 'CM4_FP')
+    CM7_DP = ('CMSDK_CM7_DP_VHT', 'CM7_DP')
+    CM7_SP = ('CMSDK_CM7_SP_VHT', 'CM7_SP')
+    CM23 = ('IOTKit_CM23_VHT', 'CM23')
+    CM33_FP = ('IOTKit_CM33_FP_VHT', 'CM33_FP')
+    CM55 = ('SSE-300-MPS3', 'SSE300', 'CM55')
 
 
 @matrix_axis("rtos", "r", "RTOS(es) to be considered.")
@@ -25,26 +32,42 @@ class RtosAxis(Enum):
     FREERTOS = ('FreeRTOS')
 
 
+@matrix_axis("compiler", "c", "Compiler(s) to be considered.")
+class CompilerAxis(Enum):
+    AC6 = ('AC6')
+    GCC = ('GCC')
+
+
 AVH_EXECUTABLE = {
-    DeviceAxis.SSE_300: ("VHT_Corstone_SSE-300_Ethos-U55", []),
+    DeviceAxis.CM0plus: ("VHT_MPS2_Cortex-M0plus", []),
+    DeviceAxis.CM3: ("VHT_MPS2_Cortex-M3", []),
+    DeviceAxis.CM4_FP: ("VHT_MPS2_Cortex-M4", []),
+    DeviceAxis.CM7_DP: ("VHT_MPS2_Cortex-M7", []),
+    DeviceAxis.CM7_SP: ("VHT_MPS2_Cortex-M7", []),
+    DeviceAxis.CM23: ("VHT_MPS2_Cortex-M23", []),
+    DeviceAxis.CM33_FP: ("VHT_MPS2_Cortex-M33", []),
+    DeviceAxis.CM55: ("VHT_MPS3_Corstone_SSE-300", []),
 }
 
 
 def config_suffix(config, timestamp=True):
-    suffix = f"{config.rtos[0]}-{config.device[1]}"
+    suffix = f"{config.rtos[0]}-{config.compiler[0]}-{config.device[1]}"
     if timestamp:
         suffix += f"-{datetime.now().strftime('%Y%m%d%H%M%S')}"
     return suffix
 
 
-def project_dir(config):
-    return f"{config.rtos}/{config.device}"
+def project_name(config):
+    return f"Validation.{config.rtos}_{config.compiler}+{config.device[1]}"
 
+
+def output_dir(config):
+    return f"{project_name(config)}_OutDir"
 
 @matrix_action
 def clean(config):
     """Build the selected configurations using CMSIS-Build."""
-    yield rmdir(f"{project_dir(config)}/Output")
+    yield rmdir(f"{project_name(config)}/{output_dir(config)}")
 
 
 @matrix_action
@@ -52,7 +75,7 @@ def build(config, results):
     """Build the selected configurations using CMSIS-Build."""
 
     logging.info("Compiling Tests...")
-    yield cbuildsh(f"{project_dir(config)}/Validation.{config.device}.cprj")
+    yield cbuildsh(f"{project_name(config)}/{project_name(config)}.cprj")
 
     if not all(r.success for r in results):
         return
@@ -60,9 +83,9 @@ def build(config, results):
     file = f"RTOS2_Validation-{config_suffix(config)}.zip"
     logging.info(f"Archiving build output to {file}...")
     with ZipFile(file, "w") as archive:
-        archive.write(f"{project_dir(config)}/Output/Validation.axf")
-        archive.write(f"{project_dir(config)}/Output/Validation.axf.map")
-        archive.write(f"{project_dir(config)}/Output/Validation.{config.device}.clog")
+        archive.write(f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.axf")
+        archive.write(f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.axf.map")
+        archive.write(f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.clog")
 
 
 @matrix_action
@@ -111,9 +134,9 @@ def cbuildsh(project):
                                                                     f"{result.command.config.rtxcfg}."
                                                                     f"{title}"))
 def avhrun(config):
-    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 10, "-f", f"{project_dir(config)}/vht_config.txt"]
+    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 10, "-f", f"{project_name(config)}/vht_config.txt"]
     cmdline += AVH_EXECUTABLE[config.device][1]
-    cmdline += ["-a", f"{project_dir(config)}/Output/Validation.axf"]
+    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.axf"]
     return cmdline
 
 
