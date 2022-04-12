@@ -5,7 +5,8 @@ import logging
 
 from datetime import datetime
 from enum import Enum
-from glob import glob
+from glob import glob, iglob
+from pathlib import Path
 
 from lxml.etree import XMLSyntaxError
 from zipfile import ZipFile
@@ -36,6 +37,14 @@ class RtosAxis(Enum):
 class CompilerAxis(Enum):
     AC6 = ('AC6')
     GCC = ('GCC')
+    
+    @property
+    def image_ext(self):
+        ext = {
+            CompilerAxis.AC6: 'axf',
+            CompilerAxis.GCC: 'elf'
+        }
+        return ext[self]
 
 
 AVH_EXECUTABLE = {
@@ -83,9 +92,9 @@ def build(config, results):
     file = f"RTOS2_Validation-{config_suffix(config)}.zip"
     logging.info(f"Archiving build output to {file}...")
     with ZipFile(file, "w") as archive:
-        archive.write(f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.axf")
-        archive.write(f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.axf.map")
-        archive.write(f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.clog")
+        for content in iglob(f"{project_name(config)}/**/*", recursive=True):
+            if Path(content).is_file():
+                archive.write(content)
 
 
 @matrix_action
@@ -136,7 +145,7 @@ def cbuildsh(project):
 def avhrun(config):
     cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 10, "-f", f"{project_name(config)}/vht_config.txt"]
     cmdline += AVH_EXECUTABLE[config.device][1]
-    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.axf"]
+    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.{config.compiler.image_ext}"]
     return cmdline
 
 

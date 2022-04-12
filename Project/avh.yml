@@ -7,18 +7,30 @@ backend:
 upload:
   - README.md
   - Include/**/*
+  - Layer/**/*
   - Project/**/*
   - -:Project/RTOS2_Validation-*.zip
   - -:Project/RTOS2_Validation-*.junit
-  - -:Project/**/Output/**/*
-  - -:Project/**/RTE/**/RTE_Components.h
+  - -:Project/Validation.*/**/*
   - Source/**/*
 steps:
   - run: |
+      wget https://github.com/Open-CMSIS-Pack/devtools/releases/download/tools%2Ftoolbox%2F0.9.3/cmsis-toolbox.sh
+      chmod +x cmsis-toolbox.sh
+      sudo ./cmsis-toolbox.sh <<EOI
+      /opt/cbuild
+      $CMSIS_PACK_ROOT
+      $(dirname $(which armclang 2>/dev/null))
+      $(dirname $(which armcc 2>/dev/null))
+      $(dirname $(which arm-none-eabi-gcc 2>/dev/null))
+      
+      EOI
+  - run: |     
       cd Project
       pip install -r requirements.txt
+      cpackget pack add -a -f cpacklist.txt
       csolution convert -s Validation.csolution.yml -o .
-      python build.py --verbose build run
+      python build.py --verbose build run || echo "Something failed!"
 download:
   - Project/RTOS2_Validation-*.zip
   - Project/RTOS2_Validation-*.junit
