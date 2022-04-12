@@ -3,24 +3,25 @@
 solution:
   packs:
     - pack: ARM::CMSIS
-    - pack: Keil::V2M-MPS2_CMx_BSP
+    - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
       for-type: 
        - +CM0plus
        - +CM3
        - +CM4_FP
        - +CM7_DP
        - +CM7_SP
-    - pack: Keil::V2M-MPS2_IOTKit_BSP
+    - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.0
       for-type: 
        - +CM23
        - +CM33_FP
-    - pack: ARM::V2M_MPS3_SSE_300_BSP
+    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.2.0
       for-type: 
        - +CM55    
     - pack: ARM::CMSIS-FreeRTOS
       for-type: 
        - .FreeRTOS_AC6
        - .FreeRTOS_GCC
+
   target-types:
     #CM0plus
     - type: CM0plus
