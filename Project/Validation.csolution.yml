@@ -105,6 +105,7 @@ solution:
       misc:
         - compiler: AC6  
           C: [-O1, -std=c99, -gdwarf-4, -ffunction-sections]
+          Link: [--entry=Reset_Handler]
 
     - type: RTX5_GCC
       compiler: GCC
@@ -118,7 +119,8 @@ solution:
       misc:
         - compiler: AC6  
           C: [-O1, -std=c99, -gdwarf-4, -ffunction-sections]
-
+          Link: [--entry=Reset_Handler]
+          
     - type: FreeRTOS_GCC
       compiler: GCC
       misc:
