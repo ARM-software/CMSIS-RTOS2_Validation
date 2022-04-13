@@ -11,8 +11,8 @@ from pathlib import Path
 from lxml.etree import XMLSyntaxError
 from zipfile import ZipFile
 
-from matrix_runner import main, matrix_axis, matrix_action, matrix_command, ConsoleReport, CropReport, \
-    TransformReport, JUnitReport
+from matrix_runner import main, matrix_axis, matrix_action, matrix_command, matrix_filter, \
+    ConsoleReport, CropReport, TransformReport, JUnitReport
 
 
 @matrix_axis("device", "d", "Device(s) to be considered.")
@@ -24,7 +24,7 @@ class DeviceAxis(Enum):
     CM7_SP = ('CMSDK_CM7_SP_VHT', 'CM7_SP')
     CM23 = ('IOTKit_CM23_VHT', 'CM23')
     CM33_FP = ('IOTKit_CM33_FP_VHT', 'CM33_FP')
-    CM55 = ('SSE-300-MPS3', 'SSE300', 'CM55')
+    CM55 = ('SSE-300-MPS3', 'CM55', 'SSE300')
 
 
 @matrix_axis("rtos", "r", "RTOS(es) to be considered.")
@@ -131,7 +131,7 @@ def unzip(archive):
 
 @matrix_command()
 def cbuildsh(project):
-    return ["bash", "-c", f"cbuild.sh --quiet {project}"]
+    return ["bash", "-c", f"cbuild.sh {project}"]
 
 
 @matrix_command(test_report=ConsoleReport() |
@@ -147,6 +147,11 @@ def avhrun(config):
     cmdline += AVH_EXECUTABLE[config.device][1]
     cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.{config.compiler.image_ext}"]
     return cmdline
+
+
+@matrix_filter
+def filter_cm55_gcc(config):
+    return config.compiler == CompilerAxis.GCC and config.device == DeviceAxis.CM55
 
 
 if __name__ == "__main__":
