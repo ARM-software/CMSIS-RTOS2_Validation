@@ -27,10 +27,11 @@ steps:
       EOI
   - run: |     
       cd Project
-      pip install -r requirements.txt
-      cpackget pack add -a -f cpacklist.txt
-      csolution convert -s Validation.csolution.yml -o .
-      python build.py --verbose build run || echo "Something failed!"
+      pip install -r requirements.txt 2>&1 || exit 1
+      cpackget index -f https://www.keil.com/pack/index.pidx 2>&1
+      cpackget pack add -a -f cpacklist.txt 2>&1
+      csolution convert -s Validation.csolution.yml -o . 2>&1 || exit 1
+      python build.py --verbose build run 2>&1 || echo "Something failed!"
 download:
   - Project/RTOS2_Validation-*.zip
   - Project/RTOS2_Validation-*.junit
