@@ -468,6 +468,9 @@ void TC_osMutexAcquire_1 (void) {
   /* Call osMutexAcquire to acquire the mutex from the running thread */
   ASSERT_TRUE (osMutexAcquire(id, osWaitForever) == osOK);
 
+  /* Release acquired mutex */
+  ASSERT_TRUE (osMutexRelease(id) == osOK);
+
   /* Delete the mutex */
   ASSERT_TRUE (osMutexDelete (id) == osOK);
 
@@ -621,6 +624,9 @@ void TC_osMutexRelease_1 (void) {
   SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
+  /* Release acquired mutex */
+  ASSERT_TRUE (osMutexRelease(id) == osOK);
+
   /* Delete the mutex */
   ASSERT_TRUE (osMutexDelete (id) == osOK);
 
@@ -660,7 +666,7 @@ void TC_osMutexGetOwner_1 (void) {
   ASSERT_TRUE (osMutexGetOwner (id) == NULL);
 
   /* Acquire mutex */
-  osMutexAcquire (id, 0U);
+  ASSERT_TRUE (osMutexAcquire (id, 0U) == osOK);
 
   /* Call osMutexGetOwner when the mutex is locked */
   ASSERT_TRUE (osMutexGetOwner (id) == osThreadGetId());
@@ -677,6 +683,9 @@ void TC_osMutexGetOwner_1 (void) {
   ThreadId = (osThreadId_t)(-1);
   SetPendingIRQ(IRQ_A);
   ASSERT_TRUE (ThreadId == NULL);
+
+  /* Release acquired mutex */
+  ASSERT_TRUE (osMutexRelease(id) == osOK);
 
   /* Delete mutex object */
   ASSERT_TRUE (osMutexDelete (id) == osOK);
