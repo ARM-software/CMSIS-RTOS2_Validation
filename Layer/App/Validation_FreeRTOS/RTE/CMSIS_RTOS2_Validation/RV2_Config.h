@@ -240,10 +240,10 @@
 #define TC_OSEVENTFLAGSNEW_1_EN           1
 #define TC_OSEVENTFLAGSNEW_2_EN           1
 #define TC_OSEVENTFLAGSNEW_3_EN           1
-#define TC_OSEVENTFLAGSSET_1_EN           0
-#define TC_OSEVENTFLAGSCLEAR_1_EN         0
+#define TC_OSEVENTFLAGSSET_1_EN           1
+#define TC_OSEVENTFLAGSCLEAR_1_EN         1
 #define TC_OSEVENTFLAGSGET_1_EN           1
-#define TC_OSEVENTFLAGSWAIT_1_EN          0
+#define TC_OSEVENTFLAGSWAIT_1_EN          1
 #define TC_OSEVENTFLAGSDELETE_1_EN        1
 #define TC_OSEVENTFLAGSGETNAME_1_EN       0
 #define TC_EVENTFLAGSALLOCATION_EN        1
