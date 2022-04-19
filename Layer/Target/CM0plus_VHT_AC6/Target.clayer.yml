@@ -8,6 +8,9 @@ layer:
   #   - pack: ARM::CMSIS
   #   - pack: Keil::V2M-MPS2_CMx_BSP
 
+  add-paths:
+    - ./RTE/CMSIS_RTOS2_Validation
+
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
     - component: ARM::CMSIS:CORE
