@@ -148,7 +148,7 @@ def cbuild(project):
                                                                     f"{result.command.config.rtxcfg}."
                                                                     f"{title}"))
 def avhrun(config):
-    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 10, "-f", vht_config(config)]
+    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 100, "-f", vht_config(config)]
     cmdline += AVH_EXECUTABLE[config.device][1]
     cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.{config.compiler.image_ext}"]
     return cmdline
