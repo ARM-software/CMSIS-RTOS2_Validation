@@ -13,8 +13,7 @@ layer:
     - PRINT_XML_REPORT=1
   
   add-paths:
-    - ../../Include
-    - ./RTE/CMSIS_RTOS2_Validation
+    - ../../../Include
 
   misc:
     - C*:
@@ -29,7 +28,7 @@ layer:
   groups:
     - group: Documentation
       files:
-        - file: ../../README.md
+        - file: ../../../README.md
 
     - group: Source files
       files:
@@ -38,22 +37,22 @@ layer:
 
     - group: CMSIS-RTOS2_Validation
       files:
-        - file: ../../Source/cmsis_rv2.c
-        - file: ../../Source/RV2_Kernel.c
-        - file: ../../Source/RV2_Thread.c
-        - file: ../../Source/RV2_ThreadFlags.c
-        - file: ../../Source/RV2_GenWait.c
-        - file: ../../Source/RV2_Timer.c
-        - file: ../../Source/RV2_EventFlags.c
-        - file: ../../Source/RV2_Mutex.c
-        - file: ../../Source/RV2_Semaphore.c
-        - file: ../../Source/RV2_MemoryPool.c
-        - file: ../../Source/RV2_MessageQueue.c
-        - file: ../../Source/RV2_Common.c
+        - file: ../../../Source/cmsis_rv2.c
+        - file: ../../../Source/RV2_Kernel.c
+        - file: ../../../Source/RV2_Thread.c
+        - file: ../../../Source/RV2_ThreadFlags.c
+        - file: ../../../Source/RV2_GenWait.c
+        - file: ../../../Source/RV2_Timer.c
+        - file: ../../../Source/RV2_EventFlags.c
+        - file: ../../../Source/RV2_Mutex.c
+        - file: ../../../Source/RV2_Semaphore.c
+        - file: ../../../Source/RV2_MemoryPool.c
+        - file: ../../../Source/RV2_MessageQueue.c
+        - file: ../../../Source/RV2_Common.c
         - file: ./RTE/CMSIS_RTOS2_Validation/RV2_Config.c
         - file: ./RTE/CMSIS_RTOS2_Validation/RV2_Config.h
-    
+
     - group: Validation Framework
       files:
-        - file: ../../Source/tf_main.c
-        - file: ../../Source/tf_report.c
+        - file: ../../../Source/tf_main.c
+        - file: ../../../Source/tf_report.c

@@ -72,11 +72,16 @@ def project_name(config):
 
 def output_dir(config):
     return f"{project_name(config)}_OutDir"
+    
+
+def vht_config(config):
+    return f"../Layer/Target/{config.device[1]}_VHT_{config.compiler}/vht_config.txt"
+    
 
 @matrix_action
 def clean(config):
     """Build the selected configurations using CMSIS-Build."""
-    yield rmdir(f"{project_name(config)}/{output_dir(config)}")
+    yield cbuild_clean(f"{project_name(config)}/{project_name(config)}.cprj")
 
 
 @matrix_action
@@ -84,7 +89,7 @@ def build(config, results):
     """Build the selected configurations using CMSIS-Build."""
 
     logging.info("Compiling Tests...")
-    yield cbuildsh(f"{project_name(config)}/{project_name(config)}.cprj")
+    yield cbuild(f"{project_name(config)}/{project_name(config)}.cprj")
 
     if not all(r.success for r in results):
         return
@@ -120,9 +125,9 @@ def run(config, results):
 
 
 @matrix_command()
-def rmdir(dir):
-    return ["bash", "-c", f"rm -rf {dir}"]
-
+def cbuild_clean(project):
+    return ["cbuild", "-c", project]
+    
 
 @matrix_command()
 def unzip(archive):
@@ -130,8 +135,8 @@ def unzip(archive):
 
 
 @matrix_command()
-def cbuildsh(project):
-    return ["bash", "-c", f"cbuild.sh {project}"]
+def cbuild(project):
+    return ["cbuild", project]
 
 
 @matrix_command(test_report=ConsoleReport() |
@@ -143,7 +148,7 @@ def cbuildsh(project):
                                                                     f"{result.command.config.rtxcfg}."
                                                                     f"{title}"))
 def avhrun(config):
-    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 10, "-f", f"{project_name(config)}/vht_config.txt"]
+    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 100, "-f", vht_config(config)]
     cmdline += AVH_EXECUTABLE[config.device][1]
     cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.{config.compiler.image_ext}"]
     return cmdline
