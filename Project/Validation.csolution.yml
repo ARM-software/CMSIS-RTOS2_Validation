@@ -26,12 +26,27 @@ solution:
     #CM0plus
     - type: CM0plus
       device: CMSDK_CM0plus_VHT
+      defines:
+        - TST_IRQ_HANDLER_A=TIMER0_Handler
+        - TST_IRQ_NUM_A=8
+        - TST_IRQ_HANDLER_B=TIMER1_Handler
+        - TST_IRQ_NUM_B=9
     #CM3
     - type: CM3
       device: CMSDK_CM3_VHT
+      defines:
+        - TST_IRQ_HANDLER_A=TIMER0_Handler
+        - TST_IRQ_NUM_A=8
+        - TST_IRQ_HANDLER_B=TIMER1_Handler
+        - TST_IRQ_NUM_B=9
     #CM4_FP
     - type: CM4_FP
       device: CMSDK_CM4_FP_VHT
+      defines:
+        - TST_IRQ_HANDLER_A=TIMER0_Handler
+        - TST_IRQ_NUM_A=8
+        - TST_IRQ_HANDLER_B=TIMER1_Handler
+        - TST_IRQ_NUM_B=9
       misc:
         - compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv4-sp-d16]
@@ -44,6 +59,11 @@ solution:
     #CM7_DP
     - type: CM7_DP
       device: CMSDK_CM7_DP_VHT
+      defines:
+        - TST_IRQ_HANDLER_A=TIMER0_Handler
+        - TST_IRQ_NUM_A=8
+        - TST_IRQ_HANDLER_B=TIMER1_Handler
+        - TST_IRQ_NUM_B=9
       misc:
         - compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv5-d16]
@@ -56,6 +76,11 @@ solution:
     #CM7_SP
     - type: CM7_SP
       device: CMSDK_CM7_SP_VHT
+      defines:
+        - TST_IRQ_HANDLER_A=TIMER0_Handler
+        - TST_IRQ_NUM_A=8
+        - TST_IRQ_HANDLER_B=TIMER1_Handler
+        - TST_IRQ_NUM_B=9
       misc:
         - compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16]
@@ -69,6 +94,10 @@ solution:
     - type: CM23
       device: IOTKit_CM23_VHT
       defines:
+        - TST_IRQ_HANDLER_A=NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_NUM_A=0
+        - TST_IRQ_HANDLER_B=NONSEC_WATCHDOG_Handler
+        - TST_IRQ_NUM_B=1
         - configENABLE_FPU=0
       misc:
         - compiler: AC6
@@ -82,6 +111,11 @@ solution:
     #CM33_FP
     - type: CM33_FP
       device: IOTKit_CM33_FP_VHT
+      defines:
+        - TST_IRQ_HANDLER_A=NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_NUM_A=0
+        - TST_IRQ_HANDLER_B=NONSEC_WATCHDOG_Handler
+        - TST_IRQ_NUM_B=1
       misc:
         - compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16, -mcmse]
@@ -94,6 +128,11 @@ solution:
     #CM55
     - type: CM55
       device: SSE-300-MPS3
+      defines:
+        - TST_IRQ_HANDLER_A=NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_NUM_A=0
+        - TST_IRQ_HANDLER_B=NONSEC_WATCHDOG_Handler
+        - TST_IRQ_NUM_B=1
       misc:
         - compiler: AC6
           C: [-mfloat-abi=hard, -mcmse]

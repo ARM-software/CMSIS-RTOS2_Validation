@@ -13,6 +13,7 @@ layer:
     - PRINT_XML_REPORT=1
   
   add-paths:
+    - ./Config
     - ../../../Include
 
   misc:
@@ -56,8 +57,9 @@ layer:
         - file: ../../../Source/RV2_MemoryPool.c
         - file: ../../../Source/RV2_MessageQueue.c
         - file: ../../../Source/RV2_Common.c
-        - file: ./RTE/CMSIS_RTOS2_Validation/RV2_Config.c
-        - file: ./RTE/CMSIS_RTOS2_Validation/RV2_Config.h
+        - file: ./Config/RV2_Config.c
+        - file: ./Config/RV2_Config.h
+        - file: ./Config/RV2_Config_Device.h
 
     - group: Validation Framework
       files:
