@@ -6,10 +6,7 @@ layer:
 
   # packs:
   #   - pack: ARM::CMSIS
-  #   - pack: Keil::V2M-MPS2_CMx_BSP
-
-  add-paths:
-    - ./RTE/CMSIS_RTOS2_Validation
+  #   - pack: Keil::V2M-MPS2_IOTKit_BSP
 
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]

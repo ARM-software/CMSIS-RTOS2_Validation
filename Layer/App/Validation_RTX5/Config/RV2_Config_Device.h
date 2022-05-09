@@ -24,7 +24,7 @@
 
 /* Primary interrupt handler */
 #ifndef TST_IRQ_HANDLER_A
-#define TST_IRQ_HANDLER_A   NONSEC_WATCHDOG_RESET_Handler
+#define TST_IRQ_HANDLER_A   Interrupt0_Handler
 #endif
 #ifndef TST_IRQ_NUM_A
 #define TST_IRQ_NUM_A       0
@@ -32,7 +32,7 @@
 
 /* Secondary interrupt handler */
 #ifndef TST_IRQ_HANDLER_B
-#define TST_IRQ_HANDLER_B   NONSEC_WATCHDOG_Handler
+#define TST_IRQ_HANDLER_B   Interrupt1_Handler
 #endif
 #ifndef TST_IRQ_NUM_B
 #define TST_IRQ_NUM_B       1
