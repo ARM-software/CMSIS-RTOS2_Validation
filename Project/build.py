@@ -142,10 +142,9 @@ def cbuild(project):
 @matrix_command(test_report=ConsoleReport() |
                             CropReport('<\?xml version="1.0"\?>', '</report>') |
                             TransformReport('validation.xsl') |
-                            JUnitReport(title=lambda title, result: f"{result.command.config.device}."
+                            JUnitReport(title=lambda title, result: f"{result.command.config.rtos}."
                                                                     f"{result.command.config.compiler}."
-                                                                    f"{result.command.config.optimize}."
-                                                                    f"{result.command.config.rtxcfg}."
+                                                                    f"{result.command.config.device}."
                                                                     f"{title}"))
 def avhrun(config):
     cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 100, "-f", vht_config(config)]
