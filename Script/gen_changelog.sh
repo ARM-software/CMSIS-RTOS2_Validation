@@ -15,9 +15,9 @@ function usage {
 
 function git_describe()
 {
-  local gitversion=$(git describe --tags --match "$1*" --abbrev=7 || echo "$1-dirty")
-  local version=$(echo $gitversion | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{7})/\1+\2/')
-  if [[ $version != $1 ]] && [[ $version == $gitversion ]]; then
+  local gitversion=$(git describe --tags --match "$1*" --abbrev=7 || echo "0.0.0-dirty")
+  local version=$(echo ${gitversion#$1} | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{7})/\1+\2/')
+  if [[ $version =~ .*-[a-zA-Z]*[^0-9]$ ]]; then
     version+=0
   fi
   echo "Git version: '$version'" >&2
@@ -97,13 +97,17 @@ do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-PREFIX=$1
-TAGS=$(git for-each-ref --format "%(objecttype) %(refname)" --sort="-v:refname" refs/tags/${PREFIX} 2>/dev/null | grep ^tag | cut -d\  -f2)
+
+PREFIX="v"
+if [ -n "$1" ]; then
+  PREFIX=$1
+fi
+TAGS=$(git for-each-ref --format "%(objecttype) %(refname)" --sort="-v:refname" "refs/tags/${PREFIX}*" 2>/dev/null | grep ^tag | cut -d\  -f2)
 LATEST=$(git_describe "${PREFIX}")
 
 print_${FORMAT}_head
 
-if [[ "${LATEST}" != "$(head -1 <<< ${TAGS[0]#refs/tags/})" ]]; then
+if [[ "${LATEST}" != "$(head -1 <<< ${TAGS[0]#refs/tags/${PREFIX}})" ]]; then
   print_$FORMAT "${LATEST}" "" "Active development ..."
 fi
 
