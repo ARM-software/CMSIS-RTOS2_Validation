@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DIRNAME=$(dirname $(readlink -f $0))
+DESCRIBE=$(readlink -f ${DIRNAME}/git_describe.sh)
+
 function usage {
   echo "$(basename $0) [-h|--help] [-f|--format <format>] [tag-prefix]"
   echo ""
@@ -12,19 +15,6 @@ function usage {
   echo "  -p|--pre                Include latest pre-release."
   echo "  tag-prefix              Prefix to filter tags."
   echo ""
-}
-
-function git_describe()
-{
-  if git rev-parse --git-dir 2>&1 >/dev/null; then
-    local gitversion=$(git describe --tags --long --match "$1*" --abbrev=7 || echo "0.0.0-dirty-0-g$(git describe --tags --match "$1*" --always --abbrev=7 2>/dev/null)")
-    local version=$(echo ${gitversion#$1} | sed -r -e 's/-([a-zA-Z]+)-([0-9]+)-(g[0-9a-f]{7})/-\1\2+\3/' | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{7})//')
-    echo "Git version: '$version'" >&2
-    echo $version
-  else
-    echo "No Git repository: '0.0.0-nogit'" >&2
-    echo "0.0.0-nogit"
-  fi
 }
 
 function print_text_head {
@@ -117,7 +107,7 @@ if [ -n "$1" ]; then
   PREFIX=$1
 fi
 TAGS=$(git for-each-ref --format "%(objecttype) %(refname)" --sort="-v:refname" "refs/tags/${PREFIX}*" 2>/dev/null | grep ^tag | cut -d\  -f2)
-LATEST=$(git_describe "${PREFIX}")
+LATEST=$(${DESCRIBE} "${PREFIX}")
 
 print_${FORMAT}_head
 

@@ -13,6 +13,7 @@ set -o pipefail
 
 DIRNAME=$(dirname $(readlink -f $0))
 DOXYGEN=$(which doxygen)
+DESCRIBE=$(readlink -f ${DIRNAME}/../Script/git_describe.sh)
 CHANGELOG=$(readlink -f ${DIRNAME}/../Script/gen_changelog.sh)
 
 if [[ ! -f "${DOXYGEN}" ]]; then
@@ -27,23 +28,10 @@ else
     fi
 fi
 
-function git_describe()
-{
-  if git rev-parse --git-dir 2>&1 >/dev/null; then
-    local gitversion=$(git describe --tags --long --match "$1*" --abbrev=7 || echo "0.0.0-dirty-0-g$(git describe --tags --match "$1*" --always --abbrev=7 2>/dev/null)")
-    local version=$(echo ${gitversion#$1} | sed -r -e 's/-([a-zA-Z]+)-([0-9]+)-(g[0-9a-f]{7})/-\1\2+\3/' | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{7})//')
-    echo "Git version: '$version'" >&2
-    echo $version
-  else
-    echo "No Git repository: '0.0.0-nogit'" >&2
-    echo "0.0.0-nogit"
-  fi
-}
-
 echo "Checking PDCS version against Git..."
 
 if [ -z $VERSION ]; then
-  VERSION_FULL=$(git_describe "v")
+  VERSION_FULL=$(${DESCRIBE} "v")
   VERSION=${VERSION_FULL%+*}
 fi
  
@@ -51,7 +39,7 @@ echo "Generating documentation ..."
  
 pushd ${DIRNAME} > /dev/null
 
-rm -rf ${DIRNAME}/html
+rm -rf ${DIRNAME}/../Documentation/html
 sed -e "s/{projectNumber}/${VERSION}/" "${DIRNAME}/CMSIS_RV2.dxy.in" \
   > "${DIRNAME}/CMSIS_RV2.dxy"
 

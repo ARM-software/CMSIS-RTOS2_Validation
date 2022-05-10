@@ -1,8 +1,10 @@
-.idea
-Doxygen/CMSIS_RV2.dxy
-Doxygen/html
-Doxygen/linkchecker-out.csv
-Project/Validation.**/*
-Project/*.zip
-Project/*.junit
+/.idea
+/Documentation
+/Doxygen/CMSIS_RV2.dxy
+/Doxygen/linkchecker-out.csv
+/Project/Validation.**/*
+/Project/*.zip
+/Project/*.junit
 /Doxygen/History.txt
+/build
+/output

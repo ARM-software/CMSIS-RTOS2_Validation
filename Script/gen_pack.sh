@@ -1,6 +1,6 @@
 #!/bin/bash
-# Version: 1.3
-# Date: 2021-04-27
+# Version: 1.4
+# Date: 2022-05-10
 # This bash script generates a CMSIS Software Pack:
 #
 # Pre-requisites:
@@ -17,10 +17,14 @@
 
 set -o pipefail
 
+DIRNAME=$(dirname $(readlink -f $0))
+CHANGELOG=$(readlink -f ${DIRNAME}/gen_changelog.sh)
+
 function usage {
   echo "$(basename $0) [-h|--help] [<pdsc>]"
   echo ""
   echo "Arguments:"
+  echo "  -k|--keep  Keep build directory."
   echo "  -h|--help  Print this usage message and exit."
   echo "  pdsc       The pack description to generate the pack for."
   echo ""
@@ -33,32 +37,7 @@ function usage {
   echo ""
 }
 
-function pack_version()
-{
-  local version=$(grep -Pzo "(?s)<releases>\s+<release version=\"([^\"]+)\"" "$1" | tr -d '\0' | tail -n 1 | sed -r -e 's/.*version="([^"]+)"/\1/g')
-  echo "PDSC version: '$version'" >&2
-  echo $version
-}
-
-function git_describe()
-{
-  local gitversion=$(git describe --match $1* --abbrev=9 || echo "$1-dirty")
-  local version=$(echo $gitversion | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{9})/\1+\2/')
-  if [[ $version != $1 ]] && [[ $version == $gitversion ]]; then
-    version+=0
-  fi
-  echo "Git version: '$version'" >&2
-  echo $version
-}
-
-function patch_pdsc()
-{
-  if [[ "$2" != "$3" ]]; then
-    echo "Updating latest release tag with version '$3'"
-    sed -r -i -e "s/<release version=\"$2\"/<release version=\"$3\"/" $1
-  fi
-}
-
+KEEP=0
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -68,6 +47,10 @@ do
     '-h'|'--help')
       usage
       exit 1
+    ;;
+    '-k'|'--keep')
+      shift
+      KEEP=1
     ;;
     *)    # unknown option
       POSITIONAL+=("$1") # save it in an array for later
@@ -116,34 +99,14 @@ PACK_BUILD=./build
 
 # Specify directory names to be added to pack base directory
 PACK_DIRS="
-  license_terms
-  CMSIS/Documentation
-  CMSIS/RTOS2/Include
-  CMSIS/RTOS2/Source
-  CMSIS/RTOS2/RTX/Config
-  CMSIS/RTOS2/RTX/Include
-  CMSIS/RTOS2/RTX/Template
-  FuSaCLibs/include
-  FuSaCLibs/template
-  ArmCompiler/Config
-  ArmCompiler/Include
-  ArmCompiler/Source
+  Documentation
+  Include
+  Source
 "
 
 # Specify file names to be added to pack base directory
 PACK_BASE_FILES="
-  SafetyManual.html
-  CMSIS/Core/Include/cmsis_compiler.h
-  CMSIS/Core/Include/cmsis_armclang.h
-  CMSIS/Core/Include/cmsis_armclang_ltm.h
-  CMSIS/Core/Include/mpu_armv7.h
-  CMSIS/Core/Include/cmsis_version.h
-  CMSIS/RTOS2/RTX/RTX5.scvd
-  CMSIS/RTOS2/RTX/Source/rtx_*.c
-  CMSIS/RTOS2/RTX/Source/rtx_lib.h
-  CMSIS/RTOS2/RTX/Source/rtx_core_c.h
-  CMSIS/RTOS2/RTX/Source/rtx_core_cm.h
-  ArmCompiler/EventRecorder.scvd
+  LICENSE.txt
 "
 
 # Specify file names to be deleted from pack build directory
@@ -211,105 +174,6 @@ echo "Generating Pack: for $PACK_VENDOR.$PACK_NAME"
 echo " "
 IFS=$SAVEIFS
 
-case $2 in
-  'FuSa_RTS_CM0')
-    PACK_DIRS+="
-      Examples/FuSa_Blinky_CM0_noMPU
-      Examples/FuSa_Blinky_CM0plus_MPU
-    "
-    PACK_BASE_FILES+="
-      CMSIS/Core/Include/core_cm0.h
-      CMSIS/Core/Include/core_cm0plus.h
-      CMSIS/RTOS2/RTX/Source/GCC/irq_armv6m.S
-      FuSaCLibs/lib/fusa_clib_armv6m_softfp_ropi.l
-      FuSaCLibs/lib/fusa_clib_armv6m_softfp_ropi.b
-      FuSaCLibs/lib/fusa_clib_armv6m_softfp_ropi_rwpi.l
-      FuSaCLibs/lib/fusa_clib_armv6m_softfp_ropi_rwpi.b
-    "
-  ;;
-  'FuSa_RTS_CM3_Evaluation')
-    PACK_DIRS+="
-      Examples/FuSa_Blinky_CM3_noMPU_Eval
-    "
-    PACK_BASE_FILES+="
-      CMSIS/Core/Include/core_cm3.h
-      CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
-    "
-    PACK_DELETE_FILES+="
-      FuSaCLibs/include/*
-    "
-    PACK_PATCH_FILES+="FuSaCLibs/eval/cm3_eval.patch"
-  ;;
-  'FuSa_RTS_CM3')
-    PACK_DIRS+="
-      Examples/FuSa_Blinky_CM3_noMPU
-      Examples/FuSa_Blinky_CM3_MPU
-    "
-    PACK_BASE_FILES+="
-      CMSIS/Core/Include/core_cm3.h
-      CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi_rwpi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi_rwpi.b
-    "
-  ;;
-  'FuSa_RTS_CM4_Evaluation')
-    PACK_DIRS+="
-      Examples/FuSa_Blinky_CM4_noMPU_Eval
-    "
-    PACK_BASE_FILES+="
-      CMSIS/Core/Include/core_cm4.h
-      CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
-    "
-    PACK_DELETE_FILES+="
-      FuSaCLibs/include/*
-    "
-    PACK_PATCH_FILES+="FuSaCLibs/eval/cm4_eval.patch"
-  ;;
-  'FuSa_RTS_CM4')
-    PACK_DIRS+="
-      Examples/FuSa_Blinky_CM4_noMPU
-      Examples/FuSa_Blinky_CM4_MPU
-    "
-    PACK_BASE_FILES+="
-      CMSIS/Core/Include/core_cm4.h
-      CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi_rwpi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi_rwpi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi_rwpi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi_rwpi.b
-    "
-  ;;
-  'FuSa_RTS_CM7')
-    PACK_DIRS+="
-      Examples/FuSa_Blinky_CM7_noMPU
-      Examples/FuSa_Blinky_CM7_MPU
-    "
-    PACK_BASE_FILES+="
-      CMSIS/Core/Include/core_cm7.h
-      CMSIS/Core/Include/cachel1_armv7.h
-      CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi_rwpi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_softfp_ropi_rwpi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi_rwpi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_sphardfp_ropi_rwpi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_hardfp_ropi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_hardfp_ropi.b
-      FuSaCLibs/lib/fusa_clib_armv7m_hardfp_ropi_rwpi.l
-      FuSaCLibs/lib/fusa_clib_armv7m_hardfp_ropi_rwpi.b
-    "
-  ;;
-esac
-
 #if $PACK_BUILD directory does not exist, create it.
 if [ ! -d "$PACK_BUILD" ]; then
   mkdir -p "$PACK_BUILD"
@@ -317,7 +181,13 @@ fi
 
 # Copy files into build base directory: $PACK_BUILD
 # pdsc file is mandatory in base directory:
-cp -f "./${PACK_VENDOR}.${PACK_NAME}.pdsc" "${PACK_BUILD}"
+first=$(grep -n "<releases>" ${PACK_VENDOR}.${PACK_NAME}.pdsc | cut -d: -f1)
+last=$(grep -n "</releases>" ${PACK_VENDOR}.${PACK_NAME}.pdsc | cut -d: -f1)
+let first-=1
+let last+=1
+head -n ${first} "./${PACK_VENDOR}.${PACK_NAME}.pdsc" > "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc"
+"${CHANGELOG}" -p -f pdsc 2>/dev/null | sed "s/^/  /" >> "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc"
+tail -n +${last} "./${PACK_VENDOR}.${PACK_NAME}.pdsc" >> "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc"
 
 # Add directories
 echo Adding directories to pack:
@@ -376,12 +246,6 @@ else
   echo "Use MDK PackInstaller to run schema validation for $PACK_VENDOR.$PACK_NAME.pdsc"
 fi
 
-# Patch pack version
-echo "Checking PDCS version against Git..."
-pdsc_version=$(pack_version "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc")
-git_version=$(git_describe ${pdsc_version})
-patch_pdsc "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc" ${pdsc_version} ${git_version}
-
 # Run Pack Check and generate PackName file with version
 "${PACKCHK}" "${PACK_BUILD}/${PACK_VENDOR}.${PACK_NAME}.pdsc" \
   -i "${CMSIS_PACK_ROOT}/.Web/ARM.CMSIS.pdsc" \
@@ -427,7 +291,9 @@ echo "build of pack succeeded"
 # Clean up
 echo "cleaning up ..."
 
-rm -rf "$PACK_BUILD"
+if [[ $KEEP == 0 ]]; then
+  rm -rf "$PACK_BUILD"
+fi
 echo " "
 
 echo Completed CMSIS-Pack Generation: $(date)

@@ -52,21 +52,21 @@ jobs:
           echo "::add-matcher::.github/linkchecker.json"
           ../Script/check_links.sh ./html/index.html ./
           echo "::remove-matcher owner=linkchecker::"
-        working-directory: ./Doxygen
+        working-directory: ./Documentation
 
       - name: Archive documentation
         if: ${{ github.event_name == 'pull_request' }}
         uses: actions/upload-artifact@v2
         with:
           name: documentation
-          path: Doxygen/html/
+          path: Documentation/html/
           retention-days: 1
           if-no-files-found: error
 
       - name: Archive documentation
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
         run: |
-          cd Doxygen/html
+          cd Documentation/html
           tar -cvjf /tmp/doc.tbz2 .
 
       - uses: actions/checkout@v2
