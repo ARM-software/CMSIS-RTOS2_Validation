@@ -13,6 +13,7 @@ set -o pipefail
 
 DIRNAME=$(dirname $(readlink -f $0))
 DOXYGEN=$(which doxygen)
+CHANGELOG=$(readlink -f ${DIRNAME}/../Script/gen_changelog.sh)
 
 if [[ ! -f "${DOXYGEN}" ]]; then
     echo "Doxygen not found!" >&2
@@ -26,34 +27,23 @@ else
     fi
 fi
 
-function pack_version()
-{
-  local version=$(grep -Pzo "(?s)<releases>\s+<release version=\"([^\"]+)\"" "$1" | tr -d '\0' | tail -n 1 | sed -r -e 's/.*version="([^"]+)"/\1/g')
-  echo "PDSC version: '$version'" >&2
-  echo $version
-}
-
 function git_describe()
 {
   if git rev-parse --git-dir 2>&1 >/dev/null; then
-    local gitversion=$(git describe --tags --match $1* --abbrev=9 2>/dev/null || echo "$1-dirty-0-g$(git describe --tags --match $1* --always --abbrev=9 2>/dev/null)")
-    local version=$(echo $gitversion | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{9})/\1+\2/')
-    if [[ $version != $1 ]] && [[ $version == $gitversion ]]; then
-        version+=0
-    fi
+    local gitversion=$(git describe --tags --long --match "$1*" --abbrev=7 || echo "0.0.0-dirty-0-g$(git describe --tags --match "$1*" --always --abbrev=7 2>/dev/null)")
+    local version=$(echo ${gitversion#$1} | sed -r -e 's/-([a-zA-Z]+)-([0-9]+)-(g[0-9a-f]{7})/-\1\2+\3/' | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{7})//')
     echo "Git version: '$version'" >&2
     echo $version
   else
-    echo "No Git repository: '$1-nogit'" >&2
-    echo "$1-nogit"
+    echo "No Git repository: '0.0.0-nogit'" >&2
+    echo "0.0.0-nogit"
   fi
 }
 
 echo "Checking PDCS version against Git..."
 
-pdsc_version=$(pack_version "${DIRNAME}/../ARM.CMSIS-RTOS2_Validation.pdsc")
 if [ -z $VERSION ]; then
-  VERSION_FULL=$(git_describe ${pdsc_version})
+  VERSION_FULL=$(git_describe "v")
   VERSION=${VERSION_FULL%+*}
 fi
  
@@ -64,6 +54,9 @@ pushd ${DIRNAME} > /dev/null
 rm -rf ${DIRNAME}/html
 sed -e "s/{projectNumber}/${VERSION}/" "${DIRNAME}/CMSIS_RV2.dxy.in" \
   > "${DIRNAME}/CMSIS_RV2.dxy"
+
+echo "${CHANGELOG} -f dxy > History.txt"
+"${CHANGELOG}" -f dxy 1> History.txt 2>/dev/null
 
 echo "${DOXYGEN} ${DIRNAME}/CMSIS_RV2.dxy"
 "${DOXYGEN}" "${DIRNAME}/CMSIS_RV2.dxy"

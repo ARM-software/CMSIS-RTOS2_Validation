@@ -9,19 +9,22 @@ function usage {
   echo "               text       Release notes in plain text."  
   echo "               pdsc       Release notes for PDSC"
   echo "               dxy        Release notes for Doxygen"
+  echo "  -p|--pre                Include latest pre-release."
   echo "  tag-prefix              Prefix to filter tags."
   echo ""
 }
 
 function git_describe()
 {
-  local gitversion=$(git describe --tags --match "$1*" --abbrev=7 || echo "0.0.0-dirty")
-  local version=$(echo ${gitversion#$1} | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{7})/\1+\2/')
-  if [[ $version =~ .*-[a-zA-Z]*[^0-9]$ ]]; then
-    version+=0
+  if git rev-parse --git-dir 2>&1 >/dev/null; then
+    local gitversion=$(git describe --tags --long --match "$1*" --abbrev=7 || echo "0.0.0-dirty-0-g$(git describe --tags --match "$1*" --always --abbrev=7 2>/dev/null)")
+    local version=$(echo ${gitversion#$1} | sed -r -e 's/-([a-zA-Z]+)-([0-9]+)-(g[0-9a-f]{7})/-\1\2+\3/' | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{7})//')
+    echo "Git version: '$version'" >&2
+    echo $version
+  else
+    echo "No Git repository: '0.0.0-nogit'" >&2
+    echo "0.0.0-nogit"
   fi
-  echo "Git version: '$version'" >&2
-  echo $version
 }
 
 function print_text_head {
@@ -61,6 +64,10 @@ function print_pdsc_tail {
 }
 
 function print_dxy_head {
+
+  echo "/**"
+  echo "\page history Revision History"
+  echo ""
   echo "Version    | Description"
   echo ":----------|:------------------------------------------"
 }
@@ -70,11 +77,13 @@ function print_dxy {
 }
 
 function print_dxy_tail {
-  true
+  echo ""
+  echo "*/"
 }
 
 POSITIONAL=()
 FORMAT="text"
+PRERELEASE=0
 while [[ $# -gt 0 ]]
 do
   key="$1"
@@ -89,6 +98,10 @@ do
       FORMAT=$1
       shift
     ;;
+    '-p'|'--pre')
+      PRERELEASE=1
+      shift
+    ;;
     *)    # unknown option
       POSITIONAL+=("$1") # save it in an array for later
       shift # past argument
@@ -97,6 +110,7 @@ do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+echo "Generating changelog ..." >&2
 
 PREFIX="v"
 if [ -n "$1" ]; then
@@ -107,7 +121,7 @@ LATEST=$(git_describe "${PREFIX}")
 
 print_${FORMAT}_head
 
-if [[ "${LATEST}" != "$(head -1 <<< ${TAGS[0]#refs/tags/${PREFIX}})" ]]; then
+if [[ $PRERELEASE != 0 ]] && [[ "${LATEST}" != "$(head -1 <<< ${TAGS[0]#refs/tags/${PREFIX}})" ]]; then
   print_$FORMAT "${LATEST}" "" "Active development ..."
 fi
 
