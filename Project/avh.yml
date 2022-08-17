@@ -15,7 +15,7 @@ upload:
   - Source/**/*
 steps:
   - run: |
-      wget https://github.com/Open-CMSIS-Pack/devtools/releases/download/tools%2Ftoolbox%2F0.10.2/cmsis-toolbox.sh     
+      wget https://github.com/Open-CMSIS-Pack/devtools/releases/download/tools%2Ftoolbox%2F0.10.2/cmsis-toolbox.sh
       chmod +x cmsis-toolbox.sh
       sudo ./cmsis-toolbox.sh <<EOI
       /opt/ctools
