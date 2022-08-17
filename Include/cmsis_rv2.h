@@ -121,6 +121,7 @@ extern void TC_osTimerNew_2               (void);
 extern void TC_osTimerNew_3               (void);
 extern void TC_osTimerGetName_1           (void);
 extern void TC_osTimerStart_1             (void);
+extern void TC_osTimerStart_2             (void);
 extern void TC_osTimerStop_1              (void);
 extern void TC_osTimerStop_2              (void);
 extern void TC_osTimerIsRunning_1         (void);

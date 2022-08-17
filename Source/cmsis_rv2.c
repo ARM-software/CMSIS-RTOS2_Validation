@@ -138,6 +138,7 @@ static const TEST_CASE TC_List[] = {
   TCD ( TC_osTimerNew_3,                  TC_OSTIMERNEW_3_EN                  ),
   TCD ( TC_osTimerGetName_1,              TC_OSTIMERGETNAME_1_EN              ),
   TCD ( TC_osTimerStart_1,                TC_OSTIMERSTART_1_EN                ),
+  TCD ( TC_osTimerStart_2,                TC_OSTIMERSTART_2_EN                ),
   TCD ( TC_osTimerStop_1,                 TC_OSTIMERSTOP_1_EN                 ),
   TCD ( TC_osTimerStop_2,                 TC_OSTIMERSTOP_2_EN                 ),
   TCD ( TC_osTimerIsRunning_1,            TC_OSTIMERISRUNNING_1_EN            ),
