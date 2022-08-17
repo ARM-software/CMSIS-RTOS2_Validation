@@ -15,16 +15,19 @@ upload:
   - Source/**/*
 steps:
   - run: |
-      wget https://github.com/Open-CMSIS-Pack/devtools/releases/download/tools%2Ftoolbox%2F0.10.0/cmsis-toolbox.sh
+      wget https://github.com/Open-CMSIS-Pack/devtools/releases/download/tools%2Ftoolbox%2F0.10.2/cmsis-toolbox.sh
       chmod +x cmsis-toolbox.sh
       sudo ./cmsis-toolbox.sh <<EOI
-      /opt/cbuild
+      /opt/ctools
       $CMSIS_PACK_ROOT
       $(dirname $(which armclang 2>/dev/null))
       $(dirname $(which armcc 2>/dev/null))
       $(dirname $(which arm-none-eabi-gcc 2>/dev/null))
       
       EOI
+      echo "cpackget : $(which cpackget)"
+      echo "csolution: $(which csolution)"
+      echo "cbuild   : $(which cbuild)"
   - run: |     
       cd Project
       pip install -r requirements.txt 2>&1 || exit 1
