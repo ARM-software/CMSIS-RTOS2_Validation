@@ -1104,6 +1104,7 @@ void TC_MsgQWait (void) {
 /*-----------------------------------------------------------------------------
  * TC_MsgQWait: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_MSGQWAIT_EN)
 void Th_MsgQWait (void *arg) {
   uint32_t *p = (uint32_t *)arg;
   osStatus_t stat;
@@ -1128,6 +1129,7 @@ void Th_MsgQWait (void *arg) {
     }
   }
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -1203,6 +1205,7 @@ void TC_MsgQCheckTimeout (void) {
 /*-----------------------------------------------------------------------------
  * TC_MsgQCheckTimeout: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_MSGQCHECKTIMEOUT_EN)
 void Th_MsgQWakeup (void *arg) {
   uint32_t msg;
 
@@ -1216,7 +1219,7 @@ void Th_MsgQWakeup (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
-
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
