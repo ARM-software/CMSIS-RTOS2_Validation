@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 
+#include <stdbool.h>
 #include <string.h>
 #include "cmsis_rv2.h"
 
