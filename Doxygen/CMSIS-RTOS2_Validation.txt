@@ -54,7 +54,7 @@ Validation project can be configured in \c RV2_Config.h header file. It can be o
 \page test_results Reading Test Results
 
 The CMSIS-RTOS2 Validation framework outputs the test results as plain text or as an XML formatted report. Alternatively, it
-is possible to examine the results in the \b test_report buffer structure which is accessible through the \b Watch window.
+is possible to examine the results in the \b TestReport buffer structure which is accessible through the \b Watch window.
 
 In case of warnings or a test fail, the name of the test case source file is printed and the line of the failed test is
 reported between brackets (). The source files can be found under the <b>CMSIS RTOS2 Validation</b> group in the Project

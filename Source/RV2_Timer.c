@@ -357,7 +357,7 @@ void Irq_osTimerStart_1 (void) {
   - Call osTimerStart from one-shot timer callback to re-start the timer
 */
 void TC_osTimerStart_2 (void) {
-#if (TC_OSTIMERSTART_1_EN)
+#if (TC_OSTIMERSTART_2_EN)
   osTimerId_t id;
 
   Tim_Var_Os  = 0U;
@@ -394,6 +394,7 @@ void TC_osTimerStart_2 (void) {
 /*-----------------------------------------------------------------------------
  * TC_osTimerStart_2: Timer callback
  *----------------------------------------------------------------------------*/
+#if (TC_OSTIMERSTART_2_EN)
 void TimCb_osTimerStart_2  (void *arg) {
   osTimerId_t id = *(osTimerId_t *)arg;
 
@@ -401,6 +402,7 @@ void TimCb_osTimerStart_2  (void *arg) {
 
   Cb_osStatus = osTimerStart (id, 4U);
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
