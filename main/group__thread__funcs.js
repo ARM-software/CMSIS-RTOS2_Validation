@@ -37,12 +37,5 @@ var group__thread__funcs =
     [ "TC_ThreadReturn", "group__thread__funcs.html#ga5263897b6344825578856c85b5381bbb", null ],
     [ "TC_ThreadSuspendResume", "group__thread__funcs.html#ga16785aea5880c9b89b43e22a824047bc", null ],
     [ "TC_ThreadTerminate", "group__thread__funcs.html#gad48701cc8ac58fa80e5522a92b70f693", null ],
-    [ "TC_ThreadYield", "group__thread__funcs.html#ga7a1e4d7ebbb0c9ce6a767e77df989c49", null ],
-    [ "Th_osThreadGetState_2", "group__thread__funcs.html#ga5a4a51e05d4959edecb6a01b480da5e1", null ],
-    [ "Th_osThreadGetState_3", "group__thread__funcs.html#ga105222eef443910ff5c6c87cc1abffd4", null ],
-    [ "Th_SuspendResume", "group__thread__funcs.html#ga09aa32ab7f2c882b17a7a9fb34bb8f89", null ],
-    [ "Th_ThreadMultiInstance", "group__thread__funcs.html#gae6de85a8564b815d4c459e734f9380c4", null ],
-    [ "Th_ThreadPriorityExec", "group__thread__funcs.html#ga4f3e4af1f1b3716547e3140330397280", null ],
-    [ "Th_ThreadReturn", "group__thread__funcs.html#gaded112c11e21618ecb5758234a7cd551", null ],
-    [ "Th_YieldTest", "group__thread__funcs.html#ga60e3e77af76a5b4fd88a994b4cae6216", null ]
+    [ "TC_ThreadYield", "group__thread__funcs.html#ga7a1e4d7ebbb0c9ce6a767e77df989c49", null ]
 ];

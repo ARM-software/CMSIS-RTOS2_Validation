@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev6</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev25</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -120,8 +120,11 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaaf8b39ac72772caafc87745ad5296c97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: TC_osTimerGetName_1.  <a href="group__timer__func.html#gaaf8b39ac72772caafc87745ad5296c97">More...</a><br /></td></tr>
 <tr class="separator:gaaf8b39ac72772caafc87745ad5296c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafbf0f85033d147134bc20b76a66d5d29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timer__func.html#gafbf0f85033d147134bc20b76a66d5d29">TC_osTimerStart_1</a> (void)</td></tr>
-<tr class="memdesc:gafbf0f85033d147134bc20b76a66d5d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: osTimerStart_1.  <a href="group__timer__func.html#gafbf0f85033d147134bc20b76a66d5d29">More...</a><br /></td></tr>
+<tr class="memdesc:gafbf0f85033d147134bc20b76a66d5d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: TC_osTimerStart_1.  <a href="group__timer__func.html#gafbf0f85033d147134bc20b76a66d5d29">More...</a><br /></td></tr>
 <tr class="separator:gafbf0f85033d147134bc20b76a66d5d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74427142246d40df2fa9c3e59791eaff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timer__func.html#ga74427142246d40df2fa9c3e59791eaff">TC_osTimerStart_2</a> (void)</td></tr>
+<tr class="memdesc:ga74427142246d40df2fa9c3e59791eaff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: TC_osTimerStart_2.  <a href="group__timer__func.html#ga74427142246d40df2fa9c3e59791eaff">More...</a><br /></td></tr>
+<tr class="separator:ga74427142246d40df2fa9c3e59791eaff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga95614955743181f671f130d8b2082380"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timer__func.html#ga95614955743181f671f130d8b2082380">TC_osTimerStop_1</a> (void)</td></tr>
 <tr class="memdesc:ga95614955743181f671f130d8b2082380"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test case: TC_osTimerStop_1.  <a href="group__timer__func.html#ga95614955743181f671f130d8b2082380">More...</a><br /></td></tr>
 <tr class="separator:ga95614955743181f671f130d8b2082380"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -316,6 +319,27 @@ Functions</h2></td></tr>
 <li>Call osTimerStart from ISR</li>
 <li>Call osTimerStart with invalid ticks value</li>
 <li>Call osTimerStart with null object </li>
+</ul>
+
+</div>
+</div>
+<a id="ga74427142246d40df2fa9c3e59791eaff" name="ga74427142246d40df2fa9c3e59791eaff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga74427142246d40df2fa9c3e59791eaff">&#9670;&nbsp;</a></span>TC_osTimerStart_2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TC_osTimerStart_2 </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<ul>
+<li>Call osTimerStart from one-shot timer callback to re-start the timer </li>
 </ul>
 
 </div>

@@ -17,7 +17,5 @@ var group__msgqueue__funcs =
     [ "TC_osMessageQueueNew_3", "group__msgqueue__funcs.html#ga69c07e89c51b98c5acb8ed5cf4edc56a", null ],
     [ "TC_osMessageQueuePut_1", "group__msgqueue__funcs.html#gac99982e998a9f85cec83c23dc7e0fbc0", null ],
     [ "TC_osMessageQueuePut_2", "group__msgqueue__funcs.html#gac187dbd7843c75ed6e5dffd5b23903e0", null ],
-    [ "TC_osMessageQueueReset_1", "group__msgqueue__funcs.html#ga281b6e3bf98cce9955945efda03488eb", null ],
-    [ "Th_MsgQWait", "group__msgqueue__funcs.html#ga579e6a55b17676f67829757c829f2a15", null ],
-    [ "Th_MsgQWakeup", "group__msgqueue__funcs.html#ga5967515dc889f4f1cd127ff0a9a1cac4", null ]
+    [ "TC_osMessageQueueReset_1", "group__msgqueue__funcs.html#ga281b6e3bf98cce9955945efda03488eb", null ]
 ];
