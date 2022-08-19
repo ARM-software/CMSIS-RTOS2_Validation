@@ -19,9 +19,10 @@
 #ifndef TF_MAIN_H__
 #define TF_MAIN_H__
 
-#include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 #include "tf_assert.h"
+#include "tf_report.h"
 
 /*-----------------------------------------------------------------------------
  * Test framework global definitions
@@ -45,7 +46,7 @@ typedef struct __TestSuite {
   const char *ReportTitle;            /* Title or name of module under test   */
   void (*Init)(void);                 /* Test suite init callback function    */
   void (*Uninit)(void);               /* Test suite uninit callback function  */
-  
+
   uint32_t TCBaseNum;                 /* Base number for test case numbering  */
   const TEST_CASE *TC;                /* Array of test cases                  */
   uint32_t NumOfTC;                   /* Number of test cases (sz of TC array)*/
@@ -54,6 +55,9 @@ typedef struct __TestSuite {
 
 /* Defined in user test module                                                */
 extern void tf_main (TEST_SUITE *ts);
+
+/* Test Report: statistic, debug information in RAM                           */
+extern TEST_REPORT  TestReport;
 
 /**
   ASSERT_TRUE:

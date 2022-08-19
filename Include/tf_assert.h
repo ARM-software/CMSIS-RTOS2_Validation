@@ -22,6 +22,6 @@
 #include <stdint.h>
 
 /* Assertions */
-uint32_t __assert_true (const char *fn, uint32_t ln, uint32_t cond);
+extern uint32_t __assert_true (const char *fn, uint32_t ln, uint32_t cond);
 
 #endif /* TF_ASSERT_H__ */

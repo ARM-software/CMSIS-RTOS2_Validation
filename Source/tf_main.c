@@ -54,22 +54,22 @@ void tf_main (TEST_SUITE *ts) {
     ts->Init();
   }
 
-  ritf.Init ();                           /* Init test report                 */
-  ritf.Open (ts->ReportTitle,             /* Write test report title          */
-             ts->Date,                    /* Write compilation date           */
-             ts->Time,                    /* Write compilation time           */
-             ts->FileName);               /* Write module file name           */
+  TReport_Init ();                        /* Init test report                 */
+  TReport_Open (ts->ReportTitle,          /* Write test report title          */
+                ts->Date,                 /* Write compilation date           */
+                ts->Time,                 /* Write compilation time           */
+                ts->FileName);            /* Write module file name           */
 
   /* Execute all test cases */
   for (tc = 0; tc < ts->NumOfTC; tc++) {
     no = ts->TCBaseNum+tc;                /* Test case number                 */
     fn = ts->TC[tc].TFName;               /* Test function name string        */
-    ritf.Open_TC (no, fn);                /* Open test case #(Base + TC)      */
+    TReport_TestOpen (no, fn);            /* Open test case                   */
     if (ts->TC[tc].en) 
       ts->TC[tc].TestFunc();              /* Execute test case if enabled     */
-    ritf.Close_TC ();                     /* Close test case                  */
+    TReport_TestClose ();                 /* Close test case                  */
   }
-  ritf.Close ();                          /* Close test report                */
+  TReport_Close ();                       /* Close test report                */
 
   if (ts->Uninit != NULL) {               /* Uninit test suite                */
     ts->Uninit();
