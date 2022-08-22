@@ -45,8 +45,8 @@ jobs:
         python-version: '3.10'
 
     - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
           role-to-assume: arn:aws:iam::720528183931:role/Proj-vht-assume-role
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
 
