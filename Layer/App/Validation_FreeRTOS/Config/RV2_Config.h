@@ -134,9 +134,9 @@
 #define TC_OSTHREADNEW_7_EN               1
 #define TC_OSTHREADGETNAME_1_EN           1
 #define TC_OSTHREADGETID_1_EN             1
-#define TC_OSTHREADGGETSTATE_1_EN         1
-#define TC_OSTHREADGGETSTATE_2_EN         1
-#define TC_OSTHREADGGETSTATE_3_EN         0
+#define TC_OSTHREADGETSTATE_1_EN          1
+#define TC_OSTHREADGETSTATE_2_EN          1
+#define TC_OSTHREADGETSTATE_3_EN          0
 #define TC_OSTHREADSETPRIORITY_1_EN       1
 #define TC_OSTHREADSETPRIORITY_2_EN       1
 #define TC_OSTHREADGETPRIORITY_1_EN       1
