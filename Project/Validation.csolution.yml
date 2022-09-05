@@ -169,3 +169,9 @@ solution:
 
   projects:
     - project: ./Validation.cproject.yml
+
+  output-dirs:
+    cprjdir: ./$Project$.$BuildType$+$TargetType$
+    rtedir:  ./$Project$.$BuildType$+$TargetType$/RTE
+    intdir:  ./$Project$.$BuildType$+$TargetType$/$Project$.$BuildType$+$TargetType$_IntDir
+    outdir:  ./$Project$.$BuildType$+$TargetType$/$Project$.$BuildType$+$TargetType$_OutDir

@@ -72,7 +72,7 @@ jobs:
       if: always()
 
     - name: Publish test results
-      uses: mikepenz/action-junit-report@v2
+      uses: mikepenz/action-junit-report@v3
       with:
         check_name: "Test results"
         report_paths: Project/RTOS2_Validation-*.junit
