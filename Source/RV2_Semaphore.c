@@ -65,6 +65,7 @@ void Th_TestSemaphore (void *arg) {
 /*-----------------------------------------------------------------------------
  *  Th_SemaphoreWait: Semaphore wait thread
  *----------------------------------------------------------------------------*/
+#if (TC_SEMAPHOREWAITTIMEOUT_EN)
 void Th_SemaphoreWait (void *arg) {
   uint32_t   ticks = *((uint32_t *)arg);
 
@@ -79,6 +80,7 @@ void Th_SemaphoreWait (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*-----------------------------------------------------------------------------
  *      Wakeup thread
