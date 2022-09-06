@@ -48,6 +48,7 @@ static void RecursiveMutexAcquire (uint32_t depth, uint32_t ctrl);
 /*-----------------------------------------------------------------------------
  * Mutex high prio acquiring thread
  *----------------------------------------------------------------------------*/
+#if (TC_MUTEXROBUST_EN) || (TC_MUTEXPRIOINHERIT_EN)
 void Th_MutexHighPrioAcq (void *arg) {
   uint32_t *cnt = (uint32_t *)arg;
   ASSERT_TRUE (osMutexAcquire (MutexId, osWaitForever) == osOK);
@@ -55,6 +56,7 @@ void Th_MutexHighPrioAcq (void *arg) {
   /* This call should never return */
   osThreadFlagsWait (1, 0, osWaitForever);
 }
+#endif
 
 /*-----------------------------------------------------------------------------
  * Recursive mutex acquisition
@@ -115,6 +117,7 @@ void Th_MutexWakeup (void __attribute__((unused)) *arg)
 /*-----------------------------------------------------------------------------
  * Low priority job used for priority inversion test
  *----------------------------------------------------------------------------*/
+#if (TC_MUTEXPRIORITYINVERSION_EN)
 void Th_LowPrioJob (void *arg) {
   osThreadId_t *ctrl_id = (osThreadId_t *)arg;
   osStatus_t stat;
@@ -144,10 +147,12 @@ void Th_LowPrioJob (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*-----------------------------------------------------------------------------
  * Medium priority job used for priority inversion test
  *----------------------------------------------------------------------------*/
+#if (TC_MUTEXPRIORITYINVERSION_EN)
 void Th_MediumPrioJob (void *arg) {
   osThreadId_t *ctrl_id = (osThreadId_t *)arg;
   uint32_t i;
@@ -166,10 +171,12 @@ void Th_MediumPrioJob (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*-----------------------------------------------------------------------------
  * High priority job used for priority inversion test
  *----------------------------------------------------------------------------*/
+#if (TC_MUTEXPRIORITYINVERSION_EN)
 void Th_HighPrioJob (void *arg) {
   osThreadId_t *ctrl_id = (osThreadId_t *)arg;
   osStatus_t stat;
@@ -199,10 +206,12 @@ void Th_HighPrioJob (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*-----------------------------------------------------------------------------
  * Low priority thread which acquires a mutex object
  *----------------------------------------------------------------------------*/
+#if (TC_MUTEXOWNERSHIP_EN)
 void Th_MutexAcqLow  (void __attribute__((unused)) *arg) {
   ASSERT_TRUE (osMutexAcquire (MutexId, 0) == osOK);
   osThreadFlagsWait (1, 0, 100);
@@ -210,15 +219,18 @@ void Th_MutexAcqLow  (void __attribute__((unused)) *arg) {
   /* This call should never return */
   osThreadFlagsWait (1, 0, osWaitForever);
 }
+#endif
 
 /*-----------------------------------------------------------------------------
  * High priority thread which releases a mutex object
  *----------------------------------------------------------------------------*/
+#if (TC_MUTEXOWNERSHIP_EN)
 void Th_MutexRelHigh (void __attribute__((unused)) *arg) {
   ASSERT_TRUE (osMutexRelease (MutexId) == osErrorResource);
   /* This call should never return */
   osThreadFlagsWait (1, 0, osWaitForever);
 }
+#endif
 
 /*-----------------------------------------------------------------------------
  *      Test cases

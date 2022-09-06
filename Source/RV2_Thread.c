@@ -539,7 +539,7 @@ void Irq_osThreadGetId_1 (void) {
   - Call osThreadGetState with null object
 */
 void TC_osThreadGetState_1 (void) {
-#if (TC_OSTHREADGGETSTATE_1_EN)
+#if (TC_OSTHREADGETSTATE_1_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityNormal, 0U, 0U};
   osThreadId_t id;
   uint32_t cnt = 0;
@@ -588,7 +588,7 @@ void TC_osThreadGetState_1 (void) {
 /*-----------------------------------------------------------------------------
  * TC_osThreadGetState_1: ISR handler
  *----------------------------------------------------------------------------*/
-#if (TC_OSTHREADGGETSTATE_1_EN)
+#if (TC_OSTHREADGETSTATE_1_EN)
 void Irq_osThreadGetState_1 (void) {
   Isr_osThreadState = osThreadGetState(ThreadId);
 }
@@ -601,7 +601,7 @@ void Irq_osThreadGetState_1 (void) {
   - Call osThreadGetState to retrieve the state of a blocked thread
 */
 void TC_osThreadGetState_2 (void) {
-#if (TC_OSTHREADGGETSTATE_2_EN)
+#if (TC_OSTHREADGETSTATE_2_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityHigh, 0U, 0U};
   osThreadId_t id;
 
@@ -625,7 +625,7 @@ void TC_osThreadGetState_2 (void) {
 /*-----------------------------------------------------------------------------
  * TC_osThreadGetState_2: Helper thread
  *----------------------------------------------------------------------------*/
-#if (TC_OSTHREADGGETSTATE_2_EN)
+#if (TC_OSTHREADGETSTATE_2_EN)
 void Th_osThreadGetState_2 (void *arg) {
   (void)arg;
 
@@ -642,7 +642,7 @@ void Th_osThreadGetState_2 (void *arg) {
   - Call osThreadGetState to retrieve the state of a terminated joinable thread
 */
 void TC_osThreadGetState_3 (void) {
-#if (TC_OSTHREADGGETSTATE_3_EN)
+#if (TC_OSTHREADGETSTATE_3_EN)
   osThreadAttr_t attr = { NULL, 0U, NULL, 0U, NULL, 0U, osPriorityBelowNormal, 0U, 0U };
   osThreadId_t id;
 
@@ -666,7 +666,7 @@ void TC_osThreadGetState_3 (void) {
 /*-----------------------------------------------------------------------------
  * TC_osThreadGetState_3: Helper thread
  *----------------------------------------------------------------------------*/
-#if (TC_OSTHREADGGETSTATE_3_EN)
+#if (TC_OSTHREADGETSTATE_3_EN)
 void Th_osThreadGetState_3 (void *arg) {
   (void)arg;
 
