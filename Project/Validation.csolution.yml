@@ -5,10 +5,11 @@ solution:
   packs:
     - pack: ARM::CMSIS
     - pack: ARM::CMSIS-FreeRTOS
+    - pack: ARM::DMA350@1.0.0
     - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
     - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.0
     - pack: ARM::V2M_MPS3_SSE_300_BSP@1.3.0
-
+    - pack: ARM::V2M_MPS3_SSE_310_BSP@1.2.0
   target-types:
     #CM0plus
     - type: CM0plus
@@ -125,6 +126,23 @@ solution:
         - for-compiler: AC6
           C: [-mfloat-abi=hard, -mcmse]
           ASM: [-mfloat-abi=hard, -mcmse]
+    #CM85
+    - type: CM85
+      device: SSE-310-MPS3_FVP
+      define:
+        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_REQ_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_NUM_B: 1
+      misc:
+        - for-compiler: AC6
+          C: [-mfloat-abi=hard, -mcmse]
+          ASM: [-mfloat-abi=hard, -mcmse]
+
+        - for-compiler: GCC
+          C: [-mfloat-abi=hard, -mfpu=auto]
+          ASM: [-mfloat-abi=hard, -mfpu=auto]
+          Link: [-mfloat-abi=hard]
 
   build-types:
     - type: RTX5

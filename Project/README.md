@@ -14,8 +14,15 @@ Independent project can be generated for specific RTOS, DEVICE and COMPILER. Pos
 |          |  CM23    |          |
 |          |  CM33_FP |          |
 |          |  CM55    |          |
+|          |  CM85    |          |
 
 Input file for cbuild is Validation.csolution.yml
+
+## Unsupported contexts
+The below table lists contexts that are currently not available:
+| Context  | Toolchain |  Reason                                      |
+|----------|-----------|----------------------------------------------|
+| +CM55    |    GCC    |  Device:Startup component has no GCC support |
 
 ## Prerequisites
 
@@ -34,9 +41,11 @@ $ pip install -r requirements.txt
 
 Required CMSIS Packs:
 - ARM.CMSIS
+- ARM.DMA350.1.0.0
 - Keil.V2M-MPS2_CMx_BSP.1.8.0
 - Keil.V2M-MPS2_IOTKit_BSP.1.5.0
 - ARM.V2M_MPS3_SSE_300_BSP.1.3.0
+- ARM.V2M_MPS3_SSE_310_BSP.1.2.0
 - ARM.CMSIS-FreeRTOS
 
 CMSIS packs can be installed by executing:
@@ -89,7 +98,7 @@ Please see a table below for a possible {VHT_MODEL} variable value when a projec
 | VHT_MPS2_Cortex-M23       | CM23    |
 | VHT_MPS2_Cortex-M33       | CM33_FP |
 | VHT_MPS3_Corstone_SEE-300 | CM55    |
-
+| VHT_Corstone_SSE-310      | CM85    |
 
 ## Debug the Project using Keil MDK-Professional:
 All projects can be opened and debugged using Keil MDK-Professional no matter whether the project was build using Python script or manually with cbuild.
