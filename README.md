@@ -38,6 +38,7 @@ Currently, the following tests are executed in the [CMSIS_RV2](./.github/workflo
 | RTX5     |  IOTKit_CM23_VHT    | AC6, GCC |
 | RTX5     |  IOTKit_CM33_FP_VHT | AC6, GCC |
 | RTX5     |  SSE-300-MPS3       | AC6      |
+| RTX5     |  SEE-310-MPS3       | AC6, GCC |
 
 ## License
 

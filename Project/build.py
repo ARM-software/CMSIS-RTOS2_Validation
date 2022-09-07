@@ -25,6 +25,7 @@ class DeviceAxis(Enum):
     CM23 = ('IOTKit_CM23_VHT', 'CM23')
     CM33_FP = ('IOTKit_CM33_FP_VHT', 'CM33_FP')
     CM55 = ('SSE-300-MPS3', 'CM55', 'SSE300')
+    CM85 = ('SSE-310-MPS3', 'CM85', 'SSE310')
 
 
 @matrix_axis("rtos", "r", "RTOS(es) to be considered.")
@@ -64,6 +65,7 @@ MODEL_EXECUTABLE = {
     DeviceAxis.CM23: ("VHT_MPS2_Cortex-M23", []),
     DeviceAxis.CM33_FP: ("VHT_MPS2_Cortex-M33", []),
     DeviceAxis.CM55: ("VHT_MPS3_Corstone_SSE-300", []),
+    DeviceAxis.CM85: ("VHT_Corstone_SSE-310", []),
 }
 
 def config_suffix(config, timestamp=True):
@@ -164,8 +166,15 @@ def model_exec(config):
 
 
 @matrix_filter
-def filter_cm55_gcc(config):
-    return config.compiler == CompilerAxis.GCC and config.device == DeviceAxis.CM55
+def filter_unsupported(config):
+    """Remove unsupported configurations."""
+    if   config.device == DeviceAxis.CM55 and config.compiler == CompilerAxis.GCC:
+        unsupported = True
+    elif config.device == DeviceAxis.CM85 and (config.compiler == CompilerAxis.GCC or config.rtos == RtosAxis.FREERTOS):
+        unsupported = True
+    else:
+        unsupported = False
+    return unsupported
 
 
 if __name__ == "__main__":

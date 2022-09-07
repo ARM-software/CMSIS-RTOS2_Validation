@@ -49,3 +49,7 @@ project:
     - layer: ../Layer/Target/CM55_VHT/Target.clayer.yml
       for-context:
         - +CM55
+    #Target: CM85
+    - layer: ../Layer/Target/CM85_VHT/Target.clayer.yml
+      for-context:
+        - +CM85

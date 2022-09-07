@@ -38,6 +38,9 @@ steps:
       # Activate vcpkg environment (install cmsis-toolbox and compilers)
       vcpkg activate --project vcpkg-configuration.json
 
+      # Register tools license
+      export ARM_TOOL_VARIANT=ult
+
       # Check environment variables and paths
       printenv
 
