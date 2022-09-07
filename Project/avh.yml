@@ -2,7 +2,7 @@ name: "RTOS2 Validation"
 workdir: ../
 backend:
   aws:
-    ami-version: ~=1.1
+    ami-version: ~=1.3
     instance-type: t2.micro
 upload:
   - README.md
@@ -14,23 +14,12 @@ upload:
   - -:Project/Validation.*/**/*
   - Source/**/*
 steps:
-  - run: |
-      wget https://github.com/Open-CMSIS-Pack/devtools/releases/download/tools%2Ftoolbox%2F0.10.0/cmsis-toolbox.sh
-      chmod +x cmsis-toolbox.sh
-      sudo ./cmsis-toolbox.sh <<EOI
-      /opt/cbuild
-      $CMSIS_PACK_ROOT
-      $(dirname $(which armclang 2>/dev/null))
-      $(dirname $(which armcc 2>/dev/null))
-      $(dirname $(which arm-none-eabi-gcc 2>/dev/null))
-      
-      EOI
   - run: |     
       cd Project
       pip install -r requirements.txt 2>&1 || exit 1
       cpackget index -f https://www.keil.com/pack/index.pidx 2>&1
       cpackget pack add -a -f cpacklist.txt 2>&1
-      csolution convert -s Validation.csolution.yml -o . 2>&1 || exit 1
+      csolution convert -s Validation.csolution.yml 2>&1 || exit 1
       python build.py --verbose build run 2>&1 || echo "Something failed!"
 download:
   - Project/RTOS2_Validation-*.zip

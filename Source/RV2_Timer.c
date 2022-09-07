@@ -25,10 +25,13 @@
 #define MAX_TIMER_NUM  64
 
 /* Timer callback prototypes */
-void TimCb_Oneshot  (void *arg);
-void TimCb_Periodic (void *arg);
-void TimCb_Running  (void *arg);
-void TimCb_Dummy    (void *arg);
+void TimCb_Oneshot        (void *arg);
+void TimCb_Periodic       (void *arg);
+void TimCb_Running        (void *arg);
+void TimCb_Dummy          (void *arg);
+void TimCb_osTimerStart_2 (void *arg);
+
+static volatile osStatus_t Cb_osStatus;
 
 static volatile uint32_t Tim_Var;
 static volatile uint32_t Tim_Var_Os;
@@ -344,6 +347,60 @@ void TC_osTimerStart_1 (void) {
 #if (TC_OSTIMERSTART_1_EN)
 void Irq_osTimerStart_1 (void) {
   Isr_osStatus = osTimerStart (TimerId, 10U);
+}
+#endif
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\brief Test case: TC_osTimerStart_2
+\details
+  - Call osTimerStart from one-shot timer callback to re-start the timer
+*/
+void TC_osTimerStart_2 (void) {
+#if (TC_OSTIMERSTART_2_EN)
+  osTimerId_t id;
+
+  Tim_Var_Os  = 0U;
+  Cb_osStatus = osError;
+
+  /* Create a one-shot timer */
+  id = osTimerNew (&TimCb_osTimerStart_2, osTimerOnce, &id, NULL);
+  ASSERT_TRUE (id != NULL);
+
+  /* Call osTimerStart to start the one-shot timer */
+  ASSERT_TRUE (osTimerStart (id, 2U) == osOK);
+
+  /* Wait until timer expires */
+  osDelay(3U);
+
+  /* Check if the timer callback function was called */
+  ASSERT_TRUE (Tim_Var_Os == 1U);
+
+  /* Check if the timer was re-started */
+  ASSERT_TRUE (Cb_osStatus == osOK);
+  ASSERT_TRUE (osTimerIsRunning (id) == 1U);
+
+  /* Wait until timer expires */
+  osDelay(5U);
+
+  /* Check if the timer callback function was called */
+  ASSERT_TRUE (Tim_Var_Os == 2U);
+
+  /* Delete the timer */
+  osTimerDelete (id);
+#endif
+}
+
+/*-----------------------------------------------------------------------------
+ * TC_osTimerStart_2: Timer callback
+ *----------------------------------------------------------------------------*/
+#if (TC_OSTIMERSTART_2_EN)
+void TimCb_osTimerStart_2  (void *arg) {
+  osTimerId_t id = *(osTimerId_t *)arg;
+
+  Tim_Var_Os += 1U;
+
+  Cb_osStatus = osTimerStart (id, 4U);
 }
 #endif
 

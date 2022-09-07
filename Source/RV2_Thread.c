@@ -539,7 +539,7 @@ void Irq_osThreadGetId_1 (void) {
   - Call osThreadGetState with null object
 */
 void TC_osThreadGetState_1 (void) {
-#if (TC_OSTHREADGGETSTATE_1_EN)
+#if (TC_OSTHREADGETSTATE_1_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityNormal, 0U, 0U};
   osThreadId_t id;
   uint32_t cnt = 0;
@@ -588,7 +588,7 @@ void TC_osThreadGetState_1 (void) {
 /*-----------------------------------------------------------------------------
  * TC_osThreadGetState_1: ISR handler
  *----------------------------------------------------------------------------*/
-#if (TC_OSTHREADGGETSTATE_1_EN)
+#if (TC_OSTHREADGETSTATE_1_EN)
 void Irq_osThreadGetState_1 (void) {
   Isr_osThreadState = osThreadGetState(ThreadId);
 }
@@ -601,7 +601,7 @@ void Irq_osThreadGetState_1 (void) {
   - Call osThreadGetState to retrieve the state of a blocked thread
 */
 void TC_osThreadGetState_2 (void) {
-#if (TC_OSTHREADGGETSTATE_2_EN)
+#if (TC_OSTHREADGETSTATE_2_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityHigh, 0U, 0U};
   osThreadId_t id;
 
@@ -625,6 +625,7 @@ void TC_osThreadGetState_2 (void) {
 /*-----------------------------------------------------------------------------
  * TC_osThreadGetState_2: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_OSTHREADGETSTATE_2_EN)
 void Th_osThreadGetState_2 (void *arg) {
   (void)arg;
 
@@ -632,6 +633,7 @@ void Th_osThreadGetState_2 (void *arg) {
 
 //  osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -640,7 +642,7 @@ void Th_osThreadGetState_2 (void *arg) {
   - Call osThreadGetState to retrieve the state of a terminated joinable thread
 */
 void TC_osThreadGetState_3 (void) {
-#if (TC_OSTHREADGGETSTATE_3_EN)
+#if (TC_OSTHREADGETSTATE_3_EN)
   osThreadAttr_t attr = { NULL, 0U, NULL, 0U, NULL, 0U, osPriorityBelowNormal, 0U, 0U };
   osThreadId_t id;
 
@@ -664,11 +666,13 @@ void TC_osThreadGetState_3 (void) {
 /*-----------------------------------------------------------------------------
  * TC_osThreadGetState_3: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_OSTHREADGETSTATE_3_EN)
 void Th_osThreadGetState_3 (void *arg) {
   (void)arg;
 
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -1874,6 +1878,7 @@ void TC_ThreadMultiInstance (void) {
 /*-----------------------------------------------------------------------------
  * TC_ThreadMultiInstance: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_THREADMULTIINSTANCE_EN)
 void Th_ThreadMultiInstance (void *arg) {
   uint8_t *var = (uint8_t *)arg;
   (*var)++;
@@ -1882,6 +1887,7 @@ void Th_ThreadMultiInstance (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -2040,6 +2046,7 @@ void TC_ThreadPriorityExec (void) {
 /*-----------------------------------------------------------------------------
  * TC_ThreadPriorityExec: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_THREADPRIORITYEXEC_EN)
 void Th_ThreadPriorityExec (void *arg) {
   uint32_t i;
   for (i = 0; i < 7; i++) {
@@ -2052,6 +2059,7 @@ void Th_ThreadPriorityExec (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -2121,6 +2129,7 @@ void TC_ThreadYield (void) {
 /*-----------------------------------------------------------------------------
  * TC_ThreadYield: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_THREADYIELD_EN)
 void Th_YieldTest (void *arg) {
   YIELD_TEST *cfg = (YIELD_TEST *)arg;
 
@@ -2137,6 +2146,7 @@ void Th_YieldTest (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -2170,6 +2180,7 @@ void TC_ThreadSuspendResume (void) {
 /*-----------------------------------------------------------------------------
  * TC_ThreadSuspendResume: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_THREADSUSPENDRESUME_EN)
 void Th_SuspendResume (void *arg) {
   int32_t *cnt = (int32_t *)arg;
   osThreadId_t id = osThreadGetId();
@@ -2185,6 +2196,7 @@ void Th_SuspendResume (void *arg) {
   /* Explicitly terminate this thread */
   osThreadTerminate (osThreadGetId());
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -2213,11 +2225,13 @@ void TC_ThreadReturn (void) {
 /*-----------------------------------------------------------------------------
  * TC_ThreadReturn: Helper thread
  *----------------------------------------------------------------------------*/
+#if (TC_THREADRETURN_EN)
 void Th_ThreadReturn (void *arg) {
   (void)arg;
 
   return;
 }
+#endif
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**

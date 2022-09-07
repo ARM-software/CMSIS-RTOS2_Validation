@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 
+#include <stdbool.h>
 #include <string.h>
 #include "cmsis_rv2.h"
 
@@ -757,6 +758,7 @@ void Irq_osEventFlagsGetName_1 (void) {
 - Verify that all thread flags are cleared
 */
 void TC_EventFlagsInterThreads (void) {
+#if (TC_EVENTFLAGSINTERTHREADS_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityBelowNormal, 0U, 0U};
   osEventFlagsId_t id[2];
 
@@ -783,7 +785,7 @@ void TC_EventFlagsInterThreads (void) {
   ASSERT_TRUE (osEventFlagsDelete (id[0]) == osOK);
   ASSERT_TRUE (osEventFlagsDelete (id[1]) == osOK);
   ASSERT_TRUE (osEventFlagsDelete (EventFlagsId) == osOK);
-
+#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -798,6 +800,7 @@ void TC_EventFlagsInterThreads (void) {
 - Wait for various event flag masks from a signaling thread
 */
 void TC_EventFlagsWaitTimeout (void) {
+#if (TC_EVENTFLAGSWAITTIMEOUT_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityBelowNormal, 0U, 0U};
   osThreadId_t id;
   uint32_t   flags;
@@ -848,6 +851,7 @@ void TC_EventFlagsWaitTimeout (void) {
     /* Delete event flags object */
     ASSERT_TRUE (osEventFlagsDelete (EventFlagsId) == osOK);
   }
+#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -859,6 +863,7 @@ void TC_EventFlagsWaitTimeout (void) {
 - Try to terminate thread
 */
 void TC_EventFlagsDeleteWaiting (void) {
+#if (TC_EVENTFLAGSDELETEWAITING_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityAboveNormal, 0U, 0U};
   osThreadId_t id;
   osStatus_t stat;
@@ -878,6 +883,7 @@ void TC_EventFlagsDeleteWaiting (void) {
     stat = osThreadTerminate (id);
     ASSERT_TRUE((stat == osErrorParameter)||(stat == osErrorResource));
   }
+#endif
 }
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
 /**
@@ -891,6 +897,7 @@ void TC_EventFlagsDeleteWaiting (void) {
 - Check if the event flag is raised between the minimum and maximum thresholds
 */
 void TC_EventFlagsCheckTimeout (void) {
+#if (TC_EVENTFLAGSCHECKTIMEOUT_EN)
   osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityNormal, 0U, 0U};
   osThreadId_t id;
   uint32_t flags;
@@ -942,6 +949,7 @@ void TC_EventFlagsCheckTimeout (void) {
     /* Delete event flags object */
     ASSERT_TRUE (osEventFlagsDelete (EventFlagsId) == osOK);
   }
+#endif
 }
 
 /*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
@@ -951,6 +959,7 @@ void TC_EventFlagsCheckTimeout (void) {
 - Test event flags object allocation
 */
 void TC_EventFlagsAllocation (void) {
+#if (TC_EVENTFLAGSALLOCATION_EN)
   osEventFlagsId_t id[MAX_EVFLAGS_NUM];
   uint32_t cnt = 0U;
   uint32_t max = 0U;
@@ -980,6 +989,7 @@ void TC_EventFlagsAllocation (void) {
   for (i = 0U; i < cnt; i++) {
     ASSERT_TRUE(osEventFlagsDelete(id[i]) == osOK);
   }
+#endif
 }
 
 /**
