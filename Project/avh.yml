@@ -17,8 +17,8 @@ steps:
   - run: |     
       cd Project
       pip install -r requirements.txt 2>&1 || exit 1
-      cpackget index -f https://www.keil.com/pack/index.pidx 2>&1
-      cpackget pack add -a -f cpacklist.txt 2>&1
+      cpackget update-index 2>&1
+      cpackget add -a -f cpacklist.txt 2>&1
       csolution convert -s Validation.csolution.yml 2>&1 || exit 1
       python build.py --verbose build run 2>&1 || echo "Something failed!"
 download:
