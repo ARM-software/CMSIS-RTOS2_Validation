@@ -72,12 +72,12 @@ Above commands will convert all specified projects, build them and run each targ
 To convert validation suite for specific target use the following command in bash shell:
 
 ```Shell
-csolution convert -s Validation.csolution.yml -c Validation.{RTOS}_{COMPILER}+{DEVICE}
+$ csolution convert -s Validation.csolution.yml -c Validation.{RTOS}_{COMPILER}+{DEVICE}
 ```
 
 Example: convert Validation project for RTX5, compiled with AC6 for Cortex-M55
 ```Shell
-csolution convert -s Validation.csolution.yml -c Validation.RTX5_AC6+CM55
+$ csolution convert -s Validation.csolution.yml -c Validation.RTX5_AC6+CM55
 ```
 
 
@@ -85,7 +85,7 @@ csolution convert -s Validation.csolution.yml -c Validation.RTX5_AC6+CM55
 
 ### Build and Run using Python script:
 ```Shell
-python build.py build run -r {RTOS} -c {COMPILER} -d {DEVICE}
+$ python build.py build run -r {RTOS} -c {COMPILER} -d {DEVICE}
 ```
 
 ### Build and Run using Keil MDK:
