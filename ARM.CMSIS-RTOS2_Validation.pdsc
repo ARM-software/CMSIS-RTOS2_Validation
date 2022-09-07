@@ -20,7 +20,7 @@
   </keywords>
 
   <taxonomy>
-    <description Cclass="CMSIS RTOS2 Validation" doc="Documents/html/index.html">CMSIS-RTOS2 Validation Suite</description>
+    <description Cclass="CMSIS RTOS2 Validation" doc="Documentation/html/index.html">CMSIS-RTOS2 Validation Suite</description>
   </taxonomy>  
   
   <conditions>
