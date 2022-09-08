@@ -1,74 +1,92 @@
 #!/bin/bash
 # Version: 1.0
-# Date: 2022-03-08
+# Date: 2022-09-08
 # This bash script generates CMSIS-RTOS2 Validation Documentation:
 #
 # Pre-requisites:
 # - bash shell (for Windows: install git for Windows)
 # - doxygen 1.9.2
-
-DOXYGEN_VERSION="1.9.2"
+# - git
+# - gh cli
 
 set -o pipefail
 
-DIRNAME=$(dirname $(readlink -f $0))
+DIRNAME=$(dirname $(realpath $0))
 DOXYGEN=$(which doxygen)
+REQ_DXY_VERSION="1.9.2"
+REQUIRED_GEN_PACK_LIB="0.2.2"
 
-if [[ ! -f "${DOXYGEN}" ]]; then
-    echo "Doxygen not found!" >&2
-    echo "Did you miss to add it to PATH?"
-    exit 1
-else
-    version=$("${DOXYGEN}" --version | sed -r -e 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-    echo "DOXYGEN is ${DOXYGEN} at version ${version}"
-    if [[ "${version}" != "${DOXYGEN_VERSION}" ]]; then
-        echo " >> Version is different from ${DOXYGEN_VERSION}!" >&2
-    fi
-fi
+############ gen-pack library ###########
 
-function pack_version()
-{
-  local version=$(grep -Pzo "(?s)<releases>\s+<release version=\"([^\"]+)\"" "$1" | tr -d '\0' | tail -n 1 | sed -r -e 's/.*version="([^"]+)"/\1/g')
-  echo "PDSC version: '$version'" >&2
-  echo $version
+function install_lib() {
+  local URL="https://github.com/Open-CMSIS-Pack/gen-pack/archive/refs/tags/v$1.tar.gz"
+  echo "Downloading gen_pack lib to '$2'"
+  mkdir -p "$2"
+  curl -L "${URL}" -s | tar -xzf - --strip-components 1 -C "$2" || exit 1
 }
 
-function git_describe()
-{
-  if git rev-parse --git-dir 2>&1 >/dev/null; then
-    local gitversion=$(git describe --tags --match $1* --abbrev=9 2>/dev/null || echo "$1-dirty-0-g$(git describe --tags --match $1* --always --abbrev=9 2>/dev/null)")
-    local version=$(echo $gitversion | sed -r -e 's/-([0-9]+)-(g[0-9a-f]{9})/\1+\2/')
-    if [[ $version != $1 ]] && [[ $version == $gitversion ]]; then
-        version+=0
-    fi
-    echo "Git version: '$version'" >&2
-    echo $version
+function load_lib() {
+  local GLOBAL_LIB="/usr/local/share/gen-pack/${REQUIRED_GEN_PACK_LIB}"
+  local USER_LIB="${HOME}/.local/share/gen-pack/${REQUIRED_GEN_PACK_LIB}"
+  if [[ ! -d "${GLOBAL_LIB}" && ! -d "${USER_LIB}" ]]; then
+    echo "Required gen-pack lib not found!" >&2
+    install_lib "${REQUIRED_GEN_PACK_LIB}" "${USER_LIB}"
+  fi 
+  
+  if [[ -d "${GLOBAL_LIB}" ]]; then
+    . "${GLOBAL_LIB}/gen-pack"
+  elif [[ -d "${USER_LIB}" ]]; then
+    . "${USER_LIB}/gen-pack"
   else
-    echo "No Git repository: '$1-nogit'" >&2
-    echo "$1-nogit"
+    echo "Required gen-pack lib is not installed!" >&2
+    exit 1
   fi
 }
 
-echo "Checking PDCS version against Git..."
+load_lib
+find_git
+find_ghcli
 
-pdsc_version=$(pack_version "${DIRNAME}/../ARM.CMSIS-RTOS2_Validation.pdsc")
-if [ -z $VERSION ]; then
-  VERSION_FULL=$(git_describe ${pdsc_version})
-  VERSION=${VERSION_FULL%+*}
+#########################################
+
+if [[ ! -f "${DOXYGEN}" ]]; then
+  echo "Doxygen not found!" >&2
+  echo "Did you miss to add it to PATH?"
+  exit 1
+else
+  version=$("${DOXYGEN}" --version | sed -E 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+  echo "DOXYGEN is ${DOXYGEN} at version ${version}"
+  if [[ "${version}" != "${REQ_DXY_VERSION}" ]]; then
+    echo " >> Version is different from ${REQ_DXY_VERSION} !" >&2
+  fi
 fi
- 
+
+if [ -z "$VERSION" ]; then
+  VERSION_FULL=$(git_describe)
+  VERSION=${VERSION_FULL%+*}
+else
+  VERSION_FULL=${VERSION}
+fi
+
 echo "Generating documentation ..."
- 
-pushd ${DIRNAME} > /dev/null
 
-rm -rf ${DIRNAME}/html
-sed -e "s/{projectNumber}/${VERSION}/" "${DIRNAME}/CMSIS_RV2.dxy.in" \
-  > "${DIRNAME}/CMSIS_RV2.dxy"
+pushd $DIRNAME > /dev/null
 
-echo "${DOXYGEN} ${DIRNAME}/CMSIS_RV2.dxy"
-"${DOXYGEN}" "${DIRNAME}/CMSIS_RV2.dxy"
+rm -rf ${DIRNAME}/../Documentation/html
+sed -e "s/{projectNumber}/${VERSION}/" "${DIRNAME}/Doxyfile.dxy.in" \
+  > "${DIRNAME}/Doxyfile.dxy"
 
-projectName=$(grep -E "PROJECT_NAME\s+=" "${DIRNAME}/CMSIS_RV2.dxy" | sed -r -e 's/[^"]*"([^"]+)"/\1/')
+git_changelog -f html > History.txt
+
+echo "${DOXYGEN} Doxyfile.dxy"
+"${DOXYGEN}" Doxyfile.dxy
+popd > /dev/null
+
+if [[ $2 != 0 ]]; then
+  cp -f "${DIRNAME}/_DoxyTemplates/search.css" "${DIRNAME}/../Documentation/html/search/"
+fi
+
+projectName=$(grep -E "PROJECT_NAME\s+=" "${DIRNAME}/Doxyfile.dxy" | sed -r -e 's/[^"]*"([^"]+)"/\1/')
 datetime=$(date -u +'%a %b %e %Y %H:%M:%S')
 year=$(date -u +'%Y')
 if [[ "${year}" != "2022" ]]; then 
@@ -77,9 +95,8 @@ fi
 sed -e "s/{datetime}/${datetime}/" "${DIRNAME}/_DoxyTemplates/footer.js.in" \
   | sed -e "s/{year}/${year}/" \
   | sed -e "s/{projectName}/${projectName}/" \
-  | sed -e "s/{projectNumber}/${VERSION_FULL}/" \
-  > "${DIRNAME}/html/footer.js"
-
-popd > /dev/null
+  | sed -e "s/{projectNumber}/${VERSION}/" \
+  | sed -e "s/{projectNumberFull}/${VERSION_FULL}/" \
+  > "${DIRNAME}/../Documentation/html/footer.js"
 
 exit 0
