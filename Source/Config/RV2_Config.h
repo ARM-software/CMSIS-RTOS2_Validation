@@ -199,19 +199,21 @@
 //     <q03>TC_osTimerNew_3
 //     <q04>TC_osTimerGetName_1
 //     <q05>TC_osTimerStart_1
-//     <q06>TC_osTimerStop_1
-//     <q07>TC_osTimerStop_2
-//     <q08>TC_osTimerIsRunning_1
-//     <q09>TC_osTimerDelete_1
-//     <q10>TC_TimerAllocation
-//     <q11>TC_TimerOneShot
-//     <q12>TC_TimerPeriodic
+//     <q06>TC_osTimerStart_2
+//     <q07>TC_osTimerStop_1
+//     <q08>TC_osTimerStop_2
+//     <q09>TC_osTimerIsRunning_1
+//     <q10>TC_osTimerDelete_1
+//     <q11>TC_TimerAllocation
+//     <q12>TC_TimerOneShot
+//     <q13>TC_TimerPeriodic
 #define TC_OSTIMER_EN                     1
 #define TC_OSTIMERNEW_1_EN                1
 #define TC_OSTIMERNEW_2_EN                1
 #define TC_OSTIMERNEW_3_EN                1
 #define TC_OSTIMERGETNAME_1_EN            1
 #define TC_OSTIMERSTART_1_EN              1
+#define TC_OSTIMERSTART_2_EN              1
 #define TC_OSTIMERSTOP_1_EN               1
 #define TC_OSTIMERSTOP_2_EN               1
 #define TC_OSTIMERISRUNNING_1_EN          1
