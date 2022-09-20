@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "CMSIS-RTOS2 Validation", "index.html", [
-    [ "Introduction", "index.html", null ],
+    [ "Introduction", "index.html", "index" ],
     [ "Configuration", "config.html", null ],
     [ "Reading Test Results", "test_results.html", null ],
     [ "Reference", "modules.html", "modules" ]
