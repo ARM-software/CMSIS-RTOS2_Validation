@@ -28,14 +28,7 @@ This manual contains the following chapters:
 This manual assumes that you are familiar with Keil MDK. Refer to
 <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
 
-<hr>
-
-Revision History
-----------------
-
-Version  | Description
-:--------|:------------------------------------------
-V1.0     | Initial release for CMSIS-RTOS2 API V1.00
+\subpage rev_hist
 
 */
 

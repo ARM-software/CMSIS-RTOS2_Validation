@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<package schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
+<package schemaVersion="1.7.7" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.7/schema/PACK.xsd">
   <vendor>ARM</vendor>
   <name>CMSIS-RTOS2_Validation</name>
   <description>CMSIS-RTOS2 Validation Test Suite</description>
   <url>http://www.keil.com/pack/</url>
   <license>LICENSE.txt</license>
-  
+
   <releases>
-    <release version="0.9.0">
-      Test suite initial version
+    <release version="0.0.0">
+      Active development ...
     </release>
   </releases>
 
@@ -20,9 +20,9 @@
   </keywords>
 
   <taxonomy>
-    <description Cclass="CMSIS RTOS2 Validation" doc="Documents/RV2/html/index.html">CMSIS-RTOS2 Validation Suite</description>
-  </taxonomy>  
-  
+    <description Cclass="CMSIS RTOS2 Validation" doc="Documentation/index.html">CMSIS-RTOS2 Validation Suite</description>
+  </taxonomy>
+
   <conditions>
     <condition id="CMSIS Core with RTOS2">
       <description>CMSIS Core with RTOS2</description>
@@ -35,8 +35,8 @@
       <require condition="CMSIS Core with RTOS2"/>
       <require Cclass="CMSIS RTOS2 Validation" Cgroup="Validation Framework"/>
     </condition>
-  
-  </conditions>  
+
+  </conditions>
 
   <components>
 
@@ -50,7 +50,7 @@
       </files>
     </component>
 
-    <component Cgroup="Thread" Cclass="CMSIS RTOS2 Validation" Cversion="1.0.0" condition="CMSIS RTOS2 Validation Framework">        
+    <component Cgroup="Thread" Cclass="CMSIS RTOS2 Validation" Cversion="1.0.0" condition="CMSIS RTOS2 Validation Framework">
       <description>Thread Management group tests</description>
       <RTE_Components_h>
         #define RTE_RV2_THREAD                      /* RTOS2 Validation - osThread tests enabled */
@@ -99,7 +99,7 @@
         <file category="source" name="Source/RV2_EventFlags.c"/>
       </files>
     </component>
-    
+
     <component Cgroup="Mutex" Cclass="CMSIS RTOS2 Validation" Cversion="1.0.0" condition="CMSIS RTOS2 Validation Framework">
       <description>Mutex Management group tests</description>
       <RTE_Components_h>
@@ -109,7 +109,7 @@
         <file category="source" name="Source/RV2_Mutex.c"/>
       </files>
     </component>
-    
+
     <component Cgroup="Semaphore" Cclass="CMSIS RTOS2 Validation" Cversion="1.0.0" condition="CMSIS RTOS2 Validation Framework">
       <description>Semaphores group tests</description>
       <RTE_Components_h>
@@ -119,7 +119,7 @@
         <file category="source" name="Source/RV2_Semaphore.c"/>
       </files>
     </component>
-    
+
     <component Cgroup="Memory Pool" Cclass="CMSIS RTOS2 Validation" Cversion="1.0.0" condition="CMSIS RTOS2 Validation Framework">
       <description>Memory Pool group tests</description>
       <RTE_Components_h>
@@ -129,7 +129,7 @@
         <file category="source" name="Source/RV2_MemoryPool.c"/>
       </files>
     </component>
-    
+
     <component Cgroup="Message Queue" Cclass="CMSIS RTOS2 Validation" Cversion="1.0.0" condition="CMSIS RTOS2 Validation Framework">
       <description>Message Queue group tests</description>
       <RTE_Components_h>
