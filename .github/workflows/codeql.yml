@@ -10,13 +10,20 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+
+    runs-on: arm-custom-runner-10
+
+    env:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/opt/armcompiler/bin:/opt/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin:/opt/VHT-1.1.2
+      ARMLMD_LICENSE_FILE: /opt/data.dat
+      ARM_TOOL_VARIANT: ult
+      LD_LIBRARY_PATH: /opt/VHT-1.1.2
+      CMSIS_PACK_ROOT: /tmp/.packs-${{ github.run_id }}
+
     permissions:
       actions: read
       contents: read
       security-events: write
-    env:
-      CMSIS_PACK_ROOT: /tmp/.packs-${{ github.run_id }}
 
     steps:
     - name: Checkout repository

@@ -17,12 +17,18 @@ on:
 
 jobs:
   ci_test:
-    runs-on: ubuntu-latest
+    runs-on: arm-custom-runner-10
+
+    env:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/opt/armcompiler/bin:/opt/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin:/opt/VHT-1.1.2
+      ARMLMD_LICENSE_FILE: /opt/data.dat
+      ARM_TOOL_VARIANT: ult
+      LD_LIBRARY_PATH: /opt/VHT-1.1.2
+      CMSIS_PACK_ROOT: /tmp/.packs-${{ github.run_id }}
+
     permissions:
       id-token: write
       contents: read
-    env:
-      CMSIS_PACK_ROOT: /tmp/.packs-${{ github.run_id }}
 
     steps:
     - name: Check out repository code
@@ -30,7 +36,7 @@ jobs:
 
     - name: Install build dependencies
       run: |
-        sudo apt install gcc-arm-none-eabi ninja-build cmake
+        sudo apt install ninja-build cmake
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v2
