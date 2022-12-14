@@ -28,6 +28,10 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v3
 
+    - name: Install build dependencies
+      run: |
+        sudo apt install gcc-arm-none-eabi ninja-build cmake
+
     - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
