@@ -37,7 +37,7 @@ class RtosAxis(Enum):
 class CompilerAxis(Enum):
     AC6 = ('AC6')
     GCC = ('GCC')
-    
+
     @property
     def image_ext(self):
         ext = {
@@ -72,11 +72,11 @@ def project_name(config):
 
 def output_dir(config):
     return f"{project_name(config)}_OutDir"
-    
+
 
 def vht_config(config):
     return f"../Layer/Target/{config.device[1]}_VHT_{config.compiler}/vht_config.txt"
-    
+
 
 @matrix_action
 def clean(config):
@@ -89,6 +89,7 @@ def build(config, results):
     """Build the selected configurations using CMSIS-Build."""
 
     logging.info("Compiling Tests...")
+    yield csolution("Validation.csolution.yml", project_name(config))
     yield cbuild(f"{project_name(config)}/{project_name(config)}.cprj")
 
     if not all(r.success for r in results):
@@ -127,7 +128,7 @@ def run(config, results):
 @matrix_command()
 def cbuild_clean(project):
     return ["cbuild", "-c", project]
-    
+
 
 @matrix_command()
 def unzip(archive):
@@ -137,6 +138,11 @@ def unzip(archive):
 @matrix_command()
 def cbuild(project):
     return ["cbuild", project]
+
+
+@matrix_command()
+def csolution(solution, context):
+    return ["csolution", "convert", "-s", solution, "-c", context]
 
 
 @matrix_command(test_report=ConsoleReport() |

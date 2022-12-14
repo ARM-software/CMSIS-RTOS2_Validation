@@ -4,21 +4,21 @@ solution:
   packs:
     - pack: ARM::CMSIS
     - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
-      for-type: 
+      for-type:
        - +CM0plus
        - +CM3
        - +CM4_FP
        - +CM7_DP
        - +CM7_SP
     - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.0
-      for-type: 
+      for-type:
        - +CM23
        - +CM33_FP
     - pack: ARM::V2M_MPS3_SSE_300_BSP@1.3.0
-      for-type: 
-       - +CM55    
+      for-type:
+       - +CM55
     - pack: ARM::CMSIS-FreeRTOS
-      for-type: 
+      for-type:
        - .FreeRTOS_AC6
        - .FreeRTOS_GCC
 
@@ -85,7 +85,7 @@ solution:
         - compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16]
           ASM: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16]
-        
+
         - compiler: GCC
           C: [-mfloat-abi=hard, -mfpu=auto]
           ASM: [-mfloat-abi=hard, -mfpu=auto]
@@ -142,7 +142,7 @@ solution:
     - type: RTX5_AC6
       compiler: AC6
       misc:
-        - compiler: AC6  
+        - compiler: AC6
           C: [-O1, -std=c99, -gdwarf-4, -ffunction-sections]
           Link: [--entry=Reset_Handler]
 
@@ -156,10 +156,10 @@ solution:
     - type: FreeRTOS_AC6
       compiler: AC6
       misc:
-        - compiler: AC6  
+        - compiler: AC6
           C: [-O1, -std=c99, -gdwarf-4, -ffunction-sections]
           Link: [--entry=Reset_Handler]
-          
+
     - type: FreeRTOS_GCC
       compiler: GCC
       misc:
@@ -172,6 +172,5 @@ solution:
 
   output-dirs:
     cprjdir: ./$Project$.$BuildType$+$TargetType$
-    rtedir:  ./$Project$.$BuildType$+$TargetType$/RTE
     intdir:  ./$Project$.$BuildType$+$TargetType$/$Project$.$BuildType$+$TargetType$_IntDir
     outdir:  ./$Project$.$BuildType$+$TargetType$/$Project$.$BuildType$+$TargetType$_OutDir
