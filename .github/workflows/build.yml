@@ -2,9 +2,9 @@ name: Build documentation and pack
 on:
   workflow_dispatch:
   push:
-    branches: [ armlab ]
+    branches: [ main ]
   pull_request:
-    branches: [ armlab ]
+    branches: [ main ]
   release:
     types: [published]
 jobs:
