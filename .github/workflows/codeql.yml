@@ -3,9 +3,9 @@ name: "CodeQL"
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ armlab ]
   pull_request:
-    branches: [ main ]
+    branches: [ armlab ]
 
 jobs:
   analyze:
@@ -75,7 +75,7 @@ jobs:
       working-directory: Project
       run: |
         cpackget add -a -f cpacklist.txt || exit 1
-        python build.py --verbose -c GCC -r RTX5 build || echo "Something failed!"
+        python build.py --verbose -c AC6 -r RTX5 -d CM3 build || echo "Something failed!"
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

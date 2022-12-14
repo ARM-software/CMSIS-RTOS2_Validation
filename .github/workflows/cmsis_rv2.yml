@@ -1,14 +1,7 @@
-# The repository needs to provide the following secrets
-# - AWS_DEFAULT_REGION          The data center region to be used.
-# - AWS_S3_BUCKET_NAME          The id of the S3 storage bucket to be used to data exchange.
-# - AWS_IAM_PROFILE             The IAM profile to be used.
-# - AWS_SECURITY_GROUP_ID       The id of the security group to add the EC2 instance to.
-# - AWS_SUBNET_ID               The id of the network subnet to connect the EC2 instance to.
-
 name: CMSIS-RTOS2 Validation running on Arm Virtual Hardware
 on:
   push:
-    branches: [ main ]
+    branches: [ armlab ]
     paths:
       - .github/workflows/cmsis_rv2.yml
       - Include/**/*
@@ -22,18 +15,14 @@ on:
       - Source/**/*
   workflow_dispatch:
 
-env:
-  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-  AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
-  AWS_IAM_PROFILE: ${{ secrets.AWS_IAM_PROFILE }}
-  AWS_SECURITY_GROUP_ID: ${{ secrets.AWS_SECURITY_GROUP_ID }}
-  AWS_SUBNET_ID: ${{ secrets.AWS_SUBNET_ID }}
 jobs:
   ci_test:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    env:
+      CMSIS_PACK_ROOT: /tmp/.packs-${{ github.run_id }}
 
     steps:
     - name: Check out repository code
@@ -44,21 +33,49 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+    - name: Cache pack folder
+      id: cache-packs
+      uses: actions/cache@v3
       with:
-          role-to-assume: arn:aws:iam::720528183931:role/Proj-vht-assume-role
-          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+        key: packs-${{ github.run_id }}
+        restore-keys: |
+          packs-
+        path: /tmp/.packs-${{ github.run_id }}
 
-    - name: Install AVH Client for Python
+    - name: Install CMSIS-Toolbox
       run: |
-        pip install git+https://github.com/ARM-software/avhclient.git@v0.1
+        wget https://github.com/Open-CMSIS-Pack/cmsis-toolbox/releases/download/1.3.0/cmsis-toolbox.sh
+        chmod +x cmsis-toolbox.sh
+        sudo ./cmsis-toolbox.sh <<EOI
+        /opt/ctools
+        $CMSIS_PACK_ROOT
 
-    - uses: ammaraskar/gcc-problem-matcher@master
+        $(dirname $(which armclang 2>/dev/null))
+        $(dirname $(which arm-none-eabi-gcc 2>/dev/null))
 
-    - name: Run tests
+        EOI
+        echo "/opt/ctools/bin" >> $GITHUB_PATH
+        echo "cpackget : $(which cpackget)"
+        echo "csolution: $(which csolution)"
+        echo "cbuild   : $(which cbuild)"
+
+    - name: Initialize packs folder
+      if: steps.cache-packs.outputs.cache-hit != 'true'
+      run: cpackget init https://www.keil.com/pack/index.pidx
+
+    - name: Update pack index
+      if: steps.cache-packs.outputs.cache-hit == 'true'
+      run: cpackget update-index
+
+    - name: Install build.py requirements
+      run: pip install -r requirements.txt
+      working-directory: Project
+
+    - name: Build and run projects
+      working-directory: Project
       run: |
-        avhclient -b aws execute --specfile Project/avh.yml
+        cpackget add -a -f cpacklist.txt || exit 1
+        python build.py --verbose build run || echo "Something failed!"
 
     - name: Archive results
       uses: actions/upload-artifact@v2
@@ -71,9 +88,9 @@ jobs:
         if-no-files-found: error
       if: always()
 
-    - name: Publish test results
-      uses: mikepenz/action-junit-report@v3
-      with:
-        check_name: "Test results"
-        report_paths: Project/RTOS2_Validation-*.junit
-      if: always()
+#    - name: Publish test results
+#      uses: mikepenz/action-junit-report@v3
+#      with:
+#        check_name: "Test results"
+#        report_paths: Project/RTOS2_Validation-*.junit
+#      if: always()
