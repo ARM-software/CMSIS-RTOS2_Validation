@@ -34,9 +34,12 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v3
 
-    - name: Install build dependencies
+    - name: Install CMake
       run: |
-        sudo apt install ninja-build cmake
+        wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x86_64.tar.gz
+        tar -xf cmake-3.25.1-linux-x86_64.tar.gz
+        sudo mv cmake-3.25.1-linux-x86_64 /opt/cmake-3.25.1
+        sudo ln -s /opt/cmake-3.25.1/bin/cmake /usr/local/bin/cmake
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v2

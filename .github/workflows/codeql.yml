@@ -31,7 +31,14 @@ jobs:
 
     - name: Install build dependencies
       run: |
-        sudo apt install gcc-arm-none-eabi ninja-build cmake
+        sudo apt-get install -y gcc-arm-none-eabi
+
+    - name: Install CMake
+      run: |
+        wget https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1-linux-x86_64.tar.gz
+        tar -xf cmake-3.25.1-linux-x86_64.tar.gz
+        sudo mv cmake-3.25.1-linux-x86_64 /opt/cmake-3.25.1
+        sudo ln -s /opt/cmake-3.25.1/bin/cmake /usr/local/bin/cmake
 
     - name: Cache pack folder
       id: cache-packs

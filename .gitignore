@@ -5,3 +5,7 @@ Doxygen/linkchecker-out.csv
 Project/Validation.**/*
 Project/*.zip
 Project/*.junit
+Project/RTE/_**
+Doxygen/History.txt
+build
+output
