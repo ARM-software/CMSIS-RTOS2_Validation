@@ -20,7 +20,14 @@
 
 static const osThreadAttr_t tf_main_attr = {
   .name       = "TestRunner",
-  .stack_size = MAIN_THREAD_STACK
+  .attr_bits  = osThreadDetached,
+  .cb_mem     = NULL,
+  .cb_size    = 0U,
+  .stack_mem  = NULL,
+  .stack_size = MAIN_THREAD_STACK,
+  .priority   = osPriorityNormal,
+  .tz_module  = 0,
+  .reserved   = 0
 };
 
 /*-----------------------------------------------------------------------------
