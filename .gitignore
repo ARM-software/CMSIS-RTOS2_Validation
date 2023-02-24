@@ -9,3 +9,6 @@ Project/RTE/_**
 Doxygen/History.txt
 build
 output
+
+**/*base@*
+.clangd

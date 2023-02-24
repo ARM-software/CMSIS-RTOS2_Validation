@@ -17,7 +17,7 @@ on:
 
 jobs:
   ci_test:
-    runs-on: arm-custom-runner-10
+    runs-on: pareena-test3
 
     env:
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/opt/armcompiler/bin:/opt/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin:/opt/VHT-1.1.2
