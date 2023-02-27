@@ -66,12 +66,16 @@ def config_suffix(config, timestamp=True):
     return suffix
 
 
+def config_name(config):
+    return f"{config.rtos}_{config.compiler}+{config.device[1]}"
+
+
 def project_name(config):
-    return f"Validation.{config.rtos}_{config.compiler}+{config.device[1]}"
+    return f"Validation.{config_name(config)}"
 
 
 def output_dir(config):
-    return f"{project_name(config)}_OutDir"
+    return f"out/Validation/{config.rtos}_{config.compiler}/{config.device[1]}"
 
 
 def vht_config(config):
@@ -89,8 +93,7 @@ def build(config, results):
     """Build the selected configurations using CMSIS-Build."""
 
     logging.info("Compiling Tests...")
-    yield csolution("Validation.csolution.yml", project_name(config))
-    yield cbuild(f"{project_name(config)}/{project_name(config)}.cprj")
+    yield cbuild("Validation.csolution.yml", project_name(config))
 
     if not all(r.success for r in results):
         return
@@ -136,13 +139,8 @@ def unzip(archive):
 
 
 @matrix_command()
-def cbuild(project):
-    return ["cbuild", project]
-
-
-@matrix_command()
-def csolution(solution, context):
-    return ["csolution", "convert", "-s", solution, "-c", context]
+def cbuild(solution, context):
+    return ["cbuild", solution, "--context", context, "--packs", "--update-rte"]
 
 
 @matrix_command(test_report=ConsoleReport() |
@@ -155,7 +153,7 @@ def csolution(solution, context):
 def avhrun(config):
     cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 100, "-f", vht_config(config)]
     cmdline += AVH_EXECUTABLE[config.device][1]
-    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.{config.compiler.image_ext}"]
+    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{config_name(config)}.{config.compiler.image_ext}"]
     return cmdline
 
 
