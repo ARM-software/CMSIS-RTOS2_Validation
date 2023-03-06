@@ -1,0 +1,18 @@
+name: Text AVH Env
+on:
+  pull_request:
+
+jobs:
+  ci_test:
+    runs-on: Arm-Virtual-Hardware
+
+    env:
+      CMSIS_PACK_ROOT: /tmp/.packs-${{ github.run_id }}
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - run: |
+          cat /etc/profile.d/avh.sh
