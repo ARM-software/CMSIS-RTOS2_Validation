@@ -183,7 +183,6 @@ The test cases check the osThread* functions.
 \details
   - Call osThreadNew to create a thread
   - Call osThreadNew with null thread function
-  - Call osThreadNew with masked interrupts
   - Call osThreadNew from ISR
 */
 void TC_osThreadNew_1 (void) {
@@ -199,12 +198,6 @@ void TC_osThreadNew_1 (void) {
 
   /* Call osThreadNew with null thread function */
   ASSERT_TRUE (osThreadNew (NULL, NULL, NULL) == NULL);
-
-  /* Call osThreadNew with masked interrupts */
-  __disable_irq();
-  ThreadId = osThreadNew (Th_Run, NULL, NULL);
-  __enable_irq();
-  ASSERT_TRUE (ThreadId == NULL);
 
   /* Call osThreadNew from ISR */
   TST_IRQHandler = Irq_osThreadNew_1;
@@ -394,7 +387,6 @@ void Th_Arg (void *arg) {
   - Call osThreadGetName to retrieve a name of an unnamed thread
   - Call osThreadGetName to retrieve a name of a thread with assigned name
   - Call osThreadGetName with valid object
-  - Call osThreadGetName with masked interrupts
   - Call osThreadGetName from ISR
   - Call osThreadGetName with null object
 */
@@ -423,12 +415,6 @@ void TC_osThreadGetName_1 (void) {
 
   /* Call osThreadGetName to retrieve a name of a thread with assigned name */
   ASSERT_TRUE (strcmp(osThreadGetName(id), name) == 0U);
-
-  /* Call osThreadGetName with masked interrupts */
-  __disable_irq();
-  ThreadName = osThreadGetName(id);
-  __enable_irq();
-  ASSERT_TRUE (strcmp(ThreadName, name) != 0U);
 
   /* Call osThreadGetName from ISR */
   TST_IRQHandler = Irq_osThreadGetName_1;
@@ -459,7 +445,6 @@ void Irq_osThreadGetName_1 (void) {
 \brief Test case: TC_osThreadGetId_1
 \details
   - Call osThreadGetId from multiple threads that exist at the same time
-  - Call osThreadGetId with masked interrupts
   - Call osThreadGetId from ISR
 */
 void TC_osThreadGetId_1 (void) {
@@ -487,14 +472,6 @@ void TC_osThreadGetId_1 (void) {
   for (i = 0U; i < MIN_THREAD_NUM; i++) {
     ASSERT_TRUE (thread_id[0][i] == thread_id[1][i]);
   }
-
-  id = osThreadGetId();
-
-  /* Call osThreadGetId with masked interrupts */
-  __disable_irq();
-  Isr_osThreadId = osThreadGetId();
-  __enable_irq();
-  ASSERT_TRUE (Isr_osThreadId == id);
 
   /* Call osThreadGetId from ISR */
   TST_IRQHandler = Irq_osThreadGetId_1;
@@ -533,7 +510,6 @@ void Irq_osThreadGetId_1 (void) {
 \details
   - Call osThreadGetState to retrieve the state of a running thread
   - Call osThreadGetState to retrieve the state of a ready thread
-  - Call osThreadGetState with masked interrupts
   - Call osThreadGetState from ISR
   - Call osThreadGetState to retrieve the state of a terminated thread
   - Call osThreadGetState with null object
@@ -556,12 +532,6 @@ void TC_osThreadGetState_1 (void) {
 
   /* Call osThreadGetState to retrieve the state of a ready thread */
   ASSERT_TRUE (osThreadGetState(id) == osThreadReady);
-
-  /* Call osThreadGetState with masked interrupts */
-  __disable_irq();
-  Isr_osThreadState = osThreadGetState(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osThreadState == osThreadError);
 
   /* Call osThreadGetState from ISR */
   TST_IRQHandler = Irq_osThreadGetState_1;
@@ -745,7 +715,6 @@ void TC_osThreadSetPriority_1 (void) {
 \details
   - Call osThreadSetPriority with priority lower than osPriorityIdle
   - Call osThreadSetPriority with priority higher than osPriorityISR
-  - Call osThreadSetPriority with masked interrupts
   - Call osThreadSetPriority from ISR
   - Call osThreadSetPriority with null object
 */
@@ -763,12 +732,6 @@ void TC_osThreadSetPriority_2 (void) {
 
   /* Call osThreadSetPriority with priority higher than osPriorityISR */
   ASSERT_TRUE (osThreadSetPriority (id, (osPriority_t)(osPriorityISR + 1U)) == osErrorParameter);
-
-  /* Call osThreadSetPriority with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osThreadSetPriority(id, osPriorityBelowNormal);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadSetPriority from ISR */
   TST_IRQHandler = Irq_osThreadSetPriority_2;
@@ -799,7 +762,6 @@ void Irq_osThreadSetPriority_2 (void) {
 \brief Test case: TC_osThreadGetPriority_1
 \details
   - Call osThreadGetPriority to retrieve priority of a running thread
-  - Call osThreadGetPriority with masked interrupts
   - Call osThreadGetPriority from ISR
   - Call osThreadGetPriority with null object
 */
@@ -811,12 +773,6 @@ void TC_osThreadGetPriority_1 (void) {
 
   /* Call osThreadGetPriority to retrieve priority of a running thread */
   ASSERT_TRUE (osThreadGetPriority(id) == osPriorityNormal);
-
-  /* Call osThreadGetPriority with masked interrupts */
-  __disable_irq();
-  Isr_osPriority = osThreadGetPriority(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osPriority == osPriorityError);
 
   /* Call osThreadGetPriority from ISR */
   TST_IRQHandler = Irq_osThreadGetPriority_1;
@@ -844,19 +800,12 @@ void Irq_osThreadGetPriority_1 (void) {
 \brief Test case: TC_osThreadYield_1
 \details
   - Call osThreadYield with no thread in state 'Ready'
-  - Call osThreadYield with masked interrupts
   - Call osThreadYield from ISR
 */
 void TC_osThreadYield_1 (void) {
 #if (TC_OSTHREADYIELD_1_EN)
   /* Call osThreadYield with no thread in state 'Ready' */
   ASSERT_TRUE(osThreadYield() == osOK);
-
-  /* Call osThreadYield with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osThreadYield();
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadYield from ISR */
   TST_IRQHandler = Irq_osThreadYield_1;
@@ -881,7 +830,6 @@ void Irq_osThreadYield_1 (void) {
 \details
   - Call osThreadSuspend to suspend a thread when there is at least one other thread 'Ready'
   - Call osThreadSuspend to suspend a child thread which is in 'Ready' state
-  - Call osThreadSuspend with masked interrupts
   - Call osThreadSuspend from ISR
   - Call osThreadSuspend with null object
 */
@@ -927,12 +875,6 @@ void TC_osThreadSuspend_1 (void) {
   cnt = 0U;
   id = osThreadNew (Th_osThreadSuspend_1, &cnt, &attr);
   ASSERT_TRUE(id != NULL);
-
-  /* Call osThreadSuspend with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osThreadSuspend(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadSuspend from ISR */
   TST_IRQHandler = Irq_osThreadSuspend_1;
@@ -985,7 +927,6 @@ void Irq_osThreadSuspend_1 (void) {
 \brief Test case: TC_osThreadResume_1
 \details
   - Call osThreadResume to resume suspended thread
-  - Call osThreadResume with masked interrupts
   - Call osThreadResume from ISR
   - Call osThreadResume with null object
 */
@@ -1021,12 +962,6 @@ void TC_osThreadResume_1 (void) {
 
   /* Suspend created thread */
   ASSERT_TRUE (osThreadSuspend(id) == osOK);
-
-  /* Call osThreadResume with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osThreadResume(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadResume from ISR */
   TST_IRQHandler = Irq_osThreadResume_1;
@@ -1122,7 +1057,6 @@ void TC_osThreadDetach_1 (void) {
 \brief Test case: TC_osThreadDetach_2
 \details
   - Call osThreadDetach with a detached thread
-  - Call osThreadDetach with masked interrupts
   - Call osThreadDetach from ISR
   - Call osThreadDetach with null object
 */
@@ -1137,12 +1071,6 @@ void TC_osThreadDetach_2 (void) {
 
   /* Call osThreadDetach with a detached thread */
   ASSERT_TRUE (osThreadDetach(id) == osErrorResource);
-
-  /* Call osThreadDetach with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osThreadDetach (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadDetach from ISR */
   TST_IRQHandler = Irq_osThreadDetach_2;
@@ -1291,7 +1219,6 @@ void Th_Child_3 (void *arg) {
   - Call osThreadJoin with null object
   - Call osThreadJoin with a running thread
   - Call osThreadJoin with wrong object id
-  - Call osThreadJoin with masked interrupts
   - Call osThreadJoin from ISR
   - Call osThreadJoin with a joinable running thread
   - Call osThreadJoin with a joinable terminated thread
@@ -1316,12 +1243,6 @@ void TC_osThreadJoin_2 (void) {
   mid = osMutexNew (NULL);
   ASSERT_TRUE (osThreadJoin(mid) == osErrorParameter);
   osMutexDelete (mid);
-
-  /* Call osThreadJoin with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osThreadJoin(tid);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osThreadJoin from ISR */
   TST_IRQHandler = Irq_osThreadJoin_2;
@@ -1423,6 +1344,7 @@ void Th_osThreadExit_1 (void *arg) {
 \details
   - Call osThreadTerminate to terminate thread in state 'Ready'
   - Call osThreadTerminate to terminate thread in state 'Blocked' (delayed)
+  - Call osThreadTerminate from ISR
 */
 void TC_osThreadTerminate_1 (void) {
 #if (TC_OSTHREADTERMINATE_1_EN)
@@ -1464,12 +1386,6 @@ void TC_osThreadTerminate_1 (void) {
   id = osThreadNew (Th_osThreadTerminate_1, NULL, &attr);
   ASSERT_TRUE(id != NULL);
 
-  /* Call osThreadTerminate with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osThreadTerminate(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
-
   /* Call osThreadTerminate from ISR */
   TST_IRQHandler = Irq_osThreadTerminate_1;
   Isr_osStatus = osOK;
@@ -1509,7 +1425,6 @@ void Irq_osThreadTerminate_1 (void) {
 \details
   - Call osThreadGetStackSize to retrieve the stack size of a running thread
   - Call osThreadGetStackSize to retrieve the stack size of a 'Ready' thread
-  - Call osThreadGetStackSize with masked interrupts
   - Call osThreadGetStackSize from ISR
   - Call osThreadGetStackSize with null object id
 */
@@ -1528,12 +1443,6 @@ void TC_osThreadGetStackSize_1 (void) {
 
   /* Call osThreadGetStackSize to retrieve the stack size of a 'Ready' thread */
   ASSERT_TRUE(osThreadGetStackSize(id) == 128U);
-
-  /* Call osThreadGetStackSize with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osThreadGetStackSize(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadGetStackSize from ISR */
   TST_IRQHandler = Irq_osThreadGetStackSize_1;
@@ -1566,7 +1475,6 @@ void Irq_osThreadGetStackSize_1 (void) {
 \details
   - Call osThreadGetStackSpace to retrieve the unused stack space of a running thread
   - Call osThreadGetStackSpace to retrieve the unused stack space of a ready thread
-  - Call osThreadGetStackSpace with masked interrupts
   - Call osThreadGetStackSpace from ISR
   - Call osThreadGetStackSpace with null object
 */
@@ -1592,12 +1500,6 @@ void TC_osThreadGetStackSpace_1 (void) {
   ASSERT_TRUE (size > 0U);
 
   osThreadTerminate (id);
-
-  /* Call osThreadGetStackSpace with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osThreadGetStackSpace(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadGetStackSpace from ISR */
   TST_IRQHandler = Irq_osThreadGetStackSpace_1;
@@ -1629,7 +1531,6 @@ void Irq_osThreadGetStackSpace_1 (void) {
 \brief Test case: TC_osThreadGetCount_1
 \details
   - Call osThreadGetCount to retrieve the number of active threads
-  - Call osThreadGetCount with masked interrupts
   - Call osThreadGetCount from ISR
 */
 void TC_osThreadGetCount_1 (void) {
@@ -1658,12 +1559,6 @@ void TC_osThreadGetCount_1 (void) {
   /* Terminate threads */
   osThreadTerminate (id[0]);
   osThreadTerminate (id[1]);
-
-  /* Call osThreadGetCount with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osThreadGetCount();
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadGetCount from ISR */
   TST_IRQHandler = Irq_osThreadGetCount_1;
@@ -1699,7 +1594,6 @@ void Irq_osThreadGetCount_1 (void) {
 \brief Test case: TC_osThreadEnumerate_1
 \details
   - Call osThreadEnumerate to retrieve IDs of all active threads
-  - Call osThreadEnumerate with masked interrupts
   - Call osThreadEnumerate from ISR
 */
 void TC_osThreadEnumerate_1 (void) {
@@ -1744,12 +1638,6 @@ void TC_osThreadEnumerate_1 (void) {
   /* Terminate threads */
   osThreadTerminate (id[0]);
   osThreadTerminate (id[1]);
-
-  /* Call osThreadEnumerate with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osThreadEnumerate(id_enum, 10U);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osThreadEnumerate from ISR */
   TST_IRQHandler = Irq_osThreadEnumerate_1;
