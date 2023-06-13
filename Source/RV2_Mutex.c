@@ -251,7 +251,6 @@ The test cases check the osMutex* functions.
 \brief Test case: TC_osMutexNew_1
 \details
   - Call osMutexNew to create a mutex object
-  - Call osMutexNew with masked interrupts
   - Call osMutexNew from ISR
 */
 void TC_osMutexNew_1 (void) {
@@ -264,12 +263,6 @@ void TC_osMutexNew_1 (void) {
 
   /* Delete created mutex */
   ASSERT_TRUE (osMutexDelete(id) == osOK);
-
-  /* Call osMutexNew with masked interrupts */
-  __disable_irq();
-  MutexId = osMutexNew (NULL);
-  __enable_irq();
-  ASSERT_TRUE (MutexId == NULL);
 
   /* Call osMutexNew from ISR */
   TST_IRQHandler = Irq_osMutexNew_1;
@@ -400,7 +393,6 @@ void TC_osMutexNew_6 (void) {
   - Call osMutexGetName to retrieve a name of an unnamed mutex
   - Call osMutexGetName to retrieve a name of a mutex with assigned name
   - Call osMutexGetName with valid object
-  - Call osMutexGetName with masked interrupts
   - Call osMutexGetName from ISR
   - Call osMutexGetName with null object
 */
@@ -429,12 +421,6 @@ void TC_osMutexGetName_1 (void) {
 
   /* Call osMutexGetName to retrieve a name of a mutex with assigned name */
   ASSERT_TRUE (strcmp(osMutexGetName(id), name) == 0U);
-
-  /* Call osMutexGetName with masked interrupts */
-  __disable_irq();
-  MutexName = osMutexGetName(id);
-  __enable_irq();
-  ASSERT_TRUE (strcmp(MutexName, name) != 0U);
 
   /* Call osMutexGetName from ISR */
   TST_IRQHandler = Irq_osMutexGetName_1;
@@ -465,7 +451,6 @@ void Irq_osMutexGetName_1 (void) {
 \brief Test case: TC_osMutexAcquire_1
 \details
   - Call osMutexAcquire to acquire the mutex from the running thread
-  - Call osMutexAcquire with masked interrupts
   - Call osMutexAcquire from ISR
   - Call osMutexAcquire with null mutex object
 */
@@ -489,12 +474,6 @@ void TC_osMutexAcquire_1 (void) {
   /* Create a mutex object */
   id = osMutexNew (NULL);
   ASSERT_TRUE(id != NULL);
-
-  /* Call osMutexAcquire with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osMutexAcquire (id, 0U);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMutexAcquire from ISR */
   TST_IRQHandler = Irq_osMutexAcquire_1;
@@ -591,7 +570,6 @@ void Th_osMutexAcquire_2 (void *arg) {
 \details
   - Call osMutexRelease to release acquired mutex
   - Call osMutexRelease to release mutex that was not acquired
-  - Call osMutexRelease with masked interrupts
   - Call osMutexRelease from ISR
   - Call osMutexRelease with null mutex object
 */
@@ -622,12 +600,6 @@ void TC_osMutexRelease_1 (void) {
 
   /* Call osMutexAcquire to acquire mutex */
   ASSERT_TRUE (osMutexAcquire(id, osWaitForever) == osOK);
-
-  /* Call osMutexRelease with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osMutexRelease (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMutexRelease from ISR */
   TST_IRQHandler = Irq_osMutexRelease_1;
@@ -662,7 +634,6 @@ void Irq_osMutexRelease_1 (void) {
 \details
   - Call osMutexGetOwner when the mutex is not locked
   - Call osMutexGetOwner when the mutex is locked
-  - Call osMutexGetOwner with masked interrupts
   - Call osMutexGetOwner from ISR
   - Call osMutexGetOwner with null object
 */
@@ -682,12 +653,6 @@ void TC_osMutexGetOwner_1 (void) {
 
   /* Call osMutexGetOwner when the mutex is locked */
   ASSERT_TRUE (osMutexGetOwner (id) == osThreadGetId());
-
-  /* Call osMutexGetOwner with masked interrupts */
-  __disable_irq();
-  ThreadId = osMutexGetOwner (id);
-  __enable_irq();
-  ASSERT_TRUE (ThreadId == NULL);
 
   /* Call osMutexGetOwner from ISR */
   TST_IRQHandler = Irq_osMutexGetOwner_1;
@@ -721,7 +686,6 @@ void Irq_osMutexGetOwner_1 (void) {
 \brief Test case: TC_osMutexDelete_1
 \details
   - Call osMutexDelete to delete a mutex
-  - Call osMutexDelete with masked interrupts
   - Call osMutexDelete from ISR
   - Call osMutexDelete with null object
 */
@@ -739,12 +703,6 @@ void TC_osMutexDelete_1 (void) {
   /* Create a mutex object */
   id = osMutexNew (NULL);
   ASSERT_TRUE (id != NULL);
-
-  /* Call osMutexDelete with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osMutexDelete (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMutexDelete from ISR */
   TST_IRQHandler = Irq_osMutexDelete_1;

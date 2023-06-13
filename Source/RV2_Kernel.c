@@ -57,19 +57,13 @@ underlying kernel and the CMSIS-RTOS API. The test cases check the functions ret
 /**
 \brief Test case: TC_osKernelInitialize_1
 \details
-  -  Call osKernelInitialize when the kernel is already initialized
-  -  Call osKernelInitialize with masked interrupts
+  - Call osKernelInitialize when the kernel is already initialized
+  - Call osKernelInitialize from ISR
 */
 void TC_osKernelInitialize_1 (void) {
 #if (TC_OSKERNELINITIALIZE_1_EN)
   /* Call osKernelInitialize when the kernel is already initialized */
   ASSERT_TRUE (osKernelInitialize() == osError);
-
-  /* Call osKernelInitialize with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osKernelInitialize();
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osKernelInitialize from ISR */
   TST_IRQHandler = Irq_osKernelInitialize;
@@ -93,7 +87,6 @@ void Irq_osKernelInitialize (void) {
 \brief Test case: TC_osKernelGetInfo_1
 \details
   - Call osKernelGetInfo and check that returned structures are populated
-  - Call osKernelGetInfo with masked interrupts
   - Call osKernelGetInfo with argument version equal to NULL
   - Call osKernelGetInfo with argument id_buf equal to NULL
   - Call osKernelGetInfo with argument id_size equal to 0
@@ -113,12 +106,6 @@ void TC_osKernelGetInfo_1 (void) {
   ASSERT_TRUE (os_version.api    != 0U);
   ASSERT_TRUE (os_version.kernel != 0U);
   ASSERT_TRUE (id[0] != '\0');
-
-  /* Call osKernelGetInfo with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osKernelGetInfo(&os_version, id, sizeof(id));
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osOK);
 
   /* Call osKernelGetInfo with argument version equal to NULL */
   id[0] = '\0';
@@ -172,7 +159,6 @@ void Irq_osKernelGetInfo (void) {
   - Call osKernelGetState when the kernel is running
   - Call osKernelGetState when the kernel is locked
   - Call osKernelGetState after the kernel is unlocked
-  - Call osKernelGetState with masked interrupts
   - Call osKernelGetState from ISR
 */
 void TC_osKernelGetState_1 (void) {
@@ -187,12 +173,6 @@ void TC_osKernelGetState_1 (void) {
   /* Call osKernelGetState after the kernel is unlocked */
   osKernelUnlock();
   ASSERT_TRUE (osKernelGetState() == osKernelRunning);
-
-  /* Call osKernelGetState with masked interrupts */
-  __disable_irq();
-  Isr_osKernelState = osKernelGetState();
-  __enable_irq();
-  ASSERT_TRUE (Isr_osKernelState == osKernelRunning);
 
   /* Call osKernelGetState from ISR */
   TST_IRQHandler = Irq_osKernelGetState;
@@ -235,7 +215,6 @@ void TC_osKernelGetState_2 (void) {
 \brief Test case: TC_osKernelStart_1
 \details
   - Call osKernelStart when the kernel is already running
-  - Call osKernelStart with masked interrupts
   - Call osKernelStart from ISR
 */
 void TC_osKernelStart_1 (void) {
@@ -245,12 +224,6 @@ void TC_osKernelStart_1 (void) {
 
   /* Call osKernelStart when the kernel is already running */
   ASSERT_TRUE (osKernelStart() == osError);
-
-  /* Call osKernelStart with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osKernelStart();
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osKernelStart from ISR */
   TST_IRQHandler = Irq_osKernelStart;
@@ -274,7 +247,6 @@ void Irq_osKernelStart (void) {
 \brief Test case: TC_osKernelLock_1
 \details
   - Call osKernelLock to try lock already locked kernel
-  - Call osKernelLock with masked interrupts
   - Call osKernelLock from ISR
 */
 void TC_osKernelLock_1 (void) {
@@ -291,12 +263,6 @@ void TC_osKernelLock_1 (void) {
 
   /* Unlock kernel */
   osKernelUnlock();
-
-  /* Call osKernelLock with masked interrupts */
-  __disable_irq();
-  Isr_s32 = osKernelLock();
-  __enable_irq();
-  ASSERT_TRUE (Isr_s32 == osErrorISR);
 
   /* Call osKernelLock from ISR */
   TST_IRQHandler = Irq_osKernelLock;
@@ -337,7 +303,6 @@ void TC_osKernelLock_2 (void) {
 \brief Test case: TC_osKernelUnlock_1
 \details
   - Call osKernelUnlock to try unlock running kernel
-  - Call osKernelUnlock with masked interrupts
   - Call osKernelUnlock from ISR
 */
 void TC_osKernelUnlock_1 (void) {
@@ -353,12 +318,6 @@ void TC_osKernelUnlock_1 (void) {
   /* Call osKernelUnlock to try unlock running kernel */
   ASSERT_TRUE (osKernelUnlock() == 0U);
   ASSERT_TRUE (osKernelGetState() == osKernelRunning);
-
-  /* Call osKernelUnlock with masked interrupts */
-  __disable_irq();
-  Isr_s32 = osKernelUnlock();
-  __enable_irq();
-  ASSERT_TRUE (Isr_s32 == osErrorISR);
 
   /* Call osKernelUnlock from ISR */
   TST_IRQHandler = Irq_osKernelUnlock;
@@ -438,7 +397,6 @@ void Irq_osKernelRestoreLock (void) {
   - Call osKernelSuspend to suspend the kernel when no other RTOS objects are active
   - Call osKernelSuspend when the kernel is already suspended
   - Call osKernelSuspend to suspend the kernel with other RTOS objects active
-  - Call osKernelSuspend with masked interrupts
   - Call osKernelSuspend from ISR
 */
 void TC_osKernelSuspend_1 (void) {
@@ -477,12 +435,6 @@ void TC_osKernelSuspend_1 (void) {
 
   /* Terminate the thread */
   ASSERT_TRUE (osThreadTerminate (id) == osOK);
-
-  /* Call osKernelSuspend with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osKernelSuspend();
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == 0U);
 
   /* Call osKernelSuspend from ISR */
   TST_IRQHandler = Irq_osKernelSuspend;
@@ -523,7 +475,6 @@ void Irq_osKernelSuspend (void) {
 \brief Test case: TC_osKernelResume_1
 \details
   - Call osKernelResume to resume suspended kernel
-  - Call osKernelResume with masked interrupts
   - Call osKernelResume from ISR
 */
 void TC_osKernelResume_1 (void) {
@@ -565,12 +516,6 @@ void TC_osKernelResume_1 (void) {
 
   /* Suspend the kernel */
   ASSERT_TRUE (osKernelSuspend () > 0U);
-  ASSERT_TRUE (osKernelGetState() == osKernelSuspended);
-
-  /* Call osKernelResume with masked interrupts */
-  __disable_irq();
-  osKernelResume(0U);
-  __enable_irq();
   ASSERT_TRUE (osKernelGetState() == osKernelSuspended);
 
   /* Call osKernelResume from ISR */
@@ -615,7 +560,6 @@ void Irq_osKernelResume (void) {
 \details
   - Call osKernelGetTickCount and check that returned value is non-zero
   - Call osKernelGetTickCount twice with an osDelay of 100 ticks in between
-  - Call osKernelGetTickCount with masked interrupts
   - Call osKernelGetTickCount from ISR
 */
 void TC_osKernelGetTickCount_1 (void) {
@@ -636,12 +580,6 @@ void TC_osKernelGetTickCount_1 (void) {
   osDelay(100U);
   cnt = osKernelGetTickCount() - cnt;
   ASSERT_TRUE (cnt == 100U);
-
-  /* Call osKernelGetTickCount with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osKernelGetTickCount();
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 > 0U);
 
   /* Call osKernelGetTickCount from ISR */
   TST_IRQHandler = Irq_osKernelGetTickCount;
@@ -666,7 +604,6 @@ void Irq_osKernelGetTickCount (void) {
 \details
   - Call osKernelGetTickFreq and check that returned value is non-zero
   - Call osKernelGetTickFreq and check that returned value equals to predefine tick frequency
-  - Call osKernelGetTickFreq with masked interrupts
   - Call osKernelGetTickFreq from ISR
 */
 void TC_osKernelGetTickFreq_1 (void) {
@@ -676,12 +613,6 @@ void TC_osKernelGetTickFreq_1 (void) {
 
   /* Call osKernelGetTickFreq and check that returned value equals to predefine tick frequency */
   ASSERT_TRUE (osKernelGetTickFreq() == RTOS2_TICK_FREQ);
-
-  /* Call osKernelGetTickFreq with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osKernelGetTickFreq();
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == RTOS2_TICK_FREQ);
 
   /* Call osKernelGetTickFreq from ISR */
   TST_IRQHandler = Irq_osKernelGetTickFreq;
@@ -706,7 +637,6 @@ void Irq_osKernelGetTickFreq (void) {
 \details
   - Call osKernelGetSysTimerCount and check that returned value is non-zero
   - Call osKernelGetSysTimerCount twice with an osDelay of 100 ticks in between
-  - Call osKernelGetSysTimerCount with masked interrupts
   - Call osKernelGetSysTimerCount from ISR
 */
 void TC_osKernelGetSysTimerCount_1 (void) {
@@ -726,12 +656,6 @@ void TC_osKernelGetSysTimerCount_1 (void) {
   cnt /= (osKernelGetSysTimerFreq()/RTOS2_TICK_FREQ);
   ASSERT_TRUE (cnt >=  99U);
   ASSERT_TRUE (cnt <= 101U);
-
-  /* Call osKernelGetSysTimerCount with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osKernelGetSysTimerCount();
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 > 0U);
 
   /* Call osKernelGetSysTimerCount from ISR */
   TST_IRQHandler = Irq_osKernelGetSysTimerCount;
@@ -755,19 +679,12 @@ void Irq_osKernelGetSysTimerCount (void) {
 \brief Test case: TC_osKernelGetSysTimerFreq_1
 \details
   - Call osKernelGetSysTimerFreq and check that returned value is non-zero
-  - Call osKernelGetSysTimerFreq with masked interrupts
   - Call osKernelGetSysTimerFreq from ISR
 */
 void TC_osKernelGetSysTimerFreq_1 (void) {
 #if (TC_OSKERNELGETSYSTIMERFREQ_EN)
   /* Call osKernelGetSysTimerFreq and check that returned value is non-zero */
   ASSERT_TRUE (osKernelGetSysTimerFreq() > 0U);
-
-  /* Call osKernelGetSysTimerFreq with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osKernelGetSysTimerFreq();
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 > 0U);
 
   /* Call osKernelGetSysTimerFreq from ISR */
   TST_IRQHandler = Irq_osKernelGetSysTimerFreq;

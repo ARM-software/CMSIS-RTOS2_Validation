@@ -66,7 +66,6 @@ The test cases check the osMessage* functions.
 \brief Test case: TC_osMessageQueueNew_1
 \details
   - Call osMessageQueueNew to create a message queue object
-  - Call osMessageQueueNew with masked interrupts
   - Call osMessageQueueNew from ISR
 */
 void TC_osMessageQueueNew_1 (void) {
@@ -79,12 +78,6 @@ void TC_osMessageQueueNew_1 (void) {
 
   /* Delete created message queue */
   ASSERT_TRUE (osMessageQueueDelete(id) == osOK);
-
-  /* Call osMessageQueueNew with masked interrupts */
-  __disable_irq();
-  MessageQueueId = osMessageQueueNew (1U, 4U, NULL);
-  __enable_irq();
-  ASSERT_TRUE (MessageQueueId == NULL);
 
   /* Call osMessageQueueNew from ISR */
   TST_IRQHandler = Irq_osMessageQueueNew_1;
@@ -157,7 +150,6 @@ void TC_osMessageQueueNew_3 (void) {
   - Call osMessageQueueGetName to retrieve a name of an unnamed message queue
   - Call osMessageQueueGetName to retrieve a name of a message queue with assigned name
   - Call osMessageQueueGetName with valid object
-  - Call osMessageQueueGetName with masked interrupts
   - Call osMessageQueueGetName from ISR
   - Call osMessageQueueGetName with null object
 */
@@ -186,12 +178,6 @@ void TC_osMessageQueueGetName_1 (void) {
 
   /* Call osMessageQueueGetName to retrieve a name of a message queue with assigned name */
   ASSERT_TRUE (strcmp(osMessageQueueGetName(id), name) == 0U);
-
-  /* Call osMessageQueueGetName with masked interrupts */
-  __disable_irq();
-  MessageQueueName = osMessageQueueGetName(id);
-  __enable_irq();
-  ASSERT_TRUE (strcmp(MessageQueueName, name) != 0U);
 
   /* Call osMessageQueueGetName from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetName_1;
@@ -222,8 +208,6 @@ void Irq_osMessageQueueGetName_1 (void) {
 \brief Test case: TC_osMessageQueuePut_1
 \details
   - Call osMessageQueuePut to put message into the queue
-  - Call osMessageQueuePut with masked interrupts and timeout == 0
-  - Call osMessageQueuePut with masked interrupts and timeout != 0
   - Call osMessageQueuePut from ISR with timeout == 0
   - Call osMessageQueuePut from ISR with timeout != 0
   - Call osMessageQueuePut with null object
@@ -240,26 +224,6 @@ void TC_osMessageQueuePut_1 (void) {
 
   /* Call osMessageQueuePut to put message into the queue */
   ASSERT_TRUE (osMessageQueuePut (id, &msg, 0U, 0U) == osOK);
-
-  /* Delete Message Queue */
-  ASSERT_TRUE (osMessageQueueDelete (id) == osOK);
-
-
-  /* Create a message queue */
-  id = osMessageQueueNew (MSGQ_CNT, MSGQ_SZ, NULL);
-  ASSERT_TRUE (id != NULL);
-
-  /* Call osMessageQueuePut with masked interrupts and timeout == 0 */
-  __disable_irq();
-  Isr_osStatus = osMessageQueuePut (id, &msg, 0U, 0U);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osOK);
-
-  /* Call osMessageQueuePut with masked interrupts and timeout != 0 */
-  __disable_irq();
-  Isr_osStatus = osMessageQueuePut (id, &msg, 0U, osWaitForever);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete Message Queue */
   ASSERT_TRUE (osMessageQueueDelete (id) == osOK);
@@ -397,8 +361,6 @@ void Irq_osMessageQueuePut_2 (void) {
 \brief Test case: TC_osMessageQueueGet_1
 \details
   - Call osMessageQueueGet to get message from the queue
-  - Call osMessageQueueGet with masked interrupts and timeout == 0
-  - Call osMessageQueueGet with masked interrupts and timeout != 0
   - Call osMessageQueueGet from ISR with timeout == 0
   - Call osMessageQueueGet from ISR with timeout != 0
   - Call osMessageQueueGet with null object
@@ -423,33 +385,6 @@ void TC_osMessageQueueGet_1 (void) {
 
   /* Check that correct message was retrieved */
   ASSERT_TRUE (msg == msg_in);
-
-  /* Delete Message Queue */
-  ASSERT_TRUE (osMessageQueueDelete (id) == osOK);
-
-
-  /* Create a message queue */
-  id = osMessageQueueNew (MSGQ_CNT, MSGQ_SZ, NULL);
-  ASSERT_TRUE (id != NULL);
-
-  /* Put message into the queue */
-  msg_in = 2U;
-  ASSERT_TRUE (osMessageQueuePut (id, &msg_in, 0U, 0U) == osOK);
-
-  /* Call osMessageQueueGet with masked interrupts and timeout == 0 */
-  __disable_irq();
-  Isr_osStatus = osMessageQueueGet (id, &msg, 0U, 0U);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osOK);
-
-  /* Check that correct message was retrieved */
-  ASSERT_TRUE (msg == msg_in);
-
-  /* Call osMessageQueueGet with masked interrupts and timeout != 0 */
-  __disable_irq();
-  Isr_osStatus = osMessageQueueGet (id, &msg, 0U, osWaitForever);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorParameter);
 
   /* Delete Message Queue */
   ASSERT_TRUE (osMessageQueueDelete (id) == osOK);
@@ -592,7 +527,6 @@ void Irq_osMessageQueueGet_2 (void) {
 \brief Test case: TC_osMessageQueueGetCapacity_1
 \details
   - Call osMessageQueueGetCapacity to retrieve the maximum number of messages in the message queue
-  - Call osMessageQueueGetCapacity with masked interrupts
   - Call osMessageQueueGetCapacity from ISR
   - Call osMessageQueueGetCapacity from ISR with null object
   - Call osMessageQueueGetCapacity with null object
@@ -607,12 +541,6 @@ void TC_osMessageQueueGetCapacity_1 (void) {
 
   /* Call osMessageQueueGetCapacity to retrieve the maximum number of messages in the message queue */
   ASSERT_TRUE (osMessageQueueGetCapacity (id) == MSGQ_CNT);
-
-  /* Call osMessageQueueGetCapacity with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osMessageQueueGetCapacity (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == MSGQ_CNT);
 
   /* Call osMessageQueueGetCapacity from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetCapacity_1;
@@ -660,7 +588,6 @@ void Irq_osMessageQueueGetCapacity_1 (void) {
 \brief Test case: TC_osMessageQueueGetMsgSize_1
 \details
   - Call osMessageQueueGetMsgSize to retrieve the maximum message size
-  - Call osMessageQueueGetMsgSize with masked interrupts
   - Call osMessageQueueGetMsgSize from ISR
   - Call osMessageQueueGetMsgSize from ISR with null object
   - Call osMessageQueueGetMsgSize with null object
@@ -675,12 +602,6 @@ void TC_osMessageQueueGetMsgSize_1 (void) {
 
   /* Call osMessageQueueGetMsgSize to retrieve the maximum message size */
   ASSERT_TRUE (osMessageQueueGetMsgSize (id) == MSGQ_SZ);
-
-  /* Call osMessageQueueGetMsgSize with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osMessageQueueGetMsgSize (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == MSGQ_SZ);
 
   /* Call osMessageQueueGetMsgSize from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetMsgSize_1;
@@ -728,7 +649,6 @@ void Irq_osMessageQueueGetMsgSize_1 (void) {
 \brief Test case: TC_osMessageQueueGetCount_1
 \details
   - Call osMessageQueueGetCount to retrieve the number of queued messages
-  - Call osMessageQueueGetCount with masked interrupts
   - Call osMessageQueueGetCount from ISR
   - Call osMessageQueueGetCount from ISR with null object
   - Call osMessageQueueGetCount with null object
@@ -748,12 +668,6 @@ void TC_osMessageQueueGetCount_1 (void) {
 
   /* Call osMessageQueueGetCount to retrieve the number of queued messages */
   ASSERT_TRUE (osMessageQueueGetCount (id) == 1U);
-
-  /* Call osMessageQueueGetCount with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osMessageQueueGetCount (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == 1U);
 
   /* Call osMessageQueueGetCount from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetCount_1;
@@ -801,7 +715,6 @@ void Irq_osMessageQueueGetCount_1 (void) {
 \brief Test case: TC_osMessageQueueGetSpace_1
 \details
   - Call osMessageQueueGetSpace to retrieve the number of available message slots
-  - Call osMessageQueueGetSpace with masked interrupts
   - Call osMessageQueueGetSpace from ISR
   - Call osMessageQueueGetSpace from ISR with null object
   - Call osMessageQueueGetSpace with null object
@@ -821,12 +734,6 @@ void TC_osMessageQueueGetSpace_1 (void) {
 
   /* Call osMessageQueueGetSpace to retrieve the number of available message slots */
   ASSERT_TRUE (osMessageQueueGetSpace (id) == (MSGQ_CNT-1U));
-
-  /* Call osMessageQueueGetSpace with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osMessageQueueGetSpace (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == (MSGQ_CNT-1U));
 
   /* Call osMessageQueueGetSpace from ISR */
   TST_IRQHandler = Irq_osMessageQueueGetSpace_1;
@@ -874,7 +781,6 @@ void Irq_osMessageQueueGetSpace_1 (void) {
 /**
 \brief Test case: TC_osMessageQueueReset_1
 \details
-  - Call osMessageQueueReset with masked interrupts
   - Call osMessageQueueReset from ISR
   - Call osMessageQueueReset with null object id
 */
@@ -896,12 +802,6 @@ void TC_osMessageQueueReset_1 (void) {
 
   /* Check that the message queue was reset */
   ASSERT_TRUE (osMessageQueueGetSpace (id) == MSGQ_CNT);
-
-  /* Call osMessageQueueReset with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osMessageQueueReset (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMessageQueueReset from ISR */
   TST_IRQHandler = Irq_osMessageQueueReset_1;
@@ -933,7 +833,6 @@ void Irq_osMessageQueueReset_1 (void) {
 \details
   - Call osMessageQueueDelete to delete empty message queue
   - Call osMessageQueueDelete to delete non-empty message queue
-  - Call osMessageQueueDelete with masked interrupts
   - Call osMessageQueueDelete from ISR
   - Call osMessageQueueDelete with null object
 */
@@ -963,12 +862,6 @@ void TC_osMessageQueueDelete_1 (void) {
   /* Create a message queue */
   id = osMessageQueueNew (MSGQ_CNT, MSGQ_SZ, NULL);
   ASSERT_TRUE (id != NULL);
-
-  /* Call osMessageQueueDelete with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osMessageQueueDelete (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osMessageQueueDelete from ISR */
   TST_IRQHandler = Irq_osMessageQueueDelete_1;

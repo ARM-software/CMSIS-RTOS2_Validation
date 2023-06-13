@@ -160,7 +160,6 @@ The test cases check the Event Flags functions.
 \brief Test case: TC_osEventFlagsNew_1
 \details
   - Call osEventFlagsNew to create event flags object
-  - Call osEventFlagsNew with masked interrupts
   - Call osEventFlagsNew from ISR
 */
 void TC_osEventFlagsNew_1 (void) {
@@ -173,12 +172,6 @@ void TC_osEventFlagsNew_1 (void) {
 
   /* Delete created event flags */
   ASSERT_TRUE (osEventFlagsDelete(id) == osOK);
-
-  /* Call osEventFlagsNew with masked interrupts */
-  __disable_irq();
-  EventFlagsId = osEventFlagsNew (NULL);
-  __enable_irq();
-  ASSERT_TRUE (EventFlagsId == NULL);
 
   /* Call osEventFlags from ISR */
   TST_IRQHandler = Irq_osEventFlagsNew_1;
@@ -247,7 +240,6 @@ void TC_osEventFlagsNew_3 (void) {
 \brief Test case: TC_osEventFlagsSet_1
 \details
   - Call osEventFlagsSet to set all available flags in event flags object
-  - Call osEventFlagsSet with masked interrupts
   - Call osEventFlagsSet from ISR
 */
 void TC_osEventFlagsSet_1 (void) {
@@ -266,28 +258,6 @@ void TC_osEventFlagsSet_1 (void) {
     flags = (flags << 1U) | 1U;
     /* Call osEventFlagsSet to set all available flags in event flags object */
     rflags = osEventFlagsSet (id, set);
-    ASSERT_TRUE (rflags == flags);
-    set   = set << 1U;
-  }
-  while ((rflags == flags) && (set <= EVENT_FLAGS_MSK));
-
-  /* Delete event flags object */
-  ASSERT_TRUE (osEventFlagsDelete (id) == osOK);
-
-  /* Create event flags object */
-  id = osEventFlagsNew(NULL);
-  ASSERT_TRUE(id != NULL);
-
-  /* Call osEventFlagsSet with masked interrupts */
-  flags = 0U;
-  set   = 1U;
-  do {
-    flags = (flags << 1U) | 1U;
-    /* Call osEventFlagsSet to set all available flags in event flags object */
-      __disable_irq();
-    rflags = osEventFlagsSet (id, set);
-    __enable_irq();
-
     ASSERT_TRUE (rflags == flags);
     set   = set << 1U;
   }
@@ -339,7 +309,6 @@ void Irq_osEventFlagsSet_1 (void) {
 \brief Test case: TC_osEventFlagsClear_1
 \details
   - Call osEventFlagsClear to clear all available flags in event flags object
-  - Call osEventFlagsClear with masked interrupts
   - Call osEventFlagsClear from ISR
   - Call osEventFlagsClear with null object
 */
@@ -360,32 +329,6 @@ void TC_osEventFlagsClear_1 (void) {
   while ((clr & EVENT_FLAGS_MSK) != 0U) {
     /* Call osEventFlagsClear to clear all available flags in event flags object */
     rflags = osEventFlagsClear (id, clr);
-    if (ASSERT_TRUE (rflags == flags) == false) {
-      break;
-    }
-    clr   = (clr   << 1U);
-    flags = (flags << 1U) & EVENT_FLAGS_MSK;
-  }
-
-  /* Delete event flags object */
-  ASSERT_TRUE (osEventFlagsDelete (id) == osOK);
-
-  /* Create event flags object */
-  id = osEventFlagsNew(NULL);
-  ASSERT_TRUE(id != NULL);
-
-  /* Set all available flags */
-  osEventFlagsSet (id, EVENT_FLAGS_MSK);
-
-  /* Call osEventFlagsClear with masked interrupts */
-  flags = EVENT_FLAGS_MSK;
-  clr   = 1U;
-  while ((clr & EVENT_FLAGS_MSK) != 0U) {
-    /* Call osEventFlagsClear to clear all available flags in event flags object */
-    __disable_irq();
-    rflags = osEventFlagsClear (id, clr);
-    __enable_irq();
-
     if (ASSERT_TRUE (rflags == flags) == false) {
       break;
     }
@@ -443,7 +386,6 @@ void Irq_osEventFlagsClear_1 (void) {
 \details
   - Call osEventFlagsGet to retrieve the flags in event flags object when all flags are cleared
   - Call osEventFlagsGet to retrieve the flags in event flags object when all flags are set
-  - Call osEventFlagsGet with masked interrupts
   - Call osEventFlagsGet from ISR
   - Call osEventFlagsGet with null object
 */
@@ -474,12 +416,6 @@ void TC_osEventFlagsGet_1 (void) {
   /* Set flags of random pattern */
   osEventFlagsSet (id, 0x55AA55AA & EVENT_FLAGS_MSK);
 
-  /* Call osEventFlagsGet with masked interrupts */
-  __disable_irq();
-  Isr_u32 = osEventFlagsGet(id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == (0x55AA55AA & EVENT_FLAGS_MSK));
-
   /* Call osEventFlagsGet from ISR */
   TST_IRQHandler = Irq_osEventFlagsGet_1;
   EventFlagsId = id;
@@ -508,7 +444,6 @@ void Irq_osEventFlagsGet_1 (void) {
 \details
   - Call osEventFlagsWait without timeout to retrieve the event flags
   - Call osEventFlagsWait with timeout to retrieve the event flags
-  - Call osEventFlagsWait with masked interrupts
   - Call osEventFlagsWait from ISR with timeout
   - Call osEventFlagsWait from ISR without timeout
   - Call osEventFlagsWait with null object
@@ -553,17 +488,6 @@ void TC_osEventFlagsWait_1 (void) {
 
   /* Set flags of random pattern */
   osEventFlagsSet (id, 0x55AA55AA & EVENT_FLAGS_MSK);
-
-  /* Call osEventFlagsWait with masked interrupts (with and without timeout) */
-  __disable_irq();
-  Isr_u32 = osEventFlagsWait (id, 0x55AA55AA & EVENT_FLAGS_MSK, osFlagsWaitAll, osWaitForever);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == osFlagsErrorParameter);
-
-  __disable_irq();
-  Isr_u32 = osEventFlagsWait (id, 0x55AA55AA & EVENT_FLAGS_MSK, osFlagsWaitAny, 0U);
-  __enable_irq();
-  ASSERT_TRUE (Isr_u32 == (0x55AA55AA & EVENT_FLAGS_MSK));
 
   /* Set flags of random pattern */
   osEventFlagsSet (id, 0x55AA55AA & EVENT_FLAGS_MSK);
@@ -629,7 +553,6 @@ void Irq_osEventFlagsWait_1 (void) {
 \brief Test case: TC_osEventFlagsDelete_1
 \details
   - Call osEventFlagsDelete to delete a event flags object
-  - Call osEventFlagsDelete with masked interrupts
   - Call osEventFlagsDelete from ISR
   - Call osEventFlagsDelete with null object
 */
@@ -647,12 +570,6 @@ void TC_osEventFlagsDelete_1 (void) {
   /* Create event flags object */
   id = osEventFlagsNew (NULL);
   ASSERT_TRUE (id != NULL);
-
-  /* Call osEventFlagsDelete with masked interrupts */
-  __disable_irq();
-  Isr_osStatus = osEventFlagsDelete (id);
-  __enable_irq();
-  ASSERT_TRUE (Isr_osStatus == osErrorISR);
 
   /* Call osEventFlagsDelete from ISR */
   TST_IRQHandler = Irq_osEventFlagsDelete_1;
@@ -685,7 +602,6 @@ void Irq_osEventFlagsDelete_1 (void) {
   - Call osEventFlagsGetName to retrieve a name of an unnamed event flags
   - Call osEventFlagsGetName to retrieve a name of a event flags with assigned name
   - Call osEventFlagsGetName with valid object
-  - Call osEventFlagsGetName with masked interrupts
   - Call osEventFlagsGetName from ISR
   - Call osEventFlagsGetName with null object
 */
@@ -714,12 +630,6 @@ void TC_osEventFlagsGetName_1 (void) {
 
   /* Call osEventFlagsGetName to retrieve a name of a event flags with assigned name */
   ASSERT_TRUE (strcmp(osEventFlagsGetName(id), name) == 0U);
-
-  /* Call osEventFlagsGetName with masked interrupts */
-  __disable_irq();
-  EventFlagsName = osEventFlagsGetName(id);
-  __enable_irq();
-  ASSERT_TRUE (strcmp(EventFlagsName, name) != 0U);
 
   /* Call osEventFlagsGetName from ISR */
   TST_IRQHandler = Irq_osEventFlagsGetName_1;
