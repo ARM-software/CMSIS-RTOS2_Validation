@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -267,7 +267,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadDetach with a detached thread</li>
-<li>Call osThreadDetach with masked interrupts</li>
 <li>Call osThreadDetach from ISR</li>
 <li>Call osThreadDetach with null object </li>
 </ul>
@@ -291,7 +290,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadEnumerate to retrieve IDs of all active threads</li>
-<li>Call osThreadEnumerate with masked interrupts</li>
 <li>Call osThreadEnumerate from ISR </li>
 </ul>
 
@@ -335,7 +333,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadGetCount to retrieve the number of active threads</li>
-<li>Call osThreadGetCount with masked interrupts</li>
 <li>Call osThreadGetCount from ISR </li>
 </ul>
 
@@ -358,7 +355,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadGetId from multiple threads that exist at the same time</li>
-<li>Call osThreadGetId with masked interrupts</li>
 <li>Call osThreadGetId from ISR </li>
 </ul>
 
@@ -383,7 +379,6 @@ Functions</h2></td></tr>
 <li>Call osThreadGetName to retrieve a name of an unnamed thread</li>
 <li>Call osThreadGetName to retrieve a name of a thread with assigned name</li>
 <li>Call osThreadGetName with valid object</li>
-<li>Call osThreadGetName with masked interrupts</li>
 <li>Call osThreadGetName from ISR</li>
 <li>Call osThreadGetName with null object </li>
 </ul>
@@ -407,7 +402,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadGetPriority to retrieve priority of a running thread</li>
-<li>Call osThreadGetPriority with masked interrupts</li>
 <li>Call osThreadGetPriority from ISR</li>
 <li>Call osThreadGetPriority with null object </li>
 </ul>
@@ -432,7 +426,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osThreadGetStackSize to retrieve the stack size of a running thread</li>
 <li>Call osThreadGetStackSize to retrieve the stack size of a 'Ready' thread</li>
-<li>Call osThreadGetStackSize with masked interrupts</li>
 <li>Call osThreadGetStackSize from ISR</li>
 <li>Call osThreadGetStackSize with null object id </li>
 </ul>
@@ -457,7 +450,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osThreadGetStackSpace to retrieve the unused stack space of a running thread</li>
 <li>Call osThreadGetStackSpace to retrieve the unused stack space of a ready thread</li>
-<li>Call osThreadGetStackSpace with masked interrupts</li>
 <li>Call osThreadGetStackSpace from ISR</li>
 <li>Call osThreadGetStackSpace with null object </li>
 </ul>
@@ -482,7 +474,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osThreadGetState to retrieve the state of a running thread</li>
 <li>Call osThreadGetState to retrieve the state of a ready thread</li>
-<li>Call osThreadGetState with masked interrupts</li>
 <li>Call osThreadGetState from ISR</li>
 <li>Call osThreadGetState to retrieve the state of a terminated thread</li>
 <li>Call osThreadGetState with null object </li>
@@ -576,7 +567,6 @@ Functions</h2></td></tr>
 <li>Call osThreadJoin with null object</li>
 <li>Call osThreadJoin with a running thread</li>
 <li>Call osThreadJoin with wrong object id</li>
-<li>Call osThreadJoin with masked interrupts</li>
 <li>Call osThreadJoin from ISR</li>
 <li>Call osThreadJoin with a joinable running thread</li>
 <li>Call osThreadJoin with a joinable terminated thread </li>
@@ -624,7 +614,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osThreadNew to create a thread</li>
 <li>Call osThreadNew with null thread function</li>
-<li>Call osThreadNew with masked interrupts</li>
 <li>Call osThreadNew from ISR </li>
 </ul>
 
@@ -773,7 +762,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadResume to resume suspended thread</li>
-<li>Call osThreadResume with masked interrupts</li>
 <li>Call osThreadResume from ISR</li>
 <li>Call osThreadResume with null object </li>
 </ul>
@@ -820,7 +808,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osThreadSetPriority with priority lower than osPriorityIdle</li>
 <li>Call osThreadSetPriority with priority higher than osPriorityISR</li>
-<li>Call osThreadSetPriority with masked interrupts</li>
 <li>Call osThreadSetPriority from ISR</li>
 <li>Call osThreadSetPriority with null object </li>
 </ul>
@@ -845,7 +832,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osThreadSuspend to suspend a thread when there is at least one other thread 'Ready'</li>
 <li>Call osThreadSuspend to suspend a child thread which is in 'Ready' state</li>
-<li>Call osThreadSuspend with masked interrupts</li>
 <li>Call osThreadSuspend from ISR</li>
 <li>Call osThreadSuspend with null object </li>
 </ul>
@@ -869,7 +855,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadTerminate to terminate thread in state 'Ready'</li>
-<li>Call osThreadTerminate to terminate thread in state 'Blocked' (delayed) </li>
+<li>Call osThreadTerminate to terminate thread in state 'Blocked' (delayed)</li>
+<li>Call osThreadTerminate from ISR </li>
 </ul>
 
 </div>
@@ -891,7 +878,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osThreadYield with no thread in state 'Ready'</li>
-<li>Call osThreadYield with masked interrupts</li>
 <li>Call osThreadYield from ISR </li>
 </ul>
 

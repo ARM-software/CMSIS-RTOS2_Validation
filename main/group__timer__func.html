@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -170,7 +170,6 @@ Functions</h2></td></tr>
 <li>Call osTimerDelete to delete running one-shoot timer</li>
 <li>Call osTimerDelete to delete stopped periodic timer</li>
 <li>Call osTimerDelete to delete running periodic timer</li>
-<li>Call osTimerDelete with masked interrupts</li>
 <li>Call osTimerDelete from ISR</li>
 <li>Call osTimerDelete with null object </li>
 </ul>
@@ -196,7 +195,6 @@ Functions</h2></td></tr>
 <li>Call osTimerGetName to retrieve a name of an unnamed timer</li>
 <li>Call osTimerGetName to retrieve a name of a timer with assigned name</li>
 <li>Call osTimerGetName with valid object</li>
-<li>Call osTimerGetName with masked interrupts</li>
 <li>Call osTimerGetName from ISR</li>
 <li>Call osTimerGetName with null object </li>
 </ul>
@@ -223,7 +221,6 @@ Functions</h2></td></tr>
 <li>Call osTimerIsRunning to check whether a one-shoot timer is stopped</li>
 <li>Call osTimerIsRunning to check whether a periodic timer is running</li>
 <li>Call osTimerIsRunning to check whether a periodic timer is stopped</li>
-<li>Call osTimerIsRunning with masked interrupts</li>
 <li>Call osTimerIsRunning from ISR</li>
 <li>Call osTimerIsRunning with null object </li>
 </ul>
@@ -248,7 +245,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osTimerNew to create a timer object of type osTimerOnce</li>
 <li>Call osTimerNew to create a timer object of type osTimerPeriodic</li>
-<li>Call osTimerNew with masked interrupts</li>
 <li>Call osTimerNew from ISR</li>
 <li>Call osTimerNew with null timer function </li>
 </ul>
@@ -315,7 +311,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osTimerStart to start the one-shot timer</li>
 <li>Call osTimerStart to start the periodic timer</li>
-<li>Call osTimerStart with masked interrupts</li>
 <li>Call osTimerStart from ISR</li>
 <li>Call osTimerStart with invalid ticks value</li>
 <li>Call osTimerStart with null object </li>
@@ -362,7 +357,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osTimerStop to stop the one-shoot timer</li>
 <li>Call osTimerStop to stop the periodic timer</li>
-<li>Call osTimerStop with masked interrupts</li>
 <li>Call osTimerStop from ISR</li>
 <li>Call osTimerStop with null object </li>
 </ul>

@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -292,7 +292,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osEventFlagsClear to clear all available flags in event flags object</li>
-<li>Call osEventFlagsClear with masked interrupts</li>
 <li>Call osEventFlagsClear from ISR</li>
 <li>Call osEventFlagsClear with null object </li>
 </ul>
@@ -316,7 +315,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osEventFlagsDelete to delete a event flags object</li>
-<li>Call osEventFlagsDelete with masked interrupts</li>
 <li>Call osEventFlagsDelete from ISR</li>
 <li>Call osEventFlagsDelete with null object </li>
 </ul>
@@ -341,7 +339,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osEventFlagsGet to retrieve the flags in event flags object when all flags are cleared</li>
 <li>Call osEventFlagsGet to retrieve the flags in event flags object when all flags are set</li>
-<li>Call osEventFlagsGet with masked interrupts</li>
 <li>Call osEventFlagsGet from ISR</li>
 <li>Call osEventFlagsGet with null object </li>
 </ul>
@@ -367,7 +364,6 @@ Functions</h2></td></tr>
 <li>Call osEventFlagsGetName to retrieve a name of an unnamed event flags</li>
 <li>Call osEventFlagsGetName to retrieve a name of a event flags with assigned name</li>
 <li>Call osEventFlagsGetName with valid object</li>
-<li>Call osEventFlagsGetName with masked interrupts</li>
 <li>Call osEventFlagsGetName from ISR</li>
 <li>Call osEventFlagsGetName with null object </li>
 </ul>
@@ -391,7 +387,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osEventFlagsNew to create event flags object</li>
-<li>Call osEventFlagsNew with masked interrupts</li>
 <li>Call osEventFlagsNew from ISR </li>
 </ul>
 
@@ -456,7 +451,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osEventFlagsSet to set all available flags in event flags object</li>
-<li>Call osEventFlagsSet with masked interrupts</li>
 <li>Call osEventFlagsSet from ISR </li>
 </ul>
 
@@ -480,7 +474,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osEventFlagsWait without timeout to retrieve the event flags</li>
 <li>Call osEventFlagsWait with timeout to retrieve the event flags</li>
-<li>Call osEventFlagsWait with masked interrupts</li>
 <li>Call osEventFlagsWait from ISR with timeout</li>
 <li>Call osEventFlagsWait from ISR without timeout</li>
 <li>Call osEventFlagsWait with null object</li>

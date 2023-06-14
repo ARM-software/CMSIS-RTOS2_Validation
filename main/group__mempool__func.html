@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -265,8 +265,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolAlloc to allocate a memory block from the memory pool</li>
-<li>Call osMemoryPoolAlloc with masked interrupts and timeout == 0</li>
-<li>Call osMemoryPoolAlloc with masked interrupts and timeout != 0</li>
 <li>Call osMemoryPoolAlloc from ISR with timeout == 0</li>
 <li>Call osMemoryPoolAlloc from ISR with timeout != 0</li>
 <li>Call osMemoryPoolAlloc with null object </li>
@@ -291,7 +289,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolDelete to delete a memory pool</li>
-<li>Call osMemoryPoolDelete with masked interrupts</li>
 <li>Call osMemoryPoolDelete from ISR</li>
 <li>Call osMemoryPoolDelete with null object </li>
 </ul>
@@ -315,7 +312,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolFree to free a memory block from the memory pool</li>
-<li>Call osMemoryPoolFree with masked interrupts</li>
 <li>Call osMemoryPoolFree from ISR</li>
 <li>Call osMemoryPoolFree with null object</li>
 <li>Call osMemoryPoolFree from ISR with null object</li>
@@ -341,7 +337,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolGetBlockSize to retrieve the memory block size</li>
-<li>Call osMemoryPoolGetBlockSize with masked interrupts</li>
 <li>Call osMemoryPoolGetBlockSize from ISR</li>
 <li>Call osMemoryPoolGetBlockSize from ISR with null object</li>
 <li>Call osMemoryPoolGetBlockSize with null object </li>
@@ -366,7 +361,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolGetCapacity to retrieve the maximum number of available memory blocks</li>
-<li>Call osMemoryPoolGetCapacity with masked interrupts</li>
 <li>Call osMemoryPoolGetCapacity from ISR</li>
 <li>Call osMemoryPoolGetCapacity from ISR with null object</li>
 <li>Call osMemoryPoolGetCapacity with null object </li>
@@ -391,7 +385,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolGetCount to retrieve the number of memory blocks used</li>
-<li>Call osMemoryPoolGetCount with masked interrupts</li>
 <li>Call osMemoryPoolGetCount from ISR</li>
 <li>Call osMemoryPoolGetCount from ISR with null object</li>
 <li>Call osMemoryPoolGetCount with null object </li>
@@ -418,7 +411,6 @@ Functions</h2></td></tr>
 <li>Call osMemoryPoolGetName to retrieve a name of an unnamed memory pool</li>
 <li>Call osMemoryPoolGetName to retrieve a name of a memory pool with assigned name</li>
 <li>Call osMemoryPoolGetName with valid object</li>
-<li>Call osMemoryPoolGetName with masked interrupts</li>
 <li>Call osMemoryPoolGetName from ISR</li>
 <li>Call osMemoryPoolGetName with null object </li>
 </ul>
@@ -442,7 +434,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolGetSpace to retrieve the number of available memory blocks</li>
-<li>Call osMemoryPoolGetSpace with masked interrupts</li>
 <li>Call osMemoryPoolGetSpace from ISR</li>
 <li>Call osMemoryPoolGetSpace from ISR with null object</li>
 <li>Call osMemoryPoolGetSpace with null object </li>
@@ -467,7 +458,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMemoryPoolNew to create a memory pool object</li>
-<li>Call osMemoryPoolNew with masked interrupts</li>
 <li>Call osMemoryPoolNew from ISR </li>
 </ul>
 

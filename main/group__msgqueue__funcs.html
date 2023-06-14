@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -279,7 +279,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osMessageQueueDelete to delete empty message queue</li>
 <li>Call osMessageQueueDelete to delete non-empty message queue</li>
-<li>Call osMessageQueueDelete with masked interrupts</li>
 <li>Call osMessageQueueDelete from ISR</li>
 <li>Call osMessageQueueDelete with null object </li>
 </ul>
@@ -303,8 +302,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMessageQueueGet to get message from the queue</li>
-<li>Call osMessageQueueGet with masked interrupts and timeout == 0</li>
-<li>Call osMessageQueueGet with masked interrupts and timeout != 0</li>
 <li>Call osMessageQueueGet from ISR with timeout == 0</li>
 <li>Call osMessageQueueGet from ISR with timeout != 0</li>
 <li>Call osMessageQueueGet with null object</li>
@@ -351,7 +348,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMessageQueueGetCapacity to retrieve the maximum number of messages in the message queue</li>
-<li>Call osMessageQueueGetCapacity with masked interrupts</li>
 <li>Call osMessageQueueGetCapacity from ISR</li>
 <li>Call osMessageQueueGetCapacity from ISR with null object</li>
 <li>Call osMessageQueueGetCapacity with null object </li>
@@ -376,7 +372,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMessageQueueGetCount to retrieve the number of queued messages</li>
-<li>Call osMessageQueueGetCount with masked interrupts</li>
 <li>Call osMessageQueueGetCount from ISR</li>
 <li>Call osMessageQueueGetCount from ISR with null object</li>
 <li>Call osMessageQueueGetCount with null object </li>
@@ -401,7 +396,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMessageQueueGetMsgSize to retrieve the maximum message size</li>
-<li>Call osMessageQueueGetMsgSize with masked interrupts</li>
 <li>Call osMessageQueueGetMsgSize from ISR</li>
 <li>Call osMessageQueueGetMsgSize from ISR with null object</li>
 <li>Call osMessageQueueGetMsgSize with null object </li>
@@ -428,7 +422,6 @@ Functions</h2></td></tr>
 <li>Call osMessageQueueGetName to retrieve a name of an unnamed message queue</li>
 <li>Call osMessageQueueGetName to retrieve a name of a message queue with assigned name</li>
 <li>Call osMessageQueueGetName with valid object</li>
-<li>Call osMessageQueueGetName with masked interrupts</li>
 <li>Call osMessageQueueGetName from ISR</li>
 <li>Call osMessageQueueGetName with null object </li>
 </ul>
@@ -452,7 +445,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMessageQueueGetSpace to retrieve the number of available message slots</li>
-<li>Call osMessageQueueGetSpace with masked interrupts</li>
 <li>Call osMessageQueueGetSpace from ISR</li>
 <li>Call osMessageQueueGetSpace from ISR with null object</li>
 <li>Call osMessageQueueGetSpace with null object </li>
@@ -477,7 +469,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMessageQueueNew to create a message queue object</li>
-<li>Call osMessageQueueNew with masked interrupts</li>
 <li>Call osMessageQueueNew from ISR </li>
 </ul>
 
@@ -542,8 +533,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMessageQueuePut to put message into the queue</li>
-<li>Call osMessageQueuePut with masked interrupts and timeout == 0</li>
-<li>Call osMessageQueuePut with masked interrupts and timeout != 0</li>
 <li>Call osMessageQueuePut from ISR with timeout == 0</li>
 <li>Call osMessageQueuePut from ISR with timeout != 0</li>
 <li>Call osMessageQueuePut with null object</li>
@@ -589,7 +578,6 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <ul>
-<li>Call osMessageQueueReset with masked interrupts</li>
 <li>Call osMessageQueueReset from ISR</li>
 <li>Call osMessageQueueReset with null object id </li>
 </ul>

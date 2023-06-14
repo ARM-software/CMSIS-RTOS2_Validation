@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -180,7 +180,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osSemaphoreAcquire to acquire binary semaphore</li>
 <li>Call osSemaphoreAcquire to acquire counting semaphore</li>
-<li>Call osSemaphoreAcquire with masked interrupts (non-zero timeout)</li>
 <li>Call osSemaphoreAcquire from ISR (non-zero timeout)</li>
 <li>Call osSemaphoreAcquire with null semaphore object </li>
 </ul>
@@ -204,7 +203,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osSemaphoreDelete to delete a semaphore</li>
-<li>Call osSemaphoreDelete with masked interrupts</li>
 <li>Call osSemaphoreDelete from ISR</li>
 <li>Call osSemaphoreDelete with null object </li>
 </ul>
@@ -229,7 +227,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osSemaphoreGetCount to get token count of an initialized semaphore</li>
 <li>Call osSemaphoreGetCount to get token count of an acquired semaphore</li>
-<li>Call osSemaphoreGetCount with masked interrupts</li>
 <li>Call osSemaphoreGetCount from ISR</li>
 <li>Call osSemaphoreGetCount with a null object id </li>
 </ul>
@@ -255,7 +252,6 @@ Functions</h2></td></tr>
 <li>Call osSemaphoreGetName to retrieve a name of an unnamed semaphore</li>
 <li>Call osSemaphoreGetName to retrieve a name of a semaphore with assigned name</li>
 <li>Call osSemaphoreGetName with valid object</li>
-<li>Call osSemaphoreGetName with masked interrupts</li>
 <li>Call osSemaphoreGetName from ISR</li>
 <li>Call osSemaphoreGetName with null object </li>
 </ul>
@@ -282,7 +278,6 @@ Functions</h2></td></tr>
 <li>Call osSemaphoreNew to create a binary semaphore object with initial token set</li>
 <li>Call osSemaphoreNew to create a counting semaphore object with initial token count cleared</li>
 <li>Call osSemaphoreNew to create a counting semaphore object with initial token count set to max count={UINT8_MAX, UINT16_MAX, UINT32_MAX}</li>
-<li>Call osSemaphoreNew with masked interrupts</li>
 <li>Call osSemaphoreNew from ISR </li>
 </ul>
 
@@ -350,7 +345,6 @@ Functions</h2></td></tr>
 <li>Call osSemaphoreRelease to release acquired counting semaphore</li>
 <li>Call osSemaphoreRelease to release binary semaphore that was not acquired</li>
 <li>Call osSemaphoreRelease to release counting semaphore that was not acquired</li>
-<li>Call osSemaphoreRelease with masked interrupts</li>
 <li>Call osSemaphoreRelease from ISR</li>
 <li>Call osSemaphoreRelease with null semaphore object </li>
 </ul>

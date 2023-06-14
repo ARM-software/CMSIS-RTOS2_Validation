@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -357,7 +357,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMutexAcquire to acquire the mutex from the running thread</li>
-<li>Call osMutexAcquire with masked interrupts</li>
 <li>Call osMutexAcquire from ISR</li>
 <li>Call osMutexAcquire with null mutex object </li>
 </ul>
@@ -403,7 +402,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMutexDelete to delete a mutex</li>
-<li>Call osMutexDelete with masked interrupts</li>
 <li>Call osMutexDelete from ISR</li>
 <li>Call osMutexDelete with null object </li>
 </ul>
@@ -429,7 +427,6 @@ Functions</h2></td></tr>
 <li>Call osMutexGetName to retrieve a name of an unnamed mutex</li>
 <li>Call osMutexGetName to retrieve a name of a mutex with assigned name</li>
 <li>Call osMutexGetName with valid object</li>
-<li>Call osMutexGetName with masked interrupts</li>
 <li>Call osMutexGetName from ISR</li>
 <li>Call osMutexGetName with null object </li>
 </ul>
@@ -454,7 +451,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osMutexGetOwner when the mutex is not locked</li>
 <li>Call osMutexGetOwner when the mutex is locked</li>
-<li>Call osMutexGetOwner with masked interrupts</li>
 <li>Call osMutexGetOwner from ISR</li>
 <li>Call osMutexGetOwner with null object </li>
 </ul>
@@ -478,7 +474,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osMutexNew to create a mutex object</li>
-<li>Call osMutexNew with masked interrupts</li>
 <li>Call osMutexNew from ISR </li>
 </ul>
 
@@ -607,7 +602,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osMutexRelease to release acquired mutex</li>
 <li>Call osMutexRelease to release mutex that was not acquired</li>
-<li>Call osMutexRelease with masked interrupts</li>
 <li>Call osMutexRelease from ISR</li>
 <li>Call osMutexRelease with null mutex object </li>
 </ul>

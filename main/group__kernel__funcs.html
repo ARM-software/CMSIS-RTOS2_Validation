@@ -33,7 +33,7 @@
   <td id="projectlogo" style="padding: 1.5em;"><img alt="Logo" src="armkeil_white_h.png"/></td>
   <td style="padding-left: 1em; padding-bottom: 1em;padding-top: 1em;">
    <div id="projectname">CMSIS-RTOS2 Validation
-   &#160;<span id="projectnumber">Version 0.9.0-dev41</span>
+   &#160;<span id="projectnumber">Version 0.9.0-dev42</span>
    </div>
    <div id="projectbrief">Validates RTOS2 API Implementation</div>
   </td>
@@ -176,7 +176,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osKernelGetInfo and check that returned structures are populated</li>
-<li>Call osKernelGetInfo with masked interrupts</li>
 <li>Call osKernelGetInfo with argument version equal to NULL</li>
 <li>Call osKernelGetInfo with argument id_buf equal to NULL</li>
 <li>Call osKernelGetInfo with argument id_size equal to 0</li>
@@ -204,7 +203,6 @@ Functions</h2></td></tr>
 <li>Call osKernelGetState when the kernel is running</li>
 <li>Call osKernelGetState when the kernel is locked</li>
 <li>Call osKernelGetState after the kernel is unlocked</li>
-<li>Call osKernelGetState with masked interrupts</li>
 <li>Call osKernelGetState from ISR </li>
 </ul>
 
@@ -250,7 +248,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osKernelGetSysTimerCount and check that returned value is non-zero</li>
 <li>Call osKernelGetSysTimerCount twice with an osDelay of 100 ticks in between</li>
-<li>Call osKernelGetSysTimerCount with masked interrupts</li>
 <li>Call osKernelGetSysTimerCount from ISR </li>
 </ul>
 
@@ -273,7 +270,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osKernelGetSysTimerFreq and check that returned value is non-zero</li>
-<li>Call osKernelGetSysTimerFreq with masked interrupts</li>
 <li>Call osKernelGetSysTimerFreq from ISR </li>
 </ul>
 
@@ -297,7 +293,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osKernelGetTickCount and check that returned value is non-zero</li>
 <li>Call osKernelGetTickCount twice with an osDelay of 100 ticks in between</li>
-<li>Call osKernelGetTickCount with masked interrupts</li>
 <li>Call osKernelGetTickCount from ISR </li>
 </ul>
 
@@ -321,7 +316,6 @@ Functions</h2></td></tr>
 <ul>
 <li>Call osKernelGetTickFreq and check that returned value is non-zero</li>
 <li>Call osKernelGetTickFreq and check that returned value equals to predefine tick frequency</li>
-<li>Call osKernelGetTickFreq with masked interrupts</li>
 <li>Call osKernelGetTickFreq from ISR </li>
 </ul>
 
@@ -344,7 +338,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osKernelInitialize when the kernel is already initialized</li>
-<li>Call osKernelInitialize with masked interrupts </li>
+<li>Call osKernelInitialize from ISR </li>
 </ul>
 
 </div>
@@ -366,7 +360,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osKernelLock to try lock already locked kernel</li>
-<li>Call osKernelLock with masked interrupts</li>
 <li>Call osKernelLock from ISR </li>
 </ul>
 
@@ -433,7 +426,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osKernelResume to resume suspended kernel</li>
-<li>Call osKernelResume with masked interrupts</li>
 <li>Call osKernelResume from ISR </li>
 </ul>
 
@@ -456,7 +448,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osKernelStart when the kernel is already running</li>
-<li>Call osKernelStart with masked interrupts</li>
 <li>Call osKernelStart from ISR </li>
 </ul>
 
@@ -481,7 +472,6 @@ Functions</h2></td></tr>
 <li>Call osKernelSuspend to suspend the kernel when no other RTOS objects are active</li>
 <li>Call osKernelSuspend when the kernel is already suspended</li>
 <li>Call osKernelSuspend to suspend the kernel with other RTOS objects active</li>
-<li>Call osKernelSuspend with masked interrupts</li>
 <li>Call osKernelSuspend from ISR </li>
 </ul>
 
@@ -504,7 +494,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <ul>
 <li>Call osKernelUnlock to try unlock running kernel</li>
-<li>Call osKernelUnlock with masked interrupts</li>
 <li>Call osKernelUnlock from ISR </li>
 </ul>
 
