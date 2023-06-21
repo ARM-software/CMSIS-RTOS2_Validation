@@ -1,58 +1,45 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/1.3.0/tools/projmgr/schemas/csolution.schema.json
-
 solution:
+  created-for: CMSIS-Toolbox@2.0.0
+  cdefault:
+
   packs:
     - pack: ARM::CMSIS
-    - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
-      for-type:
-       - +CM0plus
-       - +CM3
-       - +CM4_FP
-       - +CM7_DP
-       - +CM7_SP
-    - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.0
-      for-type:
-       - +CM23
-       - +CM33_FP
-    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.3.0
-      for-type:
-       - +CM55
     - pack: ARM::CMSIS-FreeRTOS
-      for-type:
-       - .FreeRTOS_AC6
-       - .FreeRTOS_GCC
+    - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
+    - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.0
+    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.3.0
 
   target-types:
     #CM0plus
     - type: CM0plus
       device: CMSDK_CM0plus_VHT
       define:
-        - TST_IRQ_HANDLER_A=TIMER0_Handler
-        - TST_IRQ_NUM_A=8
-        - TST_IRQ_HANDLER_B=TIMER1_Handler
-        - TST_IRQ_NUM_B=9
+        - TST_IRQ_HANDLER_A: TIMER0_Handler
+        - TST_IRQ_NUM_A: 8
+        - TST_IRQ_HANDLER_B: TIMER1_Handler
+        - TST_IRQ_NUM_B: 9
     #CM3
     - type: CM3
       device: CMSDK_CM3_VHT
       define:
-        - TST_IRQ_HANDLER_A=TIMER0_Handler
-        - TST_IRQ_NUM_A=8
-        - TST_IRQ_HANDLER_B=TIMER1_Handler
-        - TST_IRQ_NUM_B=9
+        - TST_IRQ_HANDLER_A: TIMER0_Handler
+        - TST_IRQ_NUM_A: 8
+        - TST_IRQ_HANDLER_B: TIMER1_Handler
+        - TST_IRQ_NUM_B: 9
     #CM4_FP
     - type: CM4_FP
       device: CMSDK_CM4_FP_VHT
       define:
-        - TST_IRQ_HANDLER_A=TIMER0_Handler
-        - TST_IRQ_NUM_A=8
-        - TST_IRQ_HANDLER_B=TIMER1_Handler
-        - TST_IRQ_NUM_B=9
+        - TST_IRQ_HANDLER_A: TIMER0_Handler
+        - TST_IRQ_NUM_A: 8
+        - TST_IRQ_HANDLER_B: TIMER1_Handler
+        - TST_IRQ_NUM_B: 9
       misc:
-        - compiler: AC6
+        - for-compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv4-sp-d16]
           ASM: [-mfloat-abi=hard, -mfpu=fpv4-sp-d16]
 
-        - compiler: GCC
+        - for-compiler: GCC
           C: [-mfloat-abi=hard, -mfpu=auto]
           ASM: [-mfloat-abi=hard, -mfpu=auto]
           Link: [-mfloat-abi=hard]
@@ -60,16 +47,16 @@ solution:
     - type: CM7_DP
       device: CMSDK_CM7_DP_VHT
       define:
-        - TST_IRQ_HANDLER_A=TIMER0_Handler
-        - TST_IRQ_NUM_A=8
-        - TST_IRQ_HANDLER_B=TIMER1_Handler
-        - TST_IRQ_NUM_B=9
+        - TST_IRQ_HANDLER_A: TIMER0_Handler
+        - TST_IRQ_NUM_A: 8
+        - TST_IRQ_HANDLER_B: TIMER1_Handler
+        - TST_IRQ_NUM_B: 9
       misc:
-        - compiler: AC6
+        - for-compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv5-d16]
           ASM: [-mfloat-abi=hard, -mfpu=fpv5-d16]
 
-        - compiler: GCC
+        - for-compiler: GCC
           C: [-mfloat-abi=hard, -mfpu=auto]
           ASM: [-mfloat-abi=hard, -mfpu=auto]
           Link: [-mfloat-abi=hard]
@@ -77,16 +64,16 @@ solution:
     - type: CM7_SP
       device: CMSDK_CM7_SP_VHT
       define:
-        - TST_IRQ_HANDLER_A=TIMER0_Handler
-        - TST_IRQ_NUM_A=8
-        - TST_IRQ_HANDLER_B=TIMER1_Handler
-        - TST_IRQ_NUM_B=9
+        - TST_IRQ_HANDLER_A: TIMER0_Handler
+        - TST_IRQ_NUM_A: 8
+        - TST_IRQ_HANDLER_B: TIMER1_Handler
+        - TST_IRQ_NUM_B: 9
       misc:
-        - compiler: AC6
+        - for-compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16]
           ASM: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16]
 
-        - compiler: GCC
+        - for-compiler: GCC
           C: [-mfloat-abi=hard, -mfpu=auto]
           ASM: [-mfloat-abi=hard, -mfpu=auto]
           Link: [-mfloat-abi=hard]
@@ -94,17 +81,17 @@ solution:
     - type: CM23
       device: IOTKit_CM23_VHT
       define:
-        - TST_IRQ_HANDLER_A=NONSEC_WATCHDOG_RESET_Handler
-        - TST_IRQ_NUM_A=0
-        - TST_IRQ_HANDLER_B=NONSEC_WATCHDOG_Handler
-        - TST_IRQ_NUM_B=1
-        - configENABLE_FPU=0
+        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_NUM_B: 1
+        - configENABLE_FPU: 0
       misc:
-        - compiler: AC6
+        - for-compiler: AC6
           C: [-mcmse]
           ASM: [-mcmse]
 
-        - compiler: GCC
+        - for-compiler: GCC
           C: [-mfloat-abi=soft, -mfpu=auto]
           ASM: [-mfloat-abi=soft, -mfpu=auto]
           Link: [-mfloat-abi=soft]
@@ -112,16 +99,16 @@ solution:
     - type: CM33_FP
       device: IOTKit_CM33_FP_VHT
       define:
-        - TST_IRQ_HANDLER_A=NONSEC_WATCHDOG_RESET_Handler
-        - TST_IRQ_NUM_A=0
-        - TST_IRQ_HANDLER_B=NONSEC_WATCHDOG_Handler
-        - TST_IRQ_NUM_B=1
+        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_NUM_B: 1
       misc:
-        - compiler: AC6
+        - for-compiler: AC6
           C: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16, -mcmse]
           ASM: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16, -mcmse]
 
-        - compiler: GCC
+        - for-compiler: GCC
           C: [-mfloat-abi=hard, -mfpu=auto]
           ASM: [-mfloat-abi=hard, -mfpu=auto]
           Link: [-mfloat-abi=hard]
@@ -129,43 +116,33 @@ solution:
     - type: CM55
       device: SSE-300-MPS3
       define:
-        - TST_IRQ_HANDLER_A=NONSEC_WATCHDOG_RESET_Handler
-        - TST_IRQ_NUM_A=0
-        - TST_IRQ_HANDLER_B=NONSEC_WATCHDOG_Handler
-        - TST_IRQ_NUM_B=1
+        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_NUM_B: 1
       misc:
-        - compiler: AC6
+        - for-compiler: AC6
           C: [-mfloat-abi=hard, -mcmse]
           ASM: [-mfloat-abi=hard, -mcmse]
 
   build-types:
     - type: RTX5_AC6
       compiler: AC6
-      misc:
-        - compiler: AC6
-          C: [-O1, -std=c99, -gdwarf-4, -ffunction-sections -fshort-enums -fshort-wchar]
-          Link: [--entry=Reset_Handler]
 
     - type: RTX5_GCC
       compiler: GCC
       misc:
-        - compiler: GCC
-          C: [-O1, -std=gnu99, -mapcs-frame, -mthumb-interwork]
-          Link: [-nostartfiles, -lm, -specs=nano.specs, --entry=Reset_Handler]
+        - for-compiler: GCC
+          Link: [-nostartfiles, -lm, -specs=nano.specs]
 
     - type: FreeRTOS_AC6
       compiler: AC6
-      misc:
-        - compiler: AC6
-          C: [-O1, -std=c99, -gdwarf-4, -ffunction-sections]
-          Link: [--entry=Reset_Handler]
 
     - type: FreeRTOS_GCC
       compiler: GCC
       misc:
-        - compiler: GCC
-          C: [-O1, -std=gnu99, -mapcs-frame, -mthumb-interwork, -masm-syntax-unified]
-          Link: [-nostartfiles, -lm, -specs=nano.specs, --entry=Reset_Handler]
+        - for-compiler: GCC
+          Link: [-nostartfiles, -lm, -specs=nano.specs]
 
   projects:
     - project: ./Validation.cproject.yml
