@@ -12,77 +12,42 @@ project:
         - .FreeRTOS_GCC
 
     #Target: CM0plus
-    - layer: ../Layer/Target/CM0plus_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM0plus_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM0plus
-        - .FreeRTOS_AC6+CM0plus
-    - layer: ../Layer/Target/CM0plus_VHT_GCC/Target.clayer.yml
-      for-context:
-        - .RTX5_GCC+CM0plus
-        - .FreeRTOS_GCC+CM0plus
+        - +CM0plus
 
     #Target: CM3
-    - layer: ../Layer/Target/CM3_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM3_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM3
-        - .FreeRTOS_AC6+CM3
-    - layer: ../Layer/Target/CM3_VHT_GCC/Target.clayer.yml
-      for-context:
-        - .RTX5_GCC+CM3
-        - .FreeRTOS_GCC+CM3
+        - +CM3
 
     #Target: CM4_FP
-    - layer: ../Layer/Target/CM4_FP_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM4_FP_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM4_FP
-        - .FreeRTOS_AC6+CM4_FP
-    - layer: ../Layer/Target/CM4_FP_VHT_GCC/Target.clayer.yml
-      for-context:
-        - .RTX5_GCC+CM4_FP
-        - .FreeRTOS_GCC+CM4_FP
+        - +CM4_FP
 
     #Target: CM7_DP
-    - layer: ../Layer/Target/CM7_DP_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM7_DP_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM7_DP
-        - .FreeRTOS_AC6+CM7_DP
-    - layer: ../Layer/Target/CM7_DP_VHT_GCC/Target.clayer.yml
-      for-context:
-        - .RTX5_GCC+CM7_DP
-        - .FreeRTOS_GCC+CM7_DP
+        - +CM7_DP
 
     #Target: CM7_SP
-    - layer: ../Layer/Target/CM7_SP_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM7_SP_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM7_SP
-        - .FreeRTOS_AC6+CM7_SP
-    - layer: ../Layer/Target/CM7_SP_VHT_GCC/Target.clayer.yml
-      for-context:
-        - .RTX5_GCC+CM7_SP
-        - .FreeRTOS_GCC+CM7_SP
+        - +CM7_SP
 
     #Target: CM23
-    - layer: ../Layer/Target/CM23_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM23_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM23
-        - .FreeRTOS_AC6+CM23
-    - layer: ../Layer/Target/CM23_VHT_GCC/Target.clayer.yml
-      for-context:
-        - .RTX5_GCC+CM23
-        - .FreeRTOS_GCC+CM23
+        - +CM23
 
     #Target: CM33_FP
-    - layer: ../Layer/Target/CM33_FP_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM33_FP_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM33_FP
-        - .FreeRTOS_AC6+CM33_FP
-    - layer: ../Layer/Target/CM33_FP_VHT_GCC/Target.clayer.yml
-      for-context:
-        - .RTX5_GCC+CM33_FP
-        - .FreeRTOS_GCC+CM33_FP
+        - +CM33_FP
 
     #Target: CM55
-    - layer: ../Layer/Target/CM55_VHT_AC6/Target.clayer.yml
+    - layer: ../Layer/Target/CM55_VHT/Target.clayer.yml
       for-context:
         - .RTX5_AC6+CM55
         - .FreeRTOS_AC6+CM55

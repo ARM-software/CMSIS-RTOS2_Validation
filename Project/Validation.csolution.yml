@@ -114,6 +114,7 @@ solution:
           Link: [-mfloat-abi=hard]
     #CM55
     - type: CM55
+      compiler: AC6
       device: SSE-300-MPS3
       define:
         - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
