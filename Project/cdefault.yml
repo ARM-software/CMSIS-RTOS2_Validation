@@ -1,0 +1,11 @@
+default:
+  compiler: AC6
+
+  misc:
+    - for-compiler: AC6
+      C: [-O1, -std=c99, -gdwarf-4, -ffunction-sections -fshort-enums -fshort-wchar]
+      Link: [--entry=Reset_Handler, --info summarysizes]
+
+    - for-compiler: GCC
+      C: [-O1, -std=gnu99, -gdwarf-2, -ffunction-sections, -mthumb-interwork, -masm-syntax-unified]
+      Link: [--entry=Reset_Handler, '-Wl,-Map=$elf()$.map', '-Wl,--gc-sections']
