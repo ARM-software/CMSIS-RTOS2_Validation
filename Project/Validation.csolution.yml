@@ -127,20 +127,12 @@ solution:
           ASM: [-mfloat-abi=hard, -mcmse]
 
   build-types:
-    - type: RTX5_AC6
-      compiler: AC6
-
-    - type: RTX5_GCC
-      compiler: GCC
+    - type: RTX5
       misc:
         - for-compiler: GCC
           Link: [-nostartfiles, -lm, -specs=nano.specs]
 
-    - type: FreeRTOS_AC6
-      compiler: AC6
-
-    - type: FreeRTOS_GCC
-      compiler: GCC
+    - type: FreeRTOS
       misc:
         - for-compiler: GCC
           Link: [-nostartfiles, -lm, -specs=nano.specs]
