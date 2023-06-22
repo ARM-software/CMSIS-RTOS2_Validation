@@ -3,13 +3,12 @@ project:
     # App: CMSIS-RTOS2 Validation for RTX5
     - layer: ../Layer/App/Validation_RTX5/App.clayer.yml
       for-context:
-        - .RTX5_AC6
-        - .RTX5_GCC
+        - .RTX5
+
     # App: CMSIS-RTOS2 Validation for FreeRTOS
     - layer: ../Layer/App/Validation_FreeRTOS/App.clayer.yml
       for-context:
-        - .FreeRTOS_AC6
-        - .FreeRTOS_GCC
+        - .FreeRTOS
 
     #Target: CM0plus
     - layer: ../Layer/Target/CM0plus_VHT/Target.clayer.yml
@@ -49,5 +48,4 @@ project:
     #Target: CM55
     - layer: ../Layer/Target/CM55_VHT/Target.clayer.yml
       for-context:
-        - .RTX5_AC6+CM55
-        - .FreeRTOS_AC6+CM55
+        - +CM55
