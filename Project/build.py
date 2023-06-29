@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import logging
@@ -46,8 +46,16 @@ class CompilerAxis(Enum):
         }
         return ext[self]
 
+    @property
+    def toolchain(self):
+        ext = {
+            CompilerAxis.AC6: 'AC6',
+            CompilerAxis.GCC: 'GCC',
+        }
+        return ext[self]
 
-AVH_EXECUTABLE = {
+
+MODEL_EXECUTABLE = {
     DeviceAxis.CM0plus: ("VHT_MPS2_Cortex-M0plus", []),
     DeviceAxis.CM3: ("VHT_MPS2_Cortex-M3", []),
     DeviceAxis.CM4_FP: ("VHT_MPS2_Cortex-M4", []),
@@ -58,24 +66,23 @@ AVH_EXECUTABLE = {
     DeviceAxis.CM55: ("VHT_MPS3_Corstone_SSE-300", []),
 }
 
-
 def config_suffix(config, timestamp=True):
-    suffix = f"{config.rtos[0]}-{config.compiler[0]}-{config.device[1]}"
+    suffix = f"{config.rtos[0]}-{config.device[1]}-{config.compiler[0]}"
     if timestamp:
-        suffix += f"-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        suffix += f"-{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     return suffix
 
 
 def project_name(config):
-    return f"Validation.{config.rtos}_{config.compiler}+{config.device[1]}"
+    return f"Validation.{config.rtos}+{config.device[1]}_{config.compiler}"
 
 
 def output_dir(config):
-    return f"{project_name(config)}_OutDir"
+    return f"Validation.{config.rtos}+{config.device[1]}_OutDir"
 
 
-def vht_config(config):
-    return f"../Layer/Target/{config.device[1]}_VHT_{config.compiler}/vht_config.txt"
+def model_config(config):
+    return f"../Layer/Target/{config.device[1]}_VHT/vht_config.txt"
 
 
 @matrix_action
@@ -89,14 +96,14 @@ def build(config, results):
     """Build the selected configurations using CMSIS-Build."""
 
     logging.info("Compiling Tests...")
-    yield csolution("Validation.csolution.yml", project_name(config))
-    yield cbuild(f"{project_name(config)}/{project_name(config)}.cprj")
+
+    yield cbuild(config)
 
     if not all(r.success for r in results):
         return
 
-    file = f"RTOS2_Validation-{config_suffix(config)}.zip"
-    logging.info(f"Archiving build output to {file}...")
+    file = f"Validation-{config_suffix(config)}.zip"
+    logging.info("Archiving build output to %s...", file)
     with ZipFile(file, "w") as archive:
         for content in iglob(f"{project_name(config)}/**/*", recursive=True):
             if Path(content).is_file():
@@ -106,23 +113,23 @@ def build(config, results):
 @matrix_action
 def extract(config):
     """Extract the latest build archive."""
-    archives = sorted(glob(f"RTOS2_Validation-{config_suffix(config, timestamp=False)}-*.zip"), reverse=True)
+    archives = sorted(glob(f"Validation-{config_suffix(config, timestamp=False)}-*.zip"), reverse=True)
     yield unzip(archives[0])
 
 
 @matrix_action
 def run(config, results):
     """Run the selected configurations."""
-    logging.info("Running RTOS2 Validation on Arm virtual hardware ...")
-    yield avhrun(config)
+    logging.info("Running Validation on Arm virtual Hardware Targets ...")
+    yield model_exec(config)
 
     try:
-        results[0].test_report.write(f"RTOS2_Validation-{config_suffix(config)}.junit")
-    except RuntimeError as e:
-        if isinstance(e.__cause__, XMLSyntaxError):
+        results[0].test_report.write(f"Validation-{config_suffix(config)}.junit")
+    except RuntimeError as ex:
+        if isinstance(ex.__cause__, XMLSyntaxError):
             logging.error("No valid test report found in model output!")
         else:
-            logging.exception(e)
+            logging.exception(ex)
 
 
 @matrix_command()
@@ -134,28 +141,25 @@ def cbuild_clean(project):
 def unzip(archive):
     return ["bash", "-c", f"unzip {archive}"]
 
-
 @matrix_command()
-def cbuild(project):
-    return ["cbuild", project]
-
-
-@matrix_command()
-def csolution(solution, context):
-    return ["csolution", "convert", "-s", solution, "-c", context]
+def cbuild(config):
+    return ["cbuild", "Validation.csolution.yml",                        \
+                      "--update-rte",                                    \
+                      "--toolchain", config.compiler.toolchain,          \
+                      "--context", f".{config.rtos}+{config.device[1]}"]
 
 
 @matrix_command(test_report=ConsoleReport() |
                             CropReport('<\?xml version="1.0"\?>', '</report>') |
                             TransformReport('validation.xsl') |
                             JUnitReport(title=lambda title, result: f"{result.command.config.rtos}."
-                                                                    f"{result.command.config.compiler}."
                                                                     f"{result.command.config.device}."
+                                                                    f"{result.command.config.compiler}."
                                                                     f"{title}"))
-def avhrun(config):
-    cmdline = [AVH_EXECUTABLE[config.device][0], "-q", "--simlimit", 100, "-f", vht_config(config)]
-    cmdline += AVH_EXECUTABLE[config.device][1]
-    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/{project_name(config)}.{config.compiler.image_ext}"]
+def model_exec(config):
+    cmdline = [MODEL_EXECUTABLE[config.device][0], "-q", "--simlimit", 100, "-f", model_config(config)]
+    cmdline += MODEL_EXECUTABLE[config.device][1]
+    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/Validation.{config.compiler.image_ext}"]
     return cmdline
 
 
