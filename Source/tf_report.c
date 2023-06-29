@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2022-2023 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -340,8 +340,8 @@ static int vprintf_lim (char const *fmt, va_list arg) {
   unsigned int slen;
   int   m, p;
 
-  /* Stacked vfprintf buffer */
-  char  buf[512];
+  /* Private vfprintf buffer */
+  static char buf[512];
 
   len = 0;
 
