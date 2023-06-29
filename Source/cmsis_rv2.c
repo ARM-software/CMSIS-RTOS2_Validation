@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2022-2023 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -104,6 +104,7 @@ static const TEST_CASE TC_List[] = {
   TCD ( TC_osThreadYield_1,               TC_OSTHREADYIELD_1_EN               ),
   TCD ( TC_osThreadSuspend_1,             TC_OSTHREADSUSPEND_1_EN             ),
   TCD ( TC_osThreadResume_1,              TC_OSTHREADRESUME_1_EN              ),
+  TCD ( TC_osThreadResume_2,              TC_OSTHREADRESUME_2_EN              ),
   TCD ( TC_osThreadDetach_1,              TC_OSTHREADDETACH_1_EN              ),
   TCD ( TC_osThreadDetach_2,              TC_OSTHREADDETACH_2_EN              ),
   TCD ( TC_osThreadJoin_1,                TC_OSTHREADJOIN_1_EN                ),
