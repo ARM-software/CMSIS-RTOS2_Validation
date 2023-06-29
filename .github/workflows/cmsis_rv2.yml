@@ -34,6 +34,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      checks: write
 
     steps:
     - name: Check out repository code
@@ -65,8 +66,8 @@ jobs:
       with:
         name: results
         path: |
-          Project/RTOS2_Validation-*.zip
-          Project/RTOS2_Validation-*.junit
+          Project/Validation-*.zip
+          Project/Validation-*.junit
         retention-days: 1
         if-no-files-found: error
       if: always()
@@ -75,5 +76,5 @@ jobs:
       uses: mikepenz/action-junit-report@v3
       with:
         check_name: "Test results"
-        report_paths: Project/RTOS2_Validation-*.junit
+        report_paths: Project/Validation-*.junit
       if: always()
