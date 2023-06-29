@@ -24,6 +24,7 @@ var group__thread__funcs =
     [ "TC_osThreadNew_6", "group__thread__funcs.html#ga9a6205e97530a3fb4f92f8d6640f4480", null ],
     [ "TC_osThreadNew_7", "group__thread__funcs.html#ga2ae89889b96afd78cdd20eea174bf2f1", null ],
     [ "TC_osThreadResume_1", "group__thread__funcs.html#ga1ea62def54ea30e447a018b98062c7da", null ],
+    [ "TC_osThreadResume_2", "group__thread__funcs.html#ga7a602f99c786512416f2481c4c52577c", null ],
     [ "TC_osThreadSetPriority_1", "group__thread__funcs.html#gaaccb7e87bfa8babfcc3520e04c265d60", null ],
     [ "TC_osThreadSetPriority_2", "group__thread__funcs.html#ga8a9531cc2cde7a370feb1fa2e654795f", null ],
     [ "TC_osThreadSuspend_1", "group__thread__funcs.html#ga01f4b52dc6840c54ad4c356dba85ea99", null ],
