@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2022-2023 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -79,6 +79,7 @@ void Th_osThreadGetState_2  (void *arg);
 void Th_osThreadGetState_3  (void *arg);
 void Th_osThreadSuspend_1   (void *arg);
 void Th_osThreadResume_1    (void *arg);
+void Th_osThreadResume_2    (void *arg);
 void Th_osThreadExit_1      (void *arg) __NO_RETURN;
 void Th_osThreadTerminate_1 (void *arg);
 void Th_osThreadGetCount_1  (void *arg);
@@ -1004,6 +1005,196 @@ void Th_osThreadResume_1 (void *arg) {
 #if (TC_OSTHREADRESUME_1_EN)
 void Irq_osThreadResume_1 (void) {
   Isr_osStatus = osThreadResume(ThreadId);
+}
+#endif
+
+/*=======0=========1=========2=========3=========4=========5=========6=========7=========8=========9=========0=========1====*/
+/**
+\brief Test case: TC_osThreadResume_2
+\details
+  - Call osThreadResume to resume delayed thread
+  - Call osThreadResume to resume a thread that waits for mutex
+  - Call osThreadResume to resume a thread that waits for semaphore
+  - Call osThreadResume to resume a thread that waits for event flags
+  - Call osThreadResume to resume a thread that waits for message queue
+  - Call osThreadResume to resume a thread that waits for memory pool
+*/
+void TC_osThreadResume_2 (void) {
+#if (TC_OSTHREADRESUME_2_EN)
+  osThreadAttr_t attr = { NULL, osThreadDetached, NULL, 0U, NULL, 0U, osPriorityHigh, 0U, 0U};
+  osThreadId_t id;
+  uint32_t ctrl;
+
+  /* Create required objects */
+  MutexId        = osMutexNew(NULL);
+  SemaphoreId    = osSemaphoreNew(1U, 1U, NULL);
+  EventFlagsId   = osEventFlagsNew(NULL);
+  MessageQueueId = osMessageQueueNew(1U, 1U, NULL);
+  MemoryPoolId   = osMemoryPoolNew(1U, 1U, NULL);
+
+  /* Create initial conditions */
+  ASSERT_TRUE (osMutexAcquire (MutexId, 0U)         == osOK);
+  ASSERT_TRUE (osSemaphoreAcquire (SemaphoreId, 0U) == osOK);
+  ASSERT_TRUE (osEventFlagsClear (EventFlagsId, 1U) == osOK);
+  ASSERT_TRUE (osMessageQueueReset (MessageQueueId) == osOK);
+  ASSERT_TRUE (osMemoryPoolAlloc (MemoryPoolId, 0U) != NULL);
+
+  /* Create a thread that is delayed */
+  ctrl = 0U;
+  id = osThreadNew (Th_osThreadResume_2, &ctrl, &attr);
+  ASSERT_TRUE(id != NULL);
+
+  /* Check that the thread is in blocked state */
+  ASSERT_TRUE (osThreadGetState (id) == osThreadBlocked);
+
+  /* Call osThreadResume to resume delayed thread */
+  ASSERT_TRUE (osThreadResume (id) == osOK);
+
+  /* Check that the thread was resumed */
+  ASSERT_TRUE (ctrl == 0xFFU);
+
+  /* Terminate created thread */
+  osThreadTerminate (id);
+
+
+  /* Create a thread that waits for mutex */
+  ctrl = 1U;
+  id = osThreadNew (Th_osThreadResume_2, &ctrl, &attr);
+  ASSERT_TRUE(id != NULL);
+
+  /* Check that the thread is in blocked state */
+  ASSERT_TRUE (osThreadGetState (id) == osThreadBlocked);
+
+  /* Call osThreadResume to resume a thread that waits for mutex */
+  ASSERT_TRUE (osThreadResume (id) == osOK);
+
+  /* Add delay for potential thread execution after priority inversion */
+  osDelay(2U);
+
+  /* Check that the thread was resumed */
+  ASSERT_TRUE (ctrl == 0xFFU);
+
+  /* Terminate created thread */
+  osThreadTerminate (id);
+
+
+  /* Create a thread that waits for semaphore */
+  ctrl = 2U;
+  id = osThreadNew (Th_osThreadResume_2, &ctrl, &attr);
+  ASSERT_TRUE(id != NULL);
+
+  /* Check that the thread is in blocked state */
+  ASSERT_TRUE (osThreadGetState (id) == osThreadBlocked);
+
+  /* Call osThreadResume to resume a thread that waits for semaphore */
+  ASSERT_TRUE (osThreadResume (id) == osOK);
+
+  /* Check that the thread was resumed */
+  ASSERT_TRUE (ctrl == 0xFFU);
+
+  /* Terminate created thread */
+  osThreadTerminate (id);
+
+
+  /* Create a thread that waits for event flags */
+  ctrl = 3U;
+  id = osThreadNew (Th_osThreadResume_2, &ctrl, &attr);
+  ASSERT_TRUE(id != NULL);
+
+  /* Check that the thread is in blocked state */
+  ASSERT_TRUE (osThreadGetState (id) == osThreadBlocked);
+
+  /* Call osThreadResume to resume a thread that waits for event flags */
+  ASSERT_TRUE (osThreadResume (id) == osOK);
+
+  /* Check that the thread was resumed */
+  ASSERT_TRUE (ctrl == 0xFFU);
+
+  /* Terminate created thread */
+  osThreadTerminate (id);
+
+
+  /* Create a thread that waits for message queue */
+  ctrl = 4U;
+  id = osThreadNew (Th_osThreadResume_2, &ctrl, &attr);
+  ASSERT_TRUE(id != NULL);
+
+  /* Check that the thread is in blocked state */
+  ASSERT_TRUE (osThreadGetState (id) == osThreadBlocked);
+
+  /* Call osThreadResume to resume a thread that waits for message queue */
+  ASSERT_TRUE (osThreadResume (id) == osOK);
+
+  /* Check that the thread was resumed */
+  ASSERT_TRUE (ctrl == 0xFFU);
+
+  /* Terminate created thread */
+  osThreadTerminate (id);
+
+
+  /* Create a thread that waits for memory pool */
+  ctrl = 5U;
+  id = osThreadNew (Th_osThreadResume_2, &ctrl, &attr);
+  ASSERT_TRUE(id != NULL);
+
+  /* Check that the thread is in blocked state */
+  ASSERT_TRUE (osThreadGetState (id) == osThreadBlocked);
+
+  /* Call osThreadResume to resume a thread that waits for memory pool */
+  ASSERT_TRUE (osThreadResume (id) == osOK);
+
+  /* Check that the thread was resumed */
+  ASSERT_TRUE (ctrl == 0xFFU);
+
+  /* Terminate created thread */
+  osThreadTerminate (id);
+
+  /* Delete created objects */
+  ASSERT_TRUE (osMutexDelete(MutexId)               == osOK);
+  ASSERT_TRUE (osSemaphoreDelete(SemaphoreId)       == osOK);
+  ASSERT_TRUE (osEventFlagsDelete(EventFlagsId)     == osOK);
+  ASSERT_TRUE (osMessageQueueDelete(MessageQueueId) == osOK);
+  ASSERT_TRUE (osMemoryPoolDelete(MemoryPoolId)     == osOK);
+#endif
+}
+
+/*-----------------------------------------------------------------------------
+ * TC_osThreadResume_2: Helper thread
+ *----------------------------------------------------------------------------*/
+#if (TC_OSTHREADRESUME_2_EN)
+void Th_osThreadResume_2 (void *arg) {
+  uint32_t *ctrl = (uint32_t *)arg;
+  uint8_t msg;
+
+  if (*ctrl == 0U) {
+    /* Delay a thread */
+    ASSERT_TRUE(osDelay(osWaitForever) == osOK);
+  }
+  else if (*ctrl == 1U) {
+    /* Wait for a mutex without a timeout */
+    ASSERT_TRUE(osMutexAcquire(MutexId, osWaitForever) == osErrorTimeout);
+  }
+  else if (*ctrl == 2U) {
+    /* Wait for a semaphore without a timeout */
+    ASSERT_TRUE(osSemaphoreAcquire(SemaphoreId, osWaitForever) == osErrorTimeout);
+  }
+  else if (*ctrl == 3U) {
+    /* Wait for event flags without a timeout */
+    ASSERT_TRUE(osEventFlagsWait(EventFlagsId, 1U, osFlagsWaitAll, osWaitForever) == osFlagsErrorTimeout);
+  }
+  else if (*ctrl == 4U) {
+    /* Wait for message queue without a timeout */
+    ASSERT_TRUE (osMessageQueueGet(MessageQueueId, &msg, NULL, osWaitForever) == osErrorTimeout);
+  }
+  else if (*ctrl == 5U) {
+    /* Wait for memory pool queue without a timeout */
+    ASSERT_TRUE (osMemoryPoolAlloc(MemoryPoolId, osWaitForever) == NULL);
+  }
+
+  /* Indicate that the thread was resumed */
+  *ctrl = 0xFFU;
+
+  osDelay(osWaitForever);
 }
 #endif
 

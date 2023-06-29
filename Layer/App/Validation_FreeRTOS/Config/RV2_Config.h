@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2022-2023 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -104,26 +104,27 @@
 //     <q16>TC_osThreadYield_1
 //     <q17>TC_osThreadSuspend_1
 //     <q18>TC_osThreadResume_1
-//     <q19>TC_osThreadDetach_1
-//     <q20>TC_osThreadDetach_2
-//     <q21>TC_osThreadJoin_1
-//     <q22>TC_osThreadJoin_2
-//     <q23>TC_osThreadJoin_3
-//     <q24>TC_osThreadExit_1
-//     <q25>TC_osThreadTerminate_1
-//     <q26>TC_osThreadGetStackSize_1
-//     <q27>TC_osThreadGetStackSpace_1
-//     <q28>TC_osThreadGetCount_1
-//     <q29>TC_osThreadEnumerate_1
-//     <q30>TC_ThreadNew
-//     <q31>TC_ThreadMultiInstance
-//     <q32>TC_ThreadTerminate
-//     <q33>TC_ThreadRestart
-//     <q34>TC_ThreadPriorityExec
-//     <q35>TC_ThreadYield
-//     <q36>TC_ThreadSuspendResume
-//     <q37>TC_ThreadReturn
-//     <q38>TC_ThreadAllocation
+//     <q19>TC_osThreadResume_2
+//     <q20>TC_osThreadDetach_1
+//     <q21>TC_osThreadDetach_2
+//     <q22>TC_osThreadJoin_1
+//     <q23>TC_osThreadJoin_2
+//     <q24>TC_osThreadJoin_3
+//     <q25>TC_osThreadExit_1
+//     <q26>TC_osThreadTerminate_1
+//     <q27>TC_osThreadGetStackSize_1
+//     <q28>TC_osThreadGetStackSpace_1
+//     <q29>TC_osThreadGetCount_1
+//     <q30>TC_osThreadEnumerate_1
+//     <q31>TC_ThreadNew
+//     <q32>TC_ThreadMultiInstance
+//     <q33>TC_ThreadTerminate
+//     <q34>TC_ThreadRestart
+//     <q35>TC_ThreadPriorityExec
+//     <q36>TC_ThreadYield
+//     <q37>TC_ThreadSuspendResume
+//     <q38>TC_ThreadReturn
+//     <q39>TC_ThreadAllocation
 #define TC_OSTHREAD_EN                    1
 #define TC_OSTHREADNEW_1_EN               1
 #define TC_OSTHREADNEW_2_EN               1
@@ -143,6 +144,7 @@
 #define TC_OSTHREADYIELD_1_EN             1
 #define TC_OSTHREADSUSPEND_1_EN           1
 #define TC_OSTHREADRESUME_1_EN            1
+#define TC_OSTHREADRESUME_2_EN            0
 #define TC_OSTHREADDETACH_1_EN            0
 #define TC_OSTHREADDETACH_2_EN            0
 #define TC_OSTHREADJOIN_1_EN              0
