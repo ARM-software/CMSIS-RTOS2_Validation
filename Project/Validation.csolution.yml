@@ -141,6 +141,6 @@ solution:
     - project: ./Validation.cproject.yml
 
   output-dirs:
-    cprjdir: ./$Project$.$BuildType$+$TargetType$
-    intdir:  ./$Project$.$BuildType$+$TargetType$/$Project$.$BuildType$+$TargetType$_IntDir
-    outdir:  ./$Project$.$BuildType$+$TargetType$/$Project$.$BuildType$+$TargetType$_OutDir
+    cprjdir: ./$Project$.$BuildType$+$TargetType$_$Compiler$
+    intdir:  ./$Project$.$BuildType$+$TargetType$_$Compiler$/$Project$.$BuildType$+$TargetType$_IntDir
+    outdir:  ./$Project$.$BuildType$+$TargetType$_$Compiler$/$Project$.$BuildType$+$TargetType$_OutDir
