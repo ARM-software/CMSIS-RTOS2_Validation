@@ -20,38 +20,24 @@ This repository contains a test suite that validates CMSIS-RTOS2 implementations
 
 Currently, the following tests are executed in the [CMSIS_RV2](./.github/workflows/cmsis_rv2.yml) workflow:
 
-| Compiler |  Device             | RTOS     |
+| RTOS     |  Device             | Compiler |
 |----------|---------------------|----------|
-| AC6      |  CMSDK_CM0plus_VHT  | RTX5     |
-| AC6      |  CMSDK_CM0plus_VHT  | FreeRTOS |
-| GCC      |  CMSDK_CM0plus_VHT  | RTX5     |
-| GCC      |  CMSDK_CM0plus_VHT  | FreeRTOS |
-| AC6      |  CMSDK_CM3_VHT      | RTX5     |
-| AC6      |  CMSDK_CM3_VHT      | FreeRTOS |
-| GCC      |  CMSDK_CM3_VHT      | RTX5     |
-| GCC      |  CMSDK_CM3_VHT      | FreeRTOS |
-| AC6      |  CMSDK_CM4_FP_VHT   | RTX5     |
-| AC6      |  CMSDK_CM4_FP_VHT   | FreeRTOS |
-| GCC      |  CMSDK_CM4_FP_VHT   | RTX5     |
-| GCC      |  CMSDK_CM4_FP_VHT   | FreeRTOS |
-| AC6      |  CMSDK_CM7_DP_VHT   | RTX5     |
-| AC6      |  CMSDK_CM7_DP_VHT   | FreeRTOS |
-| GCC      |  CMSDK_CM7_DP_VHT   | RTX5     |
-| GCC      |  CMSDK_CM7_DP_VHT   | FreeRTOS |
-| AC6      |  CMSDK_CM7_SP_VHT   | RTX5     |
-| AC6      |  CMSDK_CM7_SP_VHT   | FreeRTOS |
-| GCC      |  CMSDK_CM7_SP_VHT   | RTX5     |
-| GCC      |  CMSDK_CM7_SP_VHT   | FreeRTOS |
-| AC6      |  IOTKit_CM23_VHT    | RTX5     |
-| AC6      |  IOTKit_CM23_VHT    | FreeRTOS |
-| GCC      |  IOTKit_CM23_VHT    | RTX5     |
-| GCC      |  IOTKit_CM23_VHT    | FreeRTOS |
-| AC6      |  IOTKit_CM33_FP_VHT | RTX5     |
-| AC6      |  IOTKit_CM33_FP_VHT | FreeRTOS |
-| GCC      |  IOTKit_CM33_FP_VHT | RTX5     |
-| GCC      |  IOTKit_CM33_FP_VHT | FreeRTOS |
-| AC6      |  SSE-300-MPS3       | RTX5     |
-| AC6      |  SSE-300-MPS3       | FreeRTOS |
+| FreeRTOS |  CMSDK_CM0plus_VHT  | AC6, GCC |
+| FreeRTOS |  CMSDK_CM3_VHT      | AC6, GCC |
+| FreeRTOS |  CMSDK_CM4_FP_VHT   | AC6, GCC |
+| FreeRTOS |  CMSDK_CM7_DP_VHT   | AC6, GCC |
+| FreeRTOS |  CMSDK_CM7_SP_VHT   | AC6, GCC |
+| FreeRTOS |  IOTKit_CM23_VHT    | AC6, GCC |
+| FreeRTOS |  IOTKit_CM33_FP_VHT | AC6, GCC |
+| FreeRTOS |  SSE-300-MPS3       | AC6      |
+| RTX5     |  CMSDK_CM0plus_VHT  | AC6, GCC |
+| RTX5     |  CMSDK_CM3_VHT      | AC6, GCC |
+| RTX5     |  CMSDK_CM4_FP_VHT   | AC6, GCC |
+| RTX5     |  CMSDK_CM7_DP_VHT   | AC6, GCC |
+| RTX5     |  CMSDK_CM7_SP_VHT   | AC6, GCC |
+| RTX5     |  IOTKit_CM23_VHT    | AC6, GCC |
+| RTX5     |  IOTKit_CM33_FP_VHT | AC6, GCC |
+| RTX5     |  SSE-300-MPS3       | AC6      |
 
 ## License
 
