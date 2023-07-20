@@ -25,8 +25,11 @@ steps:
       # Remove ctools from PATH
       export PATH=$(echo $PATH | awk -v RS=: -v ORS=: '/\/opt\/ctools\/bin/ {next} {print}' | sed 's/:$//')
 
-      # Enter project directory and install python components
+      # Enter project directory
       cd Project
+      
+      # Upgrade pip and install python packages
+      python -m pip install --upgrade pip
       pip install -r requirements.txt 2>&1 || exit 1
       
       # Install vcpkg
