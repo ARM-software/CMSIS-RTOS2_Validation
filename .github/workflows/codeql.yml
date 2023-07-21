@@ -76,6 +76,9 @@ jobs:
 
         echo "Run build script to build test projects"
         python build.py --verbose build || echo "Something failed!"
+        
+        echo "Deactivate Arm tool license"
+        ${AC6_TOOLCHAIN_6_20_0}/armlm deactivate --product KEMDK-COM0
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
