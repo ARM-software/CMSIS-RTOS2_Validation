@@ -36,14 +36,16 @@ class RtosAxis(Enum):
 
 @matrix_axis("compiler", "c", "Compiler(s) to be considered.")
 class CompilerAxis(Enum):
-    AC6 = ('AC6')
-    GCC = ('GCC')
+    AC6   = ('AC6')
+    GCC   = ('GCC')
+    CLANG = ('Clang')
 
     @property
     def image_ext(self):
         ext = {
             CompilerAxis.AC6: 'axf',
-            CompilerAxis.GCC: 'elf'
+            CompilerAxis.GCC: 'elf',
+            CompilerAxis.CLANG: 'elf'
         }
         return ext[self]
 
@@ -52,6 +54,7 @@ class CompilerAxis(Enum):
         ext = {
             CompilerAxis.AC6: 'AC6',
             CompilerAxis.GCC: 'GCC',
+            CompilerAxis.CLANG: 'CLANG'
         }
         return ext[self]
 
@@ -69,14 +72,14 @@ MODEL_EXECUTABLE = {
 }
 
 def config_suffix(config, timestamp=True):
-    suffix = f"{config.rtos[0]}-{config.device[1]}-{config.compiler[0]}"
+    suffix = f"{config.rtos}-{config.device[1]}-{config.compiler}"
     if timestamp:
         suffix += f"-{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     return suffix
 
 
 def project_name(config):
-    return f"Validation.{config.rtos}+{config.device[1]}_{config.compiler}"
+    return f"Validation.{config.rtos}+{config.device[1]}_{config.compiler.toolchain}"
 
 
 def output_dir(config):
@@ -169,7 +172,9 @@ def model_exec(config):
 @matrix_filter
 def filter_unsupported(config):
     """Remove unsupported configurations."""
-    if   config.device == DeviceAxis.CM55 and config.compiler == CompilerAxis.GCC:
+    if   config.device.match('CM[2358][35]*') and config.compiler == CompilerAxis.CLANG:
+        unsupported = True
+    elif config.device == DeviceAxis.CM55 and config.compiler == CompilerAxis.GCC:
         unsupported = True
     elif config.device == DeviceAxis.CM85 and (config.compiler == CompilerAxis.GCC or config.rtos == RtosAxis.FREERTOS):
         unsupported = True

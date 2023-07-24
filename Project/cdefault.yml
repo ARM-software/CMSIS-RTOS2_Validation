@@ -34,6 +34,15 @@ default:
         - --specs=nosys.specs
         - -Wl,-Map=$elf()$.map
 
+    - for-compiler: CLANG
+      C-CPP:
+        - -fomit-frame-pointer
+      C:
+        - -std=gnu11
+      Link:
+        - -lcrt0
+        - -Wl,-Map=$elf()$.map
+
     - for-compiler: IAR
       C-CPP: 
         - --dlib_config DLib_Config_Full.h

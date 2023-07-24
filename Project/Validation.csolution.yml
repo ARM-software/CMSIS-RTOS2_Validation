@@ -97,7 +97,7 @@ solution:
 
   build-types:
     - type: RTX5
-      optimize: none
+      optimize: balanced
       debug: on
     - type: FreeRTOS
       optimize: balanced

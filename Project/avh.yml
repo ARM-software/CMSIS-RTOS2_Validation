@@ -56,9 +56,18 @@ steps:
       # Check tools
       echo "AC6       : $(which armclang)"
       echo "GCC       : $(which arm-none-eabi-gcc)"
+      echo "Clang     : $(which clang)"
       echo "cbuild    : $(which cbuild)"
       echo "cpackget  : $(which cpackget)"
       echo "csolution : $(which csolution)"
+
+      # Patch CMSIS-Toolbox (preliminary Clang support)
+      pushd $(dirname $(which cbuild))/../etc
+      curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/buildmgr/cbuildgen/config/CLANG.16.0.0.cmake
+      curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/buildmgr/cbuildgen/config/CMSIS-Build-Utils.cmake
+      curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/projmgr/templates/cdefault.yml
+      curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/projmgr/templates/clang_linker_script.ld
+      popd
 
       # Register local packs
       cpackget update-index 2>&1

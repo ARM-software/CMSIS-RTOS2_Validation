@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        compiler: [AC6, GCC]
+        compiler: [AC6, GCC, Clang]
         rtos: [RTX5, FreeRTOS]
     
     runs-on: ubuntu-latest
@@ -67,9 +67,10 @@ jobs:
           python-version: '3.10'    
           cache: 'pip'
 
-      - run: |
+      - name: Install system packages
+        run: |
           sudo add-apt-repository ppa:deadsnakes/ppa
-          sudo apt-get install libpython3.9
+          sudo apt-get install libpython3.9 libtinfo5
 
       - name: Python requirements
         run: |
@@ -93,7 +94,7 @@ jobs:
 
       - name: Prepare vcpkg env
         working-directory: ./Project
-        run: |
+        run: |  
           . <(curl https://aka.ms/vcpkg-init.sh -L)
           vcpkg x-update-registry --all
           vcpkg activate
@@ -131,14 +132,21 @@ jobs:
 
       - uses: ammaraskar/gcc-problem-matcher@master
         if: matrix.compiler == 'GCC'
-
+      
+      - name: Initialize CodeQL
+        if: matrix.compiler == 'GCC'
+        uses: github/codeql-action/init@v2
+        with:
+          languages: cpp
+          queries: security-and-quality
+  
       - name: Build
         working-directory: ./Project
         run: |
           . /home/runner/.vcpkg/vcpkg-init
           vcpkg activate
 
-          echo "Register local packp"
+          echo "Register local packs"
           cpackget add /home/runner/CMSIS_6/ARM.CMSIS.pdsc
           cpackget add /home/runner/CMSIS-RTX/ARM.CMSIS-RTX.pdsc
           cpackget add /home/runner/CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
@@ -168,6 +176,10 @@ jobs:
                   armlm deactivate --product KEMDK-COM0
               fi
     
+      - name: Perform CodeQL Analysis
+        if: matrix.compiler == 'GCC'
+        uses: github/codeql-action/analyze@v2
+
       - name: Upload Test Reports
         if: ${{ !cancelled() && env.ARM_UBL_ACTIVATION_CODE }}
         uses: actions/upload-artifact@v3
