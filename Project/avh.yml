@@ -5,6 +5,8 @@ backend:
     ami-version: ~=1.3
     instance-type: t2.micro
 upload:
+  - ARM.CMSIS-RTOS2_Validation.pdsc
+  - LICENSE.txt
   - README.md
   - Include/**/*
   - Layer/**/*
@@ -14,6 +16,13 @@ upload:
   - -:Project/Validation.*/**/*
   - Source/**/*
 steps:
+  - run: |
+      pushd ${HOME}
+      git clone https://github.com/ARM-software/CMSIS_6.git
+      git clone https://github.com/ARM-software/CMSIS-RTX.git
+      git clone https://github.com/ARM-software/CMSIS-FreeRTOS.git
+      popd
+
   - run: |
       # Print working directory
       echo "PWD : $(pwd)"
@@ -51,9 +60,17 @@ steps:
       echo "cpackget  : $(which cpackget)"
       echo "csolution : $(which csolution)"
 
+      # Register local packs
+      cpackget add ${HOME}/CMSIS_6/ARM.CMSIS.pdsc 2>&1
+      cpackget add ${HOME}/CMSIS-RTX/ARM.CMSIS-RTX.pdsc 2>&1
+      cpackget add ${HOME}/CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc 2>&1
+      
       # Update public pack index, download and install CMSIS packs
       cpackget update-index 2>&1
-      cpackget add -a -f cpacklist.txt 2>&1
+      cpackget add Keil::V2M-MPS2_CMx_BSP@1.8.0 2>&1
+      cpackget add Keil::V2M-MPS2_IOTKit_BSP@1.5.0 2>&1
+      cpackget add ARM::V2M_MPS3_SSE_300_BSP@1.3.0 2>&1
+
       
       # Execute tests
       python build.py --verbose build run 2>&1 || echo "Something failed!"

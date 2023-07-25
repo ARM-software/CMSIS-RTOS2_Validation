@@ -1,0 +1,23 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "RTX5, GCC, CM33_FP_VHT",
+            "type": "arm-debug",
+            "request": "launch",            
+            "program": "${workspaceFolder}/Project/Validation.RTX5+CM33_FP_GCC/Validation.RTX5+CM33_FP_OutDir/Validation.elf",
+            // armdbg --cdb-list ""
+            "cdbEntry": "Arm FVP::MPS2_Cortex_M33::Bare Metal Debug::Bare Metal Debug::Cortex-M33_0",
+            "cdbEntryParams":  {
+                "model_params": "-f ${workspaceFolder}/Layer/Target/CM33_FP_VHT/vht_config.txt",
+                "model_connection_address": "127.0.0.1:7100",
+                "connect_existing_model": false
+            },
+            "programMode": "ram",
+            "debugFrom": "Reset_Handler"
+        }
+    ]
+}

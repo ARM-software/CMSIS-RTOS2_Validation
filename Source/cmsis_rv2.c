@@ -19,15 +19,15 @@
 #include "cmsis_rv2.h"
 
 static const osThreadAttr_t tf_main_attr = {
-  .name       = "TestRunner",
-  .attr_bits  = osThreadDetached,
-  .cb_mem     = NULL,
-  .cb_size    = 0U,
-  .stack_mem  = NULL,
-  .stack_size = MAIN_THREAD_STACK,
-  .priority   = osPriorityNormal,
-  .tz_module  = 0,
-  .reserved   = 0
+  .name          = "TestRunner",
+  .attr_bits     = osThreadDetached,
+  .cb_mem        = NULL,
+  .cb_size       = 0U,
+  .stack_mem     = NULL,
+  .stack_size    = MAIN_THREAD_STACK,
+  .priority      = osPriorityNormal,
+  .tz_module     = 0,
+  .affinity_mask = 0
 };
 
 /*-----------------------------------------------------------------------------

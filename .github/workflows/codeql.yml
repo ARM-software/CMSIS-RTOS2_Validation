@@ -24,6 +24,56 @@ jobs:
       contents: read
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - working-directory: /home/runner
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        if [ -d CMSIS_6 ]; then
+          cd CMSIS_6
+          git fetch origin main
+          git checkout -f origin/main
+        else
+          gh repo clone ARM-software/CMSIS_6
+        fi
+
+    - working-directory: /home/runner
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        if [ -d CMSIS-RTX ]; then
+          cd CMSIS-RTX
+          git fetch origin main
+          git checkout -f origin/main
+        else
+          gh repo clone ARM-software/CMSIS-RTX
+        fi
+
+    - working-directory: /home/runner
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        if [ -d CMSIS-FreeRTOS ]; then
+          cd CMSIS-FreeRTOS
+          git fetch origin main
+          git checkout -f origin/main
+        else
+          gh repo clone ARM-software/CMSIS-FreeRTOS
+        fi
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'    
+        cache: 'pip'
+
+    - name: Cache vcpkg
+      uses: actions/cache@v3
+      with:
+        key: vcpkg
+        path: /home/runner/.vcpkg
+      
     - name: Cache Arm Compiler 6
       uses: actions/cache@v3
       with:
@@ -39,10 +89,12 @@ jobs:
         tar xf standalone-linux-x86_64-rel.tgz -C arm-compiler-6.20.0
         echo "AC6_TOOLCHAIN_6_20_0=$(pwd)/arm-compiler-6.20.0/bin" >> $GITHUB_ENV
 
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Cache LLVM/Clang
+      uses: actions/cache@v3
+      with:
+        key: clang-16.0.0
+        path: /home/runner/LLVMEmbeddedToolchainForArm-16.0.0-Linux-x86_64.tar.gz
 
-    # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
@@ -71,8 +123,16 @@ jobs:
         echo "cpackget  : $(which cpackget)"
         echo "csolution : $(which csolution)"
 
+        echo "Register local packs"
+        cpackget add /home/runner/CMSIS_6/ARM.CMSIS.pdsc
+        cpackget add /home/runner/CMSIS-RTX/ARM.CMSIS-RTX.pdsc
+        cpackget add /home/runner/CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
+
         echo "Download and install CMSIS packs"
-        cpackget add -a -f cpacklist.txt || exit 1
+        cpackget update-index
+        cpackget add Keil::V2M-MPS2_CMx_BSP@1.8.0
+        cpackget add Keil::V2M-MPS2_IOTKit_BSP@1.5.0
+        cpackget add ARM::V2M_MPS3_SSE_300_BSP@1.3.0
 
         echo "Run build script to build test projects"
         python build.py --verbose build || echo "Something failed!"

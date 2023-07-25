@@ -3,7 +3,10 @@ solution:
   cdefault:
 
   packs:
+    - pack: ARM::CMSIS-RTOS2_Validation
+      path: ../
     - pack: ARM::CMSIS
+    - pack: ARM::CMSIS-RTX
     - pack: ARM::CMSIS-FreeRTOS
     - pack: ARM::DMA350@1.0.0
     - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
@@ -35,15 +38,6 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-      misc:
-        - for-compiler: AC6
-          C: [-mfloat-abi=hard, -mfpu=fpv4-sp-d16]
-          ASM: [-mfloat-abi=hard, -mfpu=fpv4-sp-d16]
-
-        - for-compiler: GCC
-          C: [-mfloat-abi=hard, -mfpu=auto]
-          ASM: [-mfloat-abi=hard, -mfpu=auto]
-          Link: [-mfloat-abi=hard]
     #CM7_DP
     - type: CM7_DP
       device: CMSDK_CM7_DP_VHT
@@ -52,15 +46,6 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-      misc:
-        - for-compiler: AC6
-          C: [-mfloat-abi=hard, -mfpu=fpv5-d16]
-          ASM: [-mfloat-abi=hard, -mfpu=fpv5-d16]
-
-        - for-compiler: GCC
-          C: [-mfloat-abi=hard, -mfpu=auto]
-          ASM: [-mfloat-abi=hard, -mfpu=auto]
-          Link: [-mfloat-abi=hard]
     #CM7_SP
     - type: CM7_SP
       device: CMSDK_CM7_SP_VHT
@@ -69,63 +54,37 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-      misc:
-        - for-compiler: AC6
-          C: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16]
-          ASM: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16]
-
-        - for-compiler: GCC
-          C: [-mfloat-abi=hard, -mfpu=auto]
-          ASM: [-mfloat-abi=hard, -mfpu=auto]
-          Link: [-mfloat-abi=hard]
     #CM23
     - type: CM23
       device: IOTKit_CM23_VHT
+      processor:
+        trustzone: off
       define:
         - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
         - TST_IRQ_NUM_B: 1
         - configENABLE_FPU: 0
-      misc:
-        - for-compiler: AC6
-          C: [-mcmse]
-          ASM: [-mcmse]
-
-        - for-compiler: GCC
-          C: [-mfloat-abi=soft, -mfpu=auto]
-          ASM: [-mfloat-abi=soft, -mfpu=auto]
-          Link: [-mfloat-abi=soft]
     #CM33_FP
     - type: CM33_FP
       device: IOTKit_CM33_FP_VHT
+      processor:
+        trustzone: off
       define:
         - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
         - TST_IRQ_NUM_B: 1
-      misc:
-        - for-compiler: AC6
-          C: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16, -mcmse]
-          ASM: [-mfloat-abi=hard, -mfpu=fpv5-sp-d16, -mcmse]
-
-        - for-compiler: GCC
-          C: [-mfloat-abi=hard, -mfpu=auto]
-          ASM: [-mfloat-abi=hard, -mfpu=auto]
-          Link: [-mfloat-abi=hard]
     #CM55
     - type: CM55
-      compiler: AC6
       device: SSE-300-MPS3
+      processor:
+        trustzone: off
       define:
         - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
         - TST_IRQ_NUM_B: 1
-      misc:
-        - for-compiler: AC6
-          C: [-mfloat-abi=hard, -mcmse]
-          ASM: [-mfloat-abi=hard, -mcmse]
     #CM85
     - type: CM85
       device: SSE-310-MPS3_FVP
@@ -134,26 +93,14 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
         - TST_IRQ_NUM_B: 1
-      misc:
-        - for-compiler: AC6
-          C: [-mfloat-abi=hard, -mcmse]
-          ASM: [-mfloat-abi=hard, -mcmse]
-
-        - for-compiler: GCC
-          C: [-mfloat-abi=hard, -mfpu=auto]
-          ASM: [-mfloat-abi=hard, -mfpu=auto]
-          Link: [-mfloat-abi=hard]
 
   build-types:
     - type: RTX5
-      misc:
-        - for-compiler: GCC
-          Link: [-nostartfiles, -lm, -specs=nano.specs]
-
+      optimize: none
+      debug: on
     - type: FreeRTOS
-      misc:
-        - for-compiler: GCC
-          Link: [-nostartfiles, -lm, -specs=nano.specs]
+      optimize: balanced
+      debug: on
 
   projects:
     - project: ./Validation.cproject.yml
