@@ -18,3 +18,6 @@ layer:
     - group: VHT
       files:
         - file: ./vht_config.txt
+
+  linker:
+    - regions: ./RTE/Device/CMSDK_CM0plus_VHT/regions_CMSDK_CM0plus_VHT.h
