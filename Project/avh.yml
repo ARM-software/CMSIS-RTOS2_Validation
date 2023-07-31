@@ -61,17 +61,11 @@ steps:
       echo "csolution : $(which csolution)"
 
       # Register local packs
+      cpackget update-index 2>&1
       cpackget add ${HOME}/CMSIS_6/ARM.CMSIS.pdsc 2>&1
       cpackget add ${HOME}/CMSIS-RTX/ARM.CMSIS-RTX.pdsc 2>&1
       cpackget add ${HOME}/CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc 2>&1
-      
-      # Update public pack index, download and install CMSIS packs
-      cpackget update-index 2>&1
-      cpackget add Keil::V2M-MPS2_CMx_BSP@1.8.0 2>&1
-      cpackget add Keil::V2M-MPS2_IOTKit_BSP@1.5.0 2>&1
-      cpackget add ARM::V2M_MPS3_SSE_300_BSP@1.3.0 2>&1
-
-      
+     
       # Execute tests
       python build.py --verbose build run 2>&1 || echo "Something failed!"
 download:

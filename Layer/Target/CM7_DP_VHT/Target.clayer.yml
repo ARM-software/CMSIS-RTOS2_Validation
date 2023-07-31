@@ -2,10 +2,6 @@ layer:
   type: Target
   description: CM7_DP target components and files
 
-  packs:
-    - pack: ARM::CMSIS
-    - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
-
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
     - component: ARM::CMSIS:CORE

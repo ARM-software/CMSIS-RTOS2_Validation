@@ -13,6 +13,7 @@ solution:
     - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.0
     - pack: ARM::V2M_MPS3_SSE_300_BSP@1.3.0
     - pack: ARM::V2M_MPS3_SSE_310_BSP@1.2.0
+
   target-types:
     #CM0plus
     - type: CM0plus

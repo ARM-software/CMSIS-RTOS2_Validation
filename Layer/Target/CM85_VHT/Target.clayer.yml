@@ -4,10 +4,6 @@ layer:
   # type: Target
   description: Target setup
 
-  # packs:
-  #   - pack: ARM::CMSIS
-  #   - pack: ARM::V2M_MPS3_SSE_310_BSP
-
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
     - component: ARM::CMSIS:CORE
