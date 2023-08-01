@@ -146,6 +146,7 @@ def unzip(archive):
 @matrix_command()
 def cbuild(config):
     return ["cbuild", "Validation.csolution.yml",                        \
+                      "--packs",                                         \
                       "--update-rte",                                    \
                       "--toolchain", config.compiler.toolchain,          \
                       "--context", f".{config.rtos}+{config.device[1]}"]

@@ -2,10 +2,6 @@ layer:
   type: Target
   description: CM4_FP target components and files
 
-  packs:
-    - pack: ARM::CMSIS
-    - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
-
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
     - component: ARM::CMSIS:CORE
@@ -18,3 +14,6 @@ layer:
     - group: VHT
       files:
         - file: ./vht_config.txt
+
+  linker:
+    - regions: ./RTE/Device/CMSDK_CM4_FP_VHT/regions_CMSDK_CM4_FP_VHT.h

@@ -28,10 +28,3 @@ int main (void) {
   cmsis_rv2();
 }
 
-#if defined(__GNUC__) && !defined(__CC_ARM) && !defined(__ARMCC_VERSION)
-void _start (void) {
-  main();
-
-  for(;;);
-}
-#endif

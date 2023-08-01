@@ -2,25 +2,25 @@ layer:
   type: App
   description: Validation of CMSIS-RTOS2 RTX5 implementation
 
-  packs:
-    - pack: ARM::CMSIS
-
   define:
     - PRINT_XML_REPORT: 1
-  
-  add-path:
-    - ./Config
-    - ../../../Include
-
-  misc:
-    - C-CPP:
-      - -Wno-macro-redefined
-      - -Wno-pragma-pack
-      - -Wno-parentheses-equality
 
   components:
     # [Cvendor::]Cclass[&Cbundle]:Cgroup[:Csub][&Cvariant][@[>=]Cversion]
     - component: ARM::CMSIS:RTOS2:Keil RTX5&Source
+    - component: ARM::Device:OS Tick:SysTick
+
+    - component: ARM::CMSIS RTOS2 Validation:Validation Framework
+    - component: ARM::CMSIS RTOS2 Validation:Kernel
+    - component: ARM::CMSIS RTOS2 Validation:Thread
+    - component: ARM::CMSIS RTOS2 Validation:Thread Flags
+    - component: ARM::CMSIS RTOS2 Validation:Generic Wait
+    - component: ARM::CMSIS RTOS2 Validation:Timer
+    - component: ARM::CMSIS RTOS2 Validation:Event Flags
+    - component: ARM::CMSIS RTOS2 Validation:Mutex
+    - component: ARM::CMSIS RTOS2 Validation:Semaphore
+    - component: ARM::CMSIS RTOS2 Validation:Memory Pool
+    - component: ARM::CMSIS RTOS2 Validation:Message Queue
 
   groups:
     - group: Documentation
@@ -31,26 +31,3 @@ layer:
       files:
         - file: ./main.c 
         - file: ./retarget_stdio.c
-
-    - group: CMSIS-RTOS2_Validation
-      files:
-        - file: ../../../Source/cmsis_rv2.c
-        - file: ../../../Source/RV2_Kernel.c
-        - file: ../../../Source/RV2_Thread.c
-        - file: ../../../Source/RV2_ThreadFlags.c
-        - file: ../../../Source/RV2_GenWait.c
-        - file: ../../../Source/RV2_Timer.c
-        - file: ../../../Source/RV2_EventFlags.c
-        - file: ../../../Source/RV2_Mutex.c
-        - file: ../../../Source/RV2_Semaphore.c
-        - file: ../../../Source/RV2_MemoryPool.c
-        - file: ../../../Source/RV2_MessageQueue.c
-        - file: ../../../Source/RV2_Common.c
-        - file: ./Config/RV2_Config.c
-        - file: ./Config/RV2_Config.h
-        - file: ./Config/RV2_Config_Device.h
-
-    - group: Validation Framework
-      files:
-        - file: ../../../Source/tf_main.c
-        - file: ../../../Source/tf_report.c
