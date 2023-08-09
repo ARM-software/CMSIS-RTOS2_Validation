@@ -1,80 +1,203 @@
-# The repository needs to provide the following secrets
-# - AWS_DEFAULT_REGION          The data center region to be used.
-# - AWS_S3_BUCKET_NAME          The id of the S3 storage bucket to be used to data exchange.
-# - AWS_IAM_PROFILE             The IAM profile to be used.
-# - AWS_SECURITY_GROUP_ID       The id of the security group to add the EC2 instance to.
-# - AWS_SUBNET_ID               The id of the network subnet to connect the EC2 instance to.
+name: RTOS2 Validation
 
-name: CMSIS-RTOS2 Validation running on Arm Virtual Hardware
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - .github/workflows/cmsis_rv2.yml
-      - Include/**/*
-      - Project/**/*
-      - Source/**/*
-  pull_request:
-    paths:
-      - .github/workflows/cmsis_rv2.yml
-      - Include/**/*
-      - Project/**/*
-      - Source/**/*
   workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
-  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-  AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
-  AWS_IAM_PROFILE: ${{ secrets.AWS_IAM_PROFILE }}
-  AWS_SECURITY_GROUP_ID: ${{ secrets.AWS_SECURITY_GROUP_ID }}
-  AWS_SUBNET_ID: ${{ secrets.AWS_SUBNET_ID }}
+  ARM_UBL_ACTIVATION_CODE: ${{ secrets.ARM_UBL_ACTIVATION_CODE }}
+
 jobs:
-  ci_test:
+  build-and-run:
+    strategy:
+      fail-fast: true
+      matrix:
+        compiler: [AC6, GCC]
+        rtos: [RTX5, FreeRTOS]
+    
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-      checks: write
 
     steps:
-    - name: Check out repository code
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'
+      - working-directory: /home/runner
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -d CMSIS_6 ]; then
+            cd CMSIS_6
+            git fetch origin main
+            git checkout -f origin/main
+          else
+            gh repo clone ARM-software/CMSIS_6
+          fi
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-          role-to-assume: arn:aws:iam::720528183931:role/Proj-vht-assume-role
-          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+      - working-directory: /home/runner
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -d CMSIS-RTX ]; then
+            cd CMSIS-RTX
+            git fetch origin main
+            git checkout -f origin/main
+          else
+            gh repo clone ARM-software/CMSIS-RTX
+          fi
 
-    - name: Install AVH Client for Python
-      run: |
-        pip install git+https://github.com/ARM-software/avhclient.git@v0.1
+      - working-directory: /home/runner
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -d CMSIS-FreeRTOS ]; then
+            cd CMSIS-FreeRTOS
+            git fetch origin main
+            git checkout -f origin/main
+          else
+            gh repo clone ARM-software/CMSIS-FreeRTOS
+          fi
 
-    - uses: ammaraskar/gcc-problem-matcher@master
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'    
+          cache: 'pip'
 
-    - name: Run tests
-      run: |
-        avhclient -b aws execute --specfile Project/avh.yml
+      - run: |
+          sudo add-apt-repository ppa:deadsnakes/ppa
+          sudo apt-get install libpython3.9
 
-    - name: Archive results
-      uses: actions/upload-artifact@v2
-      with:
-        name: results
-        path: |
-          Project/Validation-*.zip
-          Project/Validation-*.junit
-        retention-days: 1
-        if-no-files-found: error
-      if: always()
+      - name: Python requirements
+        run: |
+          pip install -r ./Project/requirements.txt
 
-    - name: Publish test results
-      uses: mikepenz/action-junit-report@v3
-      with:
-        check_name: "Test results"
-        report_paths: Project/Validation-*.junit
-      if: always()
+      - name: Cache packs
+        uses: actions/cache@v3
+        with:
+          key: packs-${{ github.run_id }}-${{ matrix.compiler }}-${{ matrix.rtos }}
+          restore-keys: |
+              packs-
+          path: /home/runner/.cache/arm/packs
+        
+      - name: Cache vcpkg
+        uses: actions/cache@v3
+        with:
+          key: vcpkg-${{ runner.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ matrix.compiler }}-${{ matrix.rtos }}
+          restore-keys: |
+              vcpkg-${{ runner.os }}-${{ runner.arch }}-
+          path: /home/runner/.vcpkg
+
+      - name: Prepare vcpkg env
+        working-directory: ./Project
+        run: |
+          . <(curl https://aka.ms/vcpkg-init.sh -L)
+          vcpkg x-update-registry --all
+          vcpkg activate
+          
+          echo "Fix library search path for VHT models"
+          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(dirname $(which VHT_MPS2_Cortex-M3))" >> $GITHUB_ENV
+
+          echo "Fix execute permissions for VHT models"
+          chmod +x $(dirname $(which VHT_MPS2_Cortex-M3))/VHT_*
+
+          echo "Patch CMSIS-Toolbox"
+          pushd $(dirname $(which cbuild))/../etc
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/buildmgr/cbuildgen/config/AC6.6.18.0.cmake
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/buildmgr/cbuildgen/config/GCC.10.3.1.cmake
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/buildmgr/cbuildgen/config/CLANG.16.0.0.cmake
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/buildmgr/cbuildgen/config/IAR.9.32.1.cmake
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/buildmgr/cbuildgen/config/CMSIS-Build-Utils.cmake
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/projmgr/templates/cdefault.yml
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/projmgr/templates/ac6_linker_script.sct
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/projmgr/templates/clang_linker_script.ld
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/projmgr/templates/gcc_linker_script.ld
+          curl -O https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/main/tools/projmgr/templates/iar_linker_script.ifc
+          popd
+
+      - name: Activate Arm tool license
+        working-directory: ./Project
+        run: |
+          . /home/runner/.vcpkg/vcpkg-init
+          vcpkg activate
+          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
+              armlm activate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
+          else
+              armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
+          fi
+
+      - uses: ammaraskar/gcc-problem-matcher@master
+        if: matrix.compiler == 'GCC'
+
+      - name: Build
+        working-directory: ./Project
+        run: |
+          . /home/runner/.vcpkg/vcpkg-init
+          vcpkg activate
+
+          echo "Register local packp"
+          cpackget add /home/runner/CMSIS_6/ARM.CMSIS.pdsc
+          cpackget add /home/runner/CMSIS-RTX/ARM.CMSIS-RTX.pdsc
+          cpackget add /home/runner/CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
+
+          echo "Build test projects ..."
+          ./build.py --verbose -r ${{ matrix.rtos }} -c ${{ matrix.compiler }} build || echo "::warning::=== Some configurations failed to build! ==="
+
+      - name: Execute
+        if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
+        working-directory: ./Project
+        run: |
+          . /home/runner/.vcpkg/vcpkg-init
+          vcpkg activate
+      
+          echo "Run test projects ..."
+          ./build.py --verbose -r ${{ matrix.rtos }} -c ${{ matrix.compiler }} run || echo "::warning::==== Some configurations failed to run! ==="
+
+      - name: Deactivate Arm tool license
+        if: always()
+        working-directory: ./Project
+        run: |
+          . /home/runner/.vcpkg/vcpkg-init
+          vcpkg activate
+          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
+                  armlm deactivate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
+              else
+                  armlm deactivate --product KEMDK-COM0
+              fi
+    
+      - name: Upload Test Reports
+        if: ${{ !cancelled() && env.ARM_UBL_ACTIVATION_CODE }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.rtos }}-${{ matrix.compiler }}
+          path: Project/*.junit
+
+
+  publish-test-results:
+    needs: [build-and-run]
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request'
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+    steps:
+      - name: Download Test Reports
+        if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
+      - name: Publish Test Results
+        if: ${{ env.ARM_UBL_ACTIVATION_CODE && env.GITHUB_TOKEN }}
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          commit: ${{ github.event.workflow_run.head_sha }}
+          event_file: ${{ github.event_path }}
+          report_individual_runs: true
+          event_name: ${{ github.event.workflow_run.event }}
+          files: "artifacts/**/*.junit"
+  
