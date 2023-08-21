@@ -387,7 +387,6 @@ void Th_Arg (void *arg) {
 \details
   - Call osThreadGetName to retrieve a name of an unnamed thread
   - Call osThreadGetName to retrieve a name of a thread with assigned name
-  - Call osThreadGetName with valid object
   - Call osThreadGetName from ISR
   - Call osThreadGetName with null object
 */
@@ -422,7 +421,7 @@ void TC_osThreadGetName_1 (void) {
   ThreadId   = id;
   ThreadName = name;
   SetPendingIRQ(IRQ_A);
-  ASSERT_TRUE (strcmp(ThreadName, name) != 0U);
+  ASSERT_TRUE (strcmp(ThreadName, name) == 0U);
 
   /* Delete thread object */
   osThreadTerminate (id);

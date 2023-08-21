@@ -151,7 +151,6 @@ void TC_osMemoryPoolNew_3 (void) {
 \details
   - Call osMemoryPoolGetName to retrieve a name of an unnamed memory pool
   - Call osMemoryPoolGetName to retrieve a name of a memory pool with assigned name
-  - Call osMemoryPoolGetName with valid object
   - Call osMemoryPoolGetName from ISR
   - Call osMemoryPoolGetName with null object
 */
@@ -186,7 +185,7 @@ void TC_osMemoryPoolGetName_1 (void) {
   MemoryPoolId   = id;
   MemoryPoolName = name;
   SetPendingIRQ(IRQ_A);
-  ASSERT_TRUE (strcmp(MemoryPoolName, name) != 0U);
+  ASSERT_TRUE (strcmp(MemoryPoolName, name) == 0U);
 
   /* Delete memory pool object */
   osMemoryPoolDelete (id);

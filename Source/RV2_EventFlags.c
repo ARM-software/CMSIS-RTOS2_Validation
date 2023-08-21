@@ -601,7 +601,6 @@ void Irq_osEventFlagsDelete_1 (void) {
 \details
   - Call osEventFlagsGetName to retrieve a name of an unnamed event flags
   - Call osEventFlagsGetName to retrieve a name of a event flags with assigned name
-  - Call osEventFlagsGetName with valid object
   - Call osEventFlagsGetName from ISR
   - Call osEventFlagsGetName with null object
 */
@@ -636,7 +635,7 @@ void TC_osEventFlagsGetName_1 (void) {
   EventFlagsId   = id;
   EventFlagsName = name;
   SetPendingIRQ(IRQ_A);
-  ASSERT_TRUE (strcmp(EventFlagsName, name) != 0U);
+  ASSERT_TRUE (strcmp(EventFlagsName, name) == 0U);
 
   /* Delete event flags object */
   osEventFlagsDelete (id);

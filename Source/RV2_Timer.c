@@ -191,7 +191,6 @@ void TC_osTimerNew_3 (void) {
 \details
   - Call osTimerGetName to retrieve a name of an unnamed timer
   - Call osTimerGetName to retrieve a name of a timer with assigned name
-  - Call osTimerGetName with valid object
   - Call osTimerGetName from ISR
   - Call osTimerGetName with null object
 */
@@ -226,7 +225,7 @@ void TC_osTimerGetName_1 (void) {
   TimerId   = tid;
   TimerName = name;
   SetPendingIRQ(IRQ_A);
-  ASSERT_TRUE (strcmp(TimerName, name) != 0U);
+  ASSERT_TRUE (strcmp(TimerName, name) == 0U);
 
   /* Delete timer object */
   osTimerDelete (tid);
