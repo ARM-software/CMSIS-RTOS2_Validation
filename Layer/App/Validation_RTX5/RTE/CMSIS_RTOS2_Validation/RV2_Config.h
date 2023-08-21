@@ -19,6 +19,8 @@
 #ifndef RV2_CONFIG_H__
 #define RV2_CONFIG_H__
 
+#include "rtx_os.h"
+
 //-------- <<< Use Configuration Wizard in Context Menu >>> --------------------
 
 // <h> CMSIS-RTOS2 Test Suite Configuration
@@ -32,19 +34,67 @@
 // <i> Default: 1000
 #define RTOS2_TICK_FREQ                   1000
 
-// <h> Object Implementation Specific Configuration
+// <h> Object Implementation Specifics
 // <o> Maximum Thread Flags
 // <i> Maximum number of Thread Flags available per Thread object
+// <i> Default: 31
 #define MAX_THREADFLAGS_CNT               31
+
 // <o> Maximum Event Flags
 // <i> Maximum number of Event Flags available per Event Flags object
+// <i> Default: 31
 #define MAX_EVENTFLAGS_CNT                31
+
 // <o> Maximum Mutex Locks
 // <i> Maximum number of recursive Mutex locks per Mutex object
+// <i> Default: 255
 #define MAX_MUTEX_LOCK_CNT                255
+
 // <o> Maximum Semaphore Tokens
 // <i> Maximum number of available tokens per Semaphore object
+// <i> Default: 255
 #define MAX_SEMAPHORE_TOKEN_CNT           255
+
+//   <e0> Define Object Sizes
+//   <i> Define the sizes of object control blocks.
+//   <i> Default: 0
+#define DEFINE_OBJECT_SIZES               1
+
+//   <o> Thread Object Size
+//   <i> Define the size of the thread object control block.
+//   <i> Default: 200
+#define THREAD_OBJECT_SIZE                osRtxThreadCbSize
+
+//   <o> Timer Object Size
+//   <i> Define the size of the timer object control block.
+//   <i> Default: 200
+#define TIMER_OBJECT_SIZE                 osRtxTimerCbSize
+
+//   <o> Event Flags Object Size
+//   <i> Define the size of the event flags object control block.
+//   <i> Default: 200
+#define EVENT_FLAGS_OBJECT_SIZE           osRtxEventFlagsCbSize
+
+//   <o> Mutex Object Size
+//   <i> Define the size of the mutex object control block.
+//   <i> Default: 200
+#define MUTEX_OBJECT_SIZE                 osRtxMutexCbSize
+
+//   <o> Semaphore Object Size
+//   <i> Define the size of the semaphore object control block.
+//   <i> Default: 200
+#define SEMAPHORE_OBJECT_SIZE             osRtxSemaphoreCbSize
+
+//   <o> Memory Pool Object Size
+//   <i> Define the size of the memory pool object control block.
+//   <i> Default: 200
+#define MEMORY_POOL_OBJECT_SIZE           osRtxMemoryPoolCbSize
+
+//   <o> Message Queue Object Size
+//   <i> Define the size of the message queue object control block.
+//   <i> Default: 200
+#define MESSAGE_QUEUE_OBJECT_SIZE         osRtxMessageQueueCbSize
+//   </e>
 // </h>
 
 // <h> Disable Test Cases
