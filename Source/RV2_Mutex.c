@@ -392,7 +392,6 @@ void TC_osMutexNew_6 (void) {
 \details
   - Call osMutexGetName to retrieve a name of an unnamed mutex
   - Call osMutexGetName to retrieve a name of a mutex with assigned name
-  - Call osMutexGetName with valid object
   - Call osMutexGetName from ISR
   - Call osMutexGetName with null object
 */
@@ -427,7 +426,7 @@ void TC_osMutexGetName_1 (void) {
   MutexId   = id;
   MutexName = name;
   SetPendingIRQ(IRQ_A);
-  ASSERT_TRUE (strcmp(MutexName, name) != 0U);
+  ASSERT_TRUE (strcmp(MutexName, name) == 0U);
 
   /* Delete mutex object */
   ASSERT_TRUE (osMutexDelete (id) == osOK);

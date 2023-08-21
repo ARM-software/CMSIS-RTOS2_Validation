@@ -231,7 +231,6 @@ void TC_osSemaphoreNew_3 (void) {
 \details
   - Call osSemaphoreGetName to retrieve a name of an unnamed semaphore
   - Call osSemaphoreGetName to retrieve a name of a semaphore with assigned name
-  - Call osSemaphoreGetName with valid object
   - Call osSemaphoreGetName from ISR
   - Call osSemaphoreGetName with null object
 */
@@ -266,7 +265,7 @@ void TC_osSemaphoreGetName_1 (void) {
   SemaphoreId   = id;
   SemaphoreName = name;
   SetPendingIRQ(IRQ_A);
-  ASSERT_TRUE (strcmp(SemaphoreName, name) != 0U);
+  ASSERT_TRUE (strcmp(SemaphoreName, name) == 0U);
 
   /* Delete semaphore object */
   ASSERT_TRUE (osSemaphoreDelete (id) == osOK);

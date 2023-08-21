@@ -149,7 +149,6 @@ void TC_osMessageQueueNew_3 (void) {
 \details
   - Call osMessageQueueGetName to retrieve a name of an unnamed message queue
   - Call osMessageQueueGetName to retrieve a name of a message queue with assigned name
-  - Call osMessageQueueGetName with valid object
   - Call osMessageQueueGetName from ISR
   - Call osMessageQueueGetName with null object
 */
@@ -184,7 +183,7 @@ void TC_osMessageQueueGetName_1 (void) {
   MessageQueueId   = id;
   MessageQueueName = name;
   SetPendingIRQ(IRQ_A);
-  ASSERT_TRUE (strcmp(MessageQueueName, name) != 0U);
+  ASSERT_TRUE (strcmp(MessageQueueName, name) == 0U);
 
   /* Delete message queue object */
   osMessageQueueDelete (id);
