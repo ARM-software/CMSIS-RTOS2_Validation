@@ -131,7 +131,7 @@
 //   <i> RTOS Functions called from ISR store requests to this buffer.
 //   <i> Default: 16 entries
 #ifndef OS_ISR_FIFO_QUEUE
-#define OS_ISR_FIFO_QUEUE           32
+#define OS_ISR_FIFO_QUEUE           16
 #endif
  
 //   <q>Object Memory usage counters
@@ -222,7 +222,7 @@
 //   <i> Initializes thread stack with watermark pattern for analyzing stack usage.
 //   <i> Enabling this option increases significantly the execution time of thread creation.
 #ifndef OS_STACK_WATERMARK
-#define OS_STACK_WATERMARK          1
+#define OS_STACK_WATERMARK          0
 #endif
  
 //   <o>Default Processor mode for Thread execution
@@ -230,7 +230,7 @@
 //     <1=> Privileged mode
 //   <i> Default: Unprivileged mode
 #ifndef OS_PRIVILEGE_MODE
-#define OS_PRIVILEGE_MODE           1
+#define OS_PRIVILEGE_MODE           0
 #endif
  
 // </h>
@@ -581,67 +581,67 @@
 //     <q>Memory Management
 //     <i> Enables Memory Management event generation.
 #ifndef OS_EVR_MEMORY
-#define OS_EVR_MEMORY               0
+#define OS_EVR_MEMORY               1
 #endif
  
 //     <q>Kernel
 //     <i> Enables Kernel event generation.
 #ifndef OS_EVR_KERNEL
-#define OS_EVR_KERNEL               0
+#define OS_EVR_KERNEL               1
 #endif
  
 //     <q>Thread
 //     <i> Enables Thread event generation.
 #ifndef OS_EVR_THREAD
-#define OS_EVR_THREAD               0
+#define OS_EVR_THREAD               1
 #endif
  
 //     <q>Generic Wait
 //     <i> Enables Generic Wait event generation.
 #ifndef OS_EVR_WAIT
-#define OS_EVR_WAIT                 0
+#define OS_EVR_WAIT                 1
 #endif
  
 //     <q>Thread Flags
 //     <i> Enables Thread Flags event generation.
 #ifndef OS_EVR_THFLAGS
-#define OS_EVR_THFLAGS              0
+#define OS_EVR_THFLAGS              1
 #endif
  
 //     <q>Event Flags
 //     <i> Enables Event Flags event generation.
 #ifndef OS_EVR_EVFLAGS
-#define OS_EVR_EVFLAGS              0
+#define OS_EVR_EVFLAGS              1
 #endif
  
 //     <q>Timer
 //     <i> Enables Timer event generation.
 #ifndef OS_EVR_TIMER
-#define OS_EVR_TIMER                0
+#define OS_EVR_TIMER                1
 #endif
  
 //     <q>Mutex
 //     <i> Enables Mutex event generation.
 #ifndef OS_EVR_MUTEX
-#define OS_EVR_MUTEX                0
+#define OS_EVR_MUTEX                1
 #endif
  
 //     <q>Semaphore
 //     <i> Enables Semaphore event generation.
 #ifndef OS_EVR_SEMAPHORE
-#define OS_EVR_SEMAPHORE            0
+#define OS_EVR_SEMAPHORE            1
 #endif
  
 //     <q>Memory Pool
 //     <i> Enables Memory Pool event generation.
 #ifndef OS_EVR_MEMPOOL
-#define OS_EVR_MEMPOOL              0
+#define OS_EVR_MEMPOOL              1
 #endif
  
 //     <q>Message Queue
 //     <i> Enables Message Queue event generation.
 #ifndef OS_EVR_MSGQUEUE
-#define OS_EVR_MSGQUEUE             0
+#define OS_EVR_MSGQUEUE             1
 #endif
  
 //   </h>
