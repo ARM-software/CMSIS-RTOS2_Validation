@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2023 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -22,20 +22,27 @@
 #include <stdint.h>
 #include "cmsis_os2.h"
 
+#include "RV2_Config.h"
+
+#if defined(DEFINE_OBJECT_SIZES) && (DEFINE_OBJECT_SIZES != 0)
+#define THREAD_CB_MEM_SIZE        THREAD_OBJECT_SIZE
+#define TIMER_CB_MEM_SIZE         TIMER_OBJECT_SIZE
+#define EVENTFLAGS_CB_MEM_SIZE    EVENT_FLAGS_OBJECT_SIZE
+#define MUTEX_CB_MEM_SIZE         MUTEX_OBJECT_SIZE
+#define SEMAPHORE_CB_MEM_SIZE     SEMAPHORE_OBJECT_SIZE
+#define MEMORYPOOL_CB_MEM_SIZE    MEMORY_POOL_OBJECT_SIZE
+#define MESSAGEQUEUE_CB_MEM_SIZE  MESSAGE_QUEUE_OBJECT_SIZE
+#else
 #ifndef THREAD_CB_MEM_SIZE
 #define THREAD_CB_MEM_SIZE        200
 #endif
 
-#ifndef THREAD_STACK_MEM_SIZE
-#define THREAD_STACK_MEM_SIZE     200
+#ifndef TIMER_CB_MEM_SIZE
+#define TIMER_CB_MEM_SIZE         200
 #endif
 
 #ifndef EVENTFLAGS_CB_MEM_SIZE
 #define EVENTFLAGS_CB_MEM_SIZE    200
-#endif
-
-#ifndef TIMER_CB_MEM_SIZE
-#define TIMER_CB_MEM_SIZE         200
 #endif
 
 #ifndef MUTEX_CB_MEM_SIZE
@@ -50,12 +57,17 @@
 #define MEMORYPOOL_CB_MEM_SIZE    200
 #endif
 
-#ifndef MEMORYPOOL_DATA_MEM_SIZE
-#define MEMORYPOOL_DATA_MEM_SIZE  200
-#endif
-
 #ifndef MESSAGEQUEUE_CB_MEM_SIZE
 #define MESSAGEQUEUE_CB_MEM_SIZE  200
+#endif
+#endif /* DEFINE_OBJECT_SIZES */
+
+#ifndef THREAD_STACK_MEM_SIZE
+#define THREAD_STACK_MEM_SIZE     200
+#endif
+
+#ifndef MEMORYPOOL_DATA_MEM_SIZE
+#define MEMORYPOOL_DATA_MEM_SIZE  200
 #endif
 
 #ifndef MESSAGEQUEUE_DATA_MEM_SIZE
