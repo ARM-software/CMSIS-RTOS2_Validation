@@ -59,7 +59,7 @@ int stdio_init (void) {
                              USART_BAUDRATE);
   if (status != ARM_DRIVER_OK) return (-1);
  
-  status = ptrUSART->Control(ARM_USART_CONTROL_RX, 1);
+  status = ptrUSART->Control(ARM_USART_CONTROL_TX, 1);
   if (status != ARM_DRIVER_OK) return (-1);
  
   return (0);
