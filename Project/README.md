@@ -8,7 +8,7 @@ Independent project can be generated for specific RTOS, DEVICE and COMPILER. Pos
 |----------|----------|----------|
 | FreeRTOS |  CM0plus | AC6      |
 | RTX5     |  CM3     | GCC      |
-|          |  CM4_FP  |          |
+|          |  CM4_FP  | CLANG    |
 |          |  CM7_DP  |          |
 |          |  CM7_SP  |          |
 |          |  CM23    |          |
@@ -20,13 +20,14 @@ Input file for cbuild is Validation.csolution.yml
 
 ## Unsupported contexts
 The below table lists contexts that are currently not available:
-| Context  | Toolchain |  Reason                                      |
-|----------|-----------|----------------------------------------------|
-| +CM55    |    GCC    |  Device:Startup component has no GCC support |
+| Context        | Toolchain |  Reason                                            |
+|----------------|-----------|----------------------------------------------------|
+| +CM55          | GCC/CLANG |  Device:Startup component has no GCC/CLANG support |
+| +CM85          |   CLANG   |  Device:Definition component has no CLANG support  |
 
 ## Prerequisites
 
-- [CMSIS-Toolbox 2.0.0](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/releases)
+- [CMSIS-Toolbox 2.1.0](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/releases)
 - Arm Virtual Hardware executables installed with installation path added to the system environment path
 - Python or Keil MDK Professional
 
@@ -99,6 +100,7 @@ Please see a table below for a possible {VHT_MODEL} variable value when a projec
 | VHT_MPS2_Cortex-M33       | CM33_FP |
 | VHT_MPS3_Corstone_SEE-300 | CM55    |
 | VHT_Corstone_SSE-310      | CM85    |
+
 
 ## Debug the Project using Keil MDK-Professional:
 All projects can be opened and debugged using Keil MDK-Professional no matter whether the project was build using Python script or manually with cbuild.
