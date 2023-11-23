@@ -20,35 +20,31 @@ project:
       for-context:
         - +CM3
 
-    #Target: CM4_FP
-    - layer: ../Layer/Target/CM4_FP/Target.clayer.yml
+    #Target: CM4
+    - layer: ../Layer/Target/CM4/Target.clayer.yml
       for-context:
-        - +CM4_FP
+        - +CM4
 
-    #Target: CM7_DP
-    - layer: ../Layer/Target/CM7_DP/Target.clayer.yml
+    #Target: CM7
+    - layer: ../Layer/Target/CM7/Target.clayer.yml
       for-context:
-        - +CM7_DP
-
-    #Target: CM7_SP
-    - layer: ../Layer/Target/CM7_SP/Target.clayer.yml
-      for-context:
-        - +CM7_SP
+        - +CM7
 
     #Target: CM23
     - layer: ../Layer/Target/CM23/Target.clayer.yml
       for-context:
         - +CM23
 
-    #Target: CM33_FP
-    - layer: ../Layer/Target/CM33_FP/Target.clayer.yml
+    #Target: CM33
+    - layer: ../Layer/Target/CM33/Target.clayer.yml
       for-context:
-        - +CM33_FP
+        - +CM33
 
     #Target: CM55
     - layer: ../Layer/Target/CM55/Target.clayer.yml
       for-context:
         - +CM55
+        
     #Target: CM85
     - layer: ../Layer/Target/CM85/Target.clayer.yml
       for-context:

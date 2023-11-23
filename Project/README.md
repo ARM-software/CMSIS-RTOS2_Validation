@@ -42,18 +42,9 @@ $ pip install -r requirements.txt
 
 Required CMSIS Packs:
 - ARM.CMSIS
-- ARM.DMA350.1.0.0
-- Keil.V2M-MPS2_CMx_BSP.1.8.0
-- Keil.V2M-MPS2_IOTKit_BSP.1.5.0
-- ARM.V2M_MPS3_SSE_300_BSP.1.3.0
-- ARM.V2M_MPS3_SSE_310_BSP.1.2.0
+- ARM.CMSIS-RTX
 - ARM.CMSIS-FreeRTOS
-
-CMSIS packs can be installed by executing:
-```Shell
-$ cpackget update-index
-$ cpackget add -a -f cpacklist.txt
-```
+- ARM.Cortex_DFP
 
 ## Build and Execute Projects with Arm Virtual Hardware
 The simplest way to execute this validation suite is to build and run configured targets using Python script:

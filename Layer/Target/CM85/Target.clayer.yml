@@ -1,26 +1,30 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/0.9.1/tools/projmgr/schemas/clayer.schema.json
-
 layer:
-  # type: Target
-  description: Target setup
+  type: Target
+  description: CM85 target components and files
+
+  processor:
+    trustzone: off
 
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
     - component: ARM::CMSIS:CORE
-    - component: ARM::CMSIS Driver:USART
-
-    - component: ARM::Device:Definition
-    - component: ARM::Device:Startup&Baremetal
-      define:
-        - __PROGRAM_START: start_sse310mps3
-
-    - component: ARM::Native Driver:UART
+    - component: Device:Startup&C Startup
 
   groups:
-    - group: Startup
-      files:
-        - file: ./start_sse310mps3.c
-
     - group: FVP
       files:
         - file: ./model_config.txt
+
+  linker:
+    - for-compiler: AC6
+      script: RTE/Device/$Dname$/ac6_linker_script.sct
+      regions: RTE/Device/$Dname$/regions_$Dname$.h
+    - for-compiler: GCC
+      script: RTE/Device/$Dname$/gcc_linker_script.ld
+      regions: RTE/Device/$Dname$/regions_$Dname$.h
+    - for-compiler: CLANG
+      script: RTE/Device/$Dname$/clang_linker_script.ld
+      regions: RTE/Device/$Dname$/regions_$Dname$.h
+    - for-compiler: IAR
+      script: RTE/Device/$Dname$/iar_linker_script.icf
+      regions: RTE/Device/$Dname$/regions_$Dname$.h
