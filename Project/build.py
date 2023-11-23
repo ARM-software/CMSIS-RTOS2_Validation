@@ -167,19 +167,5 @@ def model_exec(config):
     return cmdline
 
 
-@matrix_filter
-def filter_unsupported(config):
-    """Remove unsupported configurations."""
-    if   config.device.match('CM[2358][35]*') and config.compiler == CompilerAxis.CLANG:
-        unsupported = True
-    elif config.device == DeviceAxis.CM55 and config.compiler == CompilerAxis.GCC:
-        unsupported = True
-    elif config.device == DeviceAxis.CM85 and (config.compiler == CompilerAxis.GCC or config.rtos == RtosAxis.FREERTOS):
-        unsupported = True
-    else:
-        unsupported = False
-    return unsupported
-
-
 if __name__ == "__main__":
     main()
