@@ -13,7 +13,7 @@
   ],
   "requires": {
     "microsoft:ninja": "^1.10.2",
-    "arm:compilers/arm/arm-none-eabi-gcc": "^12.2.1-0",
-    "arm:tools/open-cmsis-pack/cmsis-toolbox": "^2.0.0-0"
+    "arm:compilers/arm/arm-none-eabi-gcc": "^13.2.1",
+    "arm:tools/open-cmsis-pack/cmsis-toolbox": "^2.1.0-0"
   }
 }

@@ -1,6 +1,6 @@
 layer:
   type: Target
-  description: CM7_DP target components and files
+  description: CM4_FP target components and files
 
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
@@ -11,9 +11,9 @@ layer:
     - component: Keil::CMSIS Driver:USART
 
   groups:
-    - group: VHT
+    - group: FVP
       files:
-        - file: ./vht_config.txt
+        - file: ./model_config.txt
 
   linker:
-    - regions: ./RTE/Device/CMSDK_CM7_DP_VHT/regions_CMSDK_CM7_DP_VHT.h
+    - regions: ./RTE/Device/CMSDK_CM4_FP_VHT/regions_CMSDK_CM4_FP_VHT.h

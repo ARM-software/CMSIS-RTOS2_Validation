@@ -60,15 +60,15 @@ class CompilerAxis(Enum):
 
 
 MODEL_EXECUTABLE = {
-    DeviceAxis.CM0plus: ("VHT_MPS2_Cortex-M0plus", []),
-    DeviceAxis.CM3: ("VHT_MPS2_Cortex-M3", []),
-    DeviceAxis.CM4_FP: ("VHT_MPS2_Cortex-M4", []),
-    DeviceAxis.CM7_DP: ("VHT_MPS2_Cortex-M7", []),
-    DeviceAxis.CM7_SP: ("VHT_MPS2_Cortex-M7", []),
-    DeviceAxis.CM23: ("VHT_MPS2_Cortex-M23", []),
-    DeviceAxis.CM33_FP: ("VHT_MPS2_Cortex-M33", []),
-    DeviceAxis.CM55: ("VHT_MPS3_Corstone_SSE-300", []),
-    DeviceAxis.CM85: ("VHT_Corstone_SSE-310", []),
+    DeviceAxis.CM0plus: ("FVP_MPS2_Cortex-M0plus", []),
+    DeviceAxis.CM3: ("FVP_MPS2_Cortex-M3", []),
+    DeviceAxis.CM4_FP: ("FVP_MPS2_Cortex-M4", []),
+    DeviceAxis.CM7_DP: ("FVP_MPS2_Cortex-M7", []),
+    DeviceAxis.CM7_SP: ("FVP_MPS2_Cortex-M7", []),
+    DeviceAxis.CM23: ("FVP_MPS2_Cortex-M23", []),
+    DeviceAxis.CM33_FP: ("FVP_MPS2_Cortex-M33", []),
+    DeviceAxis.CM55: ("FVP_Corstone_SSE-300", []),
+    DeviceAxis.CM85: ("FVP_Corstone_SSE-310", []),
 }
 
 def config_suffix(config, timestamp=True):
@@ -87,7 +87,7 @@ def output_dir(config):
 
 
 def model_config(config):
-    return f"../Layer/Target/{config.device[1]}_VHT/vht_config.txt"
+    return f"../Layer/Target/{config.device[1]}/model_config.txt"
 
 
 @matrix_action

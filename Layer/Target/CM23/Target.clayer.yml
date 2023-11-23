@@ -15,9 +15,9 @@ layer:
     - component: Keil::CMSIS Driver:USART
 
   groups:
-    - group: VHT
+    - group: FVP
       files:
-        - file: ./vht_config.txt
+        - file: ./model_config.txt
 
   linker:
     - regions: ./RTE/Device/IOTKit_CM23_VHT/regions_IOTKit_CM23_VHT.h

@@ -15,7 +15,7 @@ solution:
     - pack: ARM::V2M_MPS3_SSE_310_BSP@1.2.0
 
   target-types:
-    #CM0plus
+
     - type: CM0plus
       device: CMSDK_CM0plus_VHT
       define:
@@ -23,7 +23,7 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-    #CM3
+
     - type: CM3
       device: CMSDK_CM3_VHT
       define:
@@ -31,7 +31,7 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-    #CM4_FP
+
     - type: CM4_FP
       device: CMSDK_CM4_FP_VHT
       define:
@@ -39,7 +39,7 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-    #CM7_DP
+
     - type: CM7_DP
       device: CMSDK_CM7_DP_VHT
       define:
@@ -47,7 +47,7 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-    #CM7_SP
+
     - type: CM7_SP
       device: CMSDK_CM7_SP_VHT
       define:
@@ -55,7 +55,7 @@ solution:
         - TST_IRQ_NUM_A: 8
         - TST_IRQ_HANDLER_B: TIMER1_Handler
         - TST_IRQ_NUM_B: 9
-    #CM23
+
     - type: CM23
       device: IOTKit_CM23_VHT
       processor:
@@ -66,7 +66,7 @@ solution:
         - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
         - TST_IRQ_NUM_B: 1
         - configENABLE_FPU: 0
-    #CM33_FP
+
     - type: CM33_FP
       device: IOTKit_CM33_FP_VHT
       processor:
@@ -76,7 +76,7 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
         - TST_IRQ_NUM_B: 1
-    #CM55
+
     - type: CM55
       device: SSE-300-MPS3
       processor:
@@ -86,7 +86,7 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
         - TST_IRQ_NUM_B: 1
-    #CM85
+
     - type: CM85
       device: SSE-310-MPS3_FVP
       define:

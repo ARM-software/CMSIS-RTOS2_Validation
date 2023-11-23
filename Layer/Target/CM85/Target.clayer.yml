@@ -21,6 +21,6 @@ layer:
       files:
         - file: ./start_sse310mps3.c
 
-    - group: VHT
+    - group: FVP
       files:
-        - file: ./vht_config.txt
+        - file: ./model_config.txt

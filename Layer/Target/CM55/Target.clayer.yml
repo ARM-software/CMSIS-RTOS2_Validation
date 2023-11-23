@@ -16,6 +16,6 @@ layer:
     - component: ARM::Native Driver:UART
 
   groups:
-    - group: VHT
+    - group: FVP
       files:
-        - file: ./vht_config.txt
+        - file: ./model_config.txt
