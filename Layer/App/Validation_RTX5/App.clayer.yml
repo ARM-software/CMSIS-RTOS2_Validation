@@ -30,4 +30,3 @@ layer:
     - group: Source files
       files:
         - file: ./main.c 
-        - file: ./retarget_stdio.c

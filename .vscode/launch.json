@@ -5,19 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "RTX5, GCC, CM33_FP_VHT",
+            "name": "RTX5, AC6, Cortex-M33",
             "type": "arm-debug",
-            "request": "launch",            
-            "program": "${workspaceFolder}/Project/Validation.RTX5+CM33_FP_GCC/Validation.RTX5+CM33_FP_OutDir/Validation.elf",
+            "request": "launch",
+            "program": "${workspaceFolder}/Project/Validation.RTX5+CM33_AC6/Validation.RTX5+CM33_OutDir/Validation.axf",
             // armdbg --cdb-list ""
             "cdbEntry": "Arm FVP::MPS2_Cortex_M33::Bare Metal Debug::Bare Metal Debug::Cortex-M33_0",
             "cdbEntryParams":  {
-                "model_params": "-f ${workspaceFolder}/Layer/Target/CM33_FP_VHT/vht_config.txt",
+                "model_params": "-f ${workspaceFolder}/Layer/Target/CM33/model_config.txt",
                 "model_connection_address": "127.0.0.1:7100",
                 "connect_existing_model": false
             },
             "programMode": "ram",
-            "debugFrom": "Reset_Handler"
+            "debugFrom": "tf_main"
         }
     ]
 }

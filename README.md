@@ -20,25 +20,24 @@ This repository contains a test suite that validates CMSIS-RTOS2 implementations
 
 Currently, the following tests are executed in the [CMSIS_RV2](./.github/workflows/cmsis_rv2.yml) workflow:
 
-| RTOS     |  Device             | Compiler        |
-|----------|---------------------|-----------------|
-| FreeRTOS |  CMSDK_CM0plus_VHT  | AC6, GCC, CLANG |
-| FreeRTOS |  CMSDK_CM3_VHT      | AC6, GCC, CLANG |
-| FreeRTOS |  CMSDK_CM4_FP_VHT   | AC6, GCC, CLANG |
-| FreeRTOS |  CMSDK_CM7_DP_VHT   | AC6, GCC, CLANG |
-| FreeRTOS |  CMSDK_CM7_SP_VHT   | AC6, GCC, CLANG |
-| FreeRTOS |  IOTKit_CM23_VHT    | AC6, GCC, CLANG |
-| FreeRTOS |  IOTKit_CM33_FP_VHT | AC6, GCC, CLANG |
-| FreeRTOS |  SSE-300-MPS3       | AC6             |
-| RTX5     |  CMSDK_CM0plus_VHT  | AC6, GCC, CLANG |
-| RTX5     |  CMSDK_CM3_VHT      | AC6, GCC, CLANG |
-| RTX5     |  CMSDK_CM4_FP_VHT   | AC6, GCC, CLANG |
-| RTX5     |  CMSDK_CM7_DP_VHT   | AC6, GCC, CLANG |
-| RTX5     |  CMSDK_CM7_SP_VHT   | AC6, GCC, CLANG |
-| RTX5     |  IOTKit_CM23_VHT    | AC6, GCC, CLANG |
-| RTX5     |  IOTKit_CM33_FP_VHT | AC6, GCC, CLANG |
-| RTX5     |  SSE-300-MPS3       | AC6             |
-| RTX5     |  SEE-310-MPS3       | AC6, GCC        |
+| RTOS     |  Device   | Compiler        |
+|----------|-----------|-----------------|
+| FreeRTOS |  ARMCM0P  | AC6, GCC, CLANG |
+| FreeRTOS |  ARMCM3   | AC6, GCC, CLANG |
+| FreeRTOS |  ARMCM4   | AC6, GCC, CLANG |
+| FreeRTOS |  ARMCM7   | AC6, GCC, CLANG |
+| FreeRTOS |  ARMCM23  | AC6, GCC, CLANG |
+| FreeRTOS |  ARMCM33  | AC6, GCC, CLANG |
+| FreeRTOS |  ARMCM55  | AC6, GCC, CLANG |
+| FreeRTOS |  ARMCM85  | AC6, GCC, CLANG |
+| RTX5     |  ARMCM0P  | AC6, GCC, CLANG |
+| RTX5     |  ARMCM3   | AC6, GCC, CLANG |
+| RTX5     |  ARMCM4   | AC6, GCC, CLANG |
+| RTX5     |  ARMCM7   | AC6, GCC, CLANG |
+| RTX5     |  ARMCM23  | AC6, GCC, CLANG |
+| RTX5     |  ARMCM33  | AC6, GCC, CLANG |
+| RTX5     |  ARMCM55  | AC6, GCC, CLANG |
+| RTX5     |  ARMCM85  | AC6, GCC, CLANG |
 
 ## License
 

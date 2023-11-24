@@ -17,15 +17,14 @@ from matrix_runner import main, matrix_axis, matrix_action, matrix_command, matr
 
 @matrix_axis("device", "d", "Device(s) to be considered.")
 class DeviceAxis(Enum):
-    CM0plus = ('CMSDK_CM0plus_VHT', 'CM0plus')
-    CM3 = ('CMSDK_CM3_VHT', 'CM3')
-    CM4_FP = ('CMSDK_CM4_FP_VHT', 'CM4_FP')
-    CM7_DP = ('CMSDK_CM7_DP_VHT', 'CM7_DP')
-    CM7_SP = ('CMSDK_CM7_SP_VHT', 'CM7_SP')
-    CM23 = ('IOTKit_CM23_VHT', 'CM23')
-    CM33_FP = ('IOTKit_CM33_FP_VHT', 'CM33_FP')
-    CM55 = ('SSE-300-MPS3', 'CM55', 'SSE300')
-    CM85 = ('SSE-310-MPS3', 'CM85', 'SSE310')
+    CM0plus = ('Cortex-M0plus', 'CM0plus', 'CM0+')
+    CM3 = ('Cortex-M3', 'CM3')
+    CM4 = ('Cortex-M4', 'CM4')
+    CM7 = ('Cortex-M7', 'CM7')
+    CM23 = ('Cortex-M23', 'CM23')
+    CM33 = ('Cortex-M33', 'CM33')
+    CM55 = ('Cortex-M55', 'CM55')
+    CM85 = ('Cortex-M85', 'CM85')
 
 
 @matrix_axis("rtos", "r", "RTOS(es) to be considered.")
@@ -60,15 +59,14 @@ class CompilerAxis(Enum):
 
 
 MODEL_EXECUTABLE = {
-    DeviceAxis.CM0plus: ("VHT_MPS2_Cortex-M0plus", []),
-    DeviceAxis.CM3: ("VHT_MPS2_Cortex-M3", []),
-    DeviceAxis.CM4_FP: ("VHT_MPS2_Cortex-M4", []),
-    DeviceAxis.CM7_DP: ("VHT_MPS2_Cortex-M7", []),
-    DeviceAxis.CM7_SP: ("VHT_MPS2_Cortex-M7", []),
-    DeviceAxis.CM23: ("VHT_MPS2_Cortex-M23", []),
-    DeviceAxis.CM33_FP: ("VHT_MPS2_Cortex-M33", []),
-    DeviceAxis.CM55: ("VHT_MPS3_Corstone_SSE-300", []),
-    DeviceAxis.CM85: ("VHT_Corstone_SSE-310", []),
+    DeviceAxis.CM0plus: ("FVP_MPS2_Cortex-M0plus", []),
+    DeviceAxis.CM3:     ("FVP_MPS2_Cortex-M3", []),
+    DeviceAxis.CM4:     ("FVP_MPS2_Cortex-M4", []),
+    DeviceAxis.CM7:     ("FVP_MPS2_Cortex-M7", []),
+    DeviceAxis.CM23:    ("FVP_MPS2_Cortex-M23", []),
+    DeviceAxis.CM33:    ("FVP_MPS2_Cortex-M33", []),
+    DeviceAxis.CM55:    ("FVP_MPS2_Cortex-M55", []),
+    DeviceAxis.CM85:    ("FVP_MPS2_Cortex-M85", []),
 }
 
 def config_suffix(config, timestamp=True):
@@ -87,7 +85,7 @@ def output_dir(config):
 
 
 def model_config(config):
-    return f"../Layer/Target/{config.device[1]}_VHT/vht_config.txt"
+    return f"../Layer/Target/{config.device[1]}/model_config.txt"
 
 
 @matrix_action
@@ -167,20 +165,6 @@ def model_exec(config):
     cmdline += MODEL_EXECUTABLE[config.device][1]
     cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/Validation.{config.compiler.image_ext}"]
     return cmdline
-
-
-@matrix_filter
-def filter_unsupported(config):
-    """Remove unsupported configurations."""
-    if   config.device.match('CM[2358][35]*') and config.compiler == CompilerAxis.CLANG:
-        unsupported = True
-    elif config.device == DeviceAxis.CM55 and config.compiler == CompilerAxis.GCC:
-        unsupported = True
-    elif config.device == DeviceAxis.CM85 and (config.compiler == CompilerAxis.GCC or config.rtos == RtosAxis.FREERTOS):
-        unsupported = True
-    else:
-        unsupported = False
-    return unsupported
 
 
 if __name__ == "__main__":

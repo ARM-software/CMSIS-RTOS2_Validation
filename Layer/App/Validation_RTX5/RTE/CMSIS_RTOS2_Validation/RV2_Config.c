@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 
+#include <stdlib.h>
 #include "cmsis_rv2.h"
 #include "RV2_Config_Device.h"
 
@@ -28,8 +29,6 @@ void TST_IRQ_HANDLER_A (void);
 void TST_IRQ_HANDLER_B (void);
 void (*TST_IRQHandler_A)(void);
 void (*TST_IRQHandler_B)(void);
-
-extern int stdout_putchar (int ch);
 
 /*
   Primary interrupt handler
@@ -92,13 +91,7 @@ void TS_Init (void) {
 */
 void TS_Uninit (void) {
   /* Close debug session here */
-
-  /* Note:
-     VHT model shall have parameter shutdown_on_eot set to true.
-     Simulation is then shutdown when EOT, ASCII4, character is
-     transmitted via UART.
-   */
-  stdout_putchar (0x04);
+  exit(0);
 }
 
 /*

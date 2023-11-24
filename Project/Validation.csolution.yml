@@ -1,5 +1,5 @@
 solution:
-  created-for: CMSIS-Toolbox@2.0.0
+  created-for: CMSIS-Toolbox@2.1.0
   cdefault:
 
   packs:
@@ -8,91 +8,82 @@ solution:
     - pack: ARM::CMSIS
     - pack: ARM::CMSIS-RTX
     - pack: ARM::CMSIS-FreeRTOS
-    - pack: ARM::DMA350@1.0.0
-    - pack: Keil::V2M-MPS2_CMx_BSP@1.8.0
-    - pack: Keil::V2M-MPS2_IOTKit_BSP@1.5.0
-    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.3.0
-    - pack: ARM::V2M_MPS3_SSE_310_BSP@1.2.0
+    - pack: ARM::Cortex_DFP
+
+  define:
+    - TF_OUTPUT: 0
 
   target-types:
-    #CM0plus
+
     - type: CM0plus
-      device: CMSDK_CM0plus_VHT
+      device: ARMCM0P
       define:
-        - TST_IRQ_HANDLER_A: TIMER0_Handler
-        - TST_IRQ_NUM_A: 8
-        - TST_IRQ_HANDLER_B: TIMER1_Handler
-        - TST_IRQ_NUM_B: 9
-    #CM3
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
+        - TST_IRQ_NUM_B: 1
+
     - type: CM3
-      device: CMSDK_CM3_VHT
+      device: ARMCM3
       define:
-        - TST_IRQ_HANDLER_A: TIMER0_Handler
-        - TST_IRQ_NUM_A: 8
-        - TST_IRQ_HANDLER_B: TIMER1_Handler
-        - TST_IRQ_NUM_B: 9
-    #CM4_FP
-    - type: CM4_FP
-      device: CMSDK_CM4_FP_VHT
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
+        - TST_IRQ_NUM_B: 1
+
+    - type: CM4
+      device: ARMCM4
       define:
-        - TST_IRQ_HANDLER_A: TIMER0_Handler
-        - TST_IRQ_NUM_A: 8
-        - TST_IRQ_HANDLER_B: TIMER1_Handler
-        - TST_IRQ_NUM_B: 9
-    #CM7_DP
-    - type: CM7_DP
-      device: CMSDK_CM7_DP_VHT
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
+        - TST_IRQ_NUM_B: 1
+
+    - type: CM7
+      device: ARMCM7
       define:
-        - TST_IRQ_HANDLER_A: TIMER0_Handler
-        - TST_IRQ_NUM_A: 8
-        - TST_IRQ_HANDLER_B: TIMER1_Handler
-        - TST_IRQ_NUM_B: 9
-    #CM7_SP
-    - type: CM7_SP
-      device: CMSDK_CM7_SP_VHT
-      define:
-        - TST_IRQ_HANDLER_A: TIMER0_Handler
-        - TST_IRQ_NUM_A: 8
-        - TST_IRQ_HANDLER_B: TIMER1_Handler
-        - TST_IRQ_NUM_B: 9
-    #CM23
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
+        - TST_IRQ_NUM_A: 0
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
+        - TST_IRQ_NUM_B: 1
+
     - type: CM23
-      device: IOTKit_CM23_VHT
+      device: ARMCM23
       processor:
         trustzone: off
       define:
-        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
-        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
         - configENABLE_FPU: 0
-    #CM33_FP
-    - type: CM33_FP
-      device: IOTKit_CM33_FP_VHT
+
+    - type: CM33
+      device: ARMCM33
       processor:
         trustzone: off
       define:
-        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
-        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
-    #CM55
+
     - type: CM55
-      device: SSE-300-MPS3
+      device: ARMCM55
       processor:
         trustzone: off
       define:
-        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_Handler
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
-        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
-    #CM85
+
     - type: CM85
-      device: SSE-310-MPS3_FVP
+      device: ARMCM85
       define:
-        - TST_IRQ_HANDLER_A: NONSEC_WATCHDOG_RESET_REQ_Handler
+        - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
-        - TST_IRQ_HANDLER_B: NONSEC_WATCHDOG_Handler
+        - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
 
   build-types:
