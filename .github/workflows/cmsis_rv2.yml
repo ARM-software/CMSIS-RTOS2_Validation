@@ -25,54 +25,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: CMSIS-RTOS2_Validation
+      
+      - uses: actions/checkout@v4
+        with:
+          repository: ARM-software/CMSIS_6
+          path: CMSIS_6
 
-      - working-directory: /home/runner
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ -d CMSIS_6 ]; then
-            cd CMSIS_6
-            git fetch origin main
-            git checkout -f origin/main
-          else
-            gh repo clone ARM-software/CMSIS_6
-          fi
+      - uses: actions/checkout@v4
+        with:
+          repository: ARM-software/CMSIS-RTX
+          path: CMSIS-RTX
 
-      - working-directory: /home/runner
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ -d CMSIS-RTX ]; then
-            cd CMSIS-RTX
-            git fetch origin main
-            git checkout -f origin/main
-          else
-            gh repo clone ARM-software/CMSIS-RTX
-          fi
+      - uses: actions/checkout@v4
+        with:
+          repository: ARM-software/Cortex_DFP
+          path: Cortex_DFP
 
-      - working-directory: /home/runner
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ -d CMSIS-FreeRTOS ]; then
-            cd CMSIS-FreeRTOS
-            git fetch origin main
-            git checkout -f origin/main
-          else
-            gh repo clone ARM-software/CMSIS-FreeRTOS
-          fi
-
-      - working-directory: /home/runner
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ -d Cortex_DFP ]; then
-            cd Cortex_DFP
-            git fetch origin main
-            git checkout -f origin/main
-          else
-            gh repo clone ARM-software/Cortex_DFP
-          fi
+      - uses: actions/checkout@v4
+        with:
+          repository: ARM-software/CMSIS-FreeRTOS
+          path: CMSIS-FreeRTOS
 
       - uses: actions/setup-python@v4
         with:
@@ -86,7 +60,7 @@ jobs:
 
       - name: Python requirements
         run: |
-          pip install -r ./Project/requirements.txt
+          pip install -r ./CMSIS-RTOS2_Validation/Project/requirements.txt
 
       - name: Cache packs
         uses: actions/cache@v3
@@ -105,7 +79,7 @@ jobs:
           path: /home/runner/.vcpkg
 
       - name: Prepare vcpkg env
-        working-directory: ./Project
+        working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |  
           . <(curl https://aka.ms/vcpkg-init.sh -L)
           vcpkg x-update-registry --all
@@ -117,7 +91,7 @@ jobs:
           popd
 
       - name: Activate Arm tool license
-        working-directory: ./Project
+        working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |
           . /home/runner/.vcpkg/vcpkg-init
           vcpkg activate
@@ -138,24 +112,24 @@ jobs:
           queries: security-and-quality
   
       - name: Build
-        working-directory: ./Project
+        working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |
           . /home/runner/.vcpkg/vcpkg-init
           vcpkg activate
 
           echo "Register local packs"
-          cpackget rm ARM::CMSIS ARM::CMSIS-RTX ARM::CMSIS-FreeRTOS || echo "Ok"
-          cpackget add /home/runner/CMSIS_6/ARM.CMSIS.pdsc
-          cpackget add /home/runner/CMSIS-RTX/ARM.CMSIS-RTX.pdsc
-          cpackget add /home/runner/CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
-          cpackget add /home/runner/Cortex_DFP/ARM.Cortex_DFP.pdsc
+          cpackget rm ARM::CMSIS ARM::Cortex_DFP ARM::CMSIS-RTX ARM::CMSIS-FreeRTOS || echo "Ok"
+          cpackget add ${{ github.workspace }}/CMSIS_6/ARM.CMSIS.pdsc
+          cpackget add ${{ github.workspace }}/CMSIS-RTX/ARM.CMSIS-RTX.pdsc
+          cpackget add ${{ github.workspace }}/CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
+          cpackget add ${{ github.workspace }}/Cortex_DFP/ARM.Cortex_DFP.pdsc
 
           echo "Build test projects ..."
           ./build.py --verbose -r ${{ matrix.rtos }} -c ${{ matrix.compiler }} build || echo "::warning::=== Some configurations failed to build! ==="
 
       - name: Execute
         if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
-        working-directory: ./Project
+        working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |
           . /home/runner/.vcpkg/vcpkg-init
           vcpkg activate
@@ -165,7 +139,7 @@ jobs:
 
       - name: Deactivate Arm tool license
         if: always()
-        working-directory: ./Project
+        working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |
           . /home/runner/.vcpkg/vcpkg-init
           vcpkg activate
@@ -184,7 +158,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-results-${{ matrix.rtos }}-${{ matrix.compiler }}
-          path: Project/*.junit
+          path: ./CMSIS-RTOS2_Validation/Project/*.junit
 
 
   publish-test-results:
