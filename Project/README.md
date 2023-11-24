@@ -96,7 +96,7 @@ The following command will build the project for specified RTOS/Device/Compiler 
 Executable file is then used as input parameter when calling Virtual Hardware Target model to run the validation:
 
 ```Shell
- ./Project $ {VHT_MODEL} -f ../Layer/Target/{DEVICE}/model_-config.txt -a Validation.{RTOS}+{DEVICE}_{COMPILER}/Validation.{RTOS}+{DEVICE}_OutDir/Validation.axf
+ ./Project $ {AVH_MODEL} -f ../Layer/Target/{DEVICE}/model_-config.txt -a Validation.{RTOS}+{DEVICE}_{COMPILER}/Validation.{RTOS}+{DEVICE}_OutDir/Validation.axf
 ```
 
 Please see a table below for a possible {AVH_MODEL} variable value when a project for specified {DEVICE} was built:
