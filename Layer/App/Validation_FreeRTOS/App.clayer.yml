@@ -2,6 +2,9 @@ layer:
   type: App
   description: Validation of CMSIS-RTOS2 FreeRTOS implementation
 
+  packs:
+    - pack: ARM::CMSIS-FreeRTOS
+
   define:
     - PRINT_XML_REPORT: 1
 

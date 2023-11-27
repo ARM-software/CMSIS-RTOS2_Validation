@@ -3,12 +3,9 @@ solution:
   cdefault:
 
   packs:
+    - pack: ARM::CMSIS
     - pack: ARM::CMSIS-RTOS2_Validation
       path: ../
-    - pack: ARM::CMSIS
-    - pack: ARM::CMSIS-RTX
-    - pack: ARM::CMSIS-FreeRTOS
-    - pack: ARM::Cortex_DFP
 
   define:
     - TF_OUTPUT: 0
@@ -16,7 +13,6 @@ solution:
   target-types:
 
     - type: CM0plus
-      device: ARMCM0P
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -24,7 +20,6 @@ solution:
         - TST_IRQ_NUM_B: 1
 
     - type: CM3
-      device: ARMCM3
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -32,7 +27,6 @@ solution:
         - TST_IRQ_NUM_B: 1
 
     - type: CM4
-      device: ARMCM4
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -40,7 +34,6 @@ solution:
         - TST_IRQ_NUM_B: 1
 
     - type: CM7
-      device: ARMCM7
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -48,9 +41,6 @@ solution:
         - TST_IRQ_NUM_B: 1
 
     - type: CM23
-      device: ARMCM23
-      processor:
-        trustzone: off
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -59,9 +49,6 @@ solution:
         - configENABLE_FPU: 0
 
     - type: CM33
-      device: ARMCM33
-      processor:
-        trustzone: off
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -69,9 +56,6 @@ solution:
         - TST_IRQ_NUM_B: 1
 
     - type: CM55
-      device: ARMCM55
-      processor:
-        trustzone: off
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -79,7 +63,6 @@ solution:
         - TST_IRQ_NUM_B: 1
 
     - type: CM85
-      device: ARMCM85
       define:
         - TST_IRQ_HANDLER_A: Interrupt0_Handler
         - TST_IRQ_NUM_A: 0
@@ -88,6 +71,9 @@ solution:
 
   build-types:
     - type: RTX5
+      optimize: balanced
+      debug: on
+    - type: RTX5-Lib
       optimize: balanced
       debug: on
     - type: FreeRTOS

@@ -30,6 +30,7 @@ class DeviceAxis(Enum):
 @matrix_axis("rtos", "r", "RTOS(es) to be considered.")
 class RtosAxis(Enum):
     RTX5 = ('RTX5')
+    RTX5LIB = ('RTX5-Lib')
     FREERTOS = ('FreeRTOS')
 
 
