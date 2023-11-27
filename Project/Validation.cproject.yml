@@ -4,6 +4,7 @@ project:
     - layer: ../Layer/App/Validation_RTX5/App.clayer.yml
       for-context:
         - .RTX5
+        - .RTX5-Lib
 
     # App: CMSIS-RTOS2 Validation for FreeRTOS
     - layer: ../Layer/App/Validation_FreeRTOS/App.clayer.yml
