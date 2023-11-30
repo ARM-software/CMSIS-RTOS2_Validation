@@ -19,7 +19,7 @@ Input file for cbuild is Validation.csolution.yml
 
 ## Prerequisites
 
-- [CMSIS-Toolbox 2.1.0](https://artifacts.keil.arm.com/cmsis-toolbox/2.1.0/)
+- [CMSIS-Toolbox 2.2.0](https://artifacts.keil.arm.com/cmsis-toolbox/2.2.0/)
 - [Arm Virtual Hardware for Cortex-M based on FastModels 11.22.39](https://artifacts.keil.arm.com/avh/11.22.39/)
 - [Arm Compiler 6.20](https://artifacts.keil.arm.com/arm-compiler/6.20/21/)
 - [GCC Compiler 13.2.1](https://artifacts.keil.arm.com/arm-none-eabi-gcc/13.2.1/)
