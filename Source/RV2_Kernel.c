@@ -416,6 +416,9 @@ void TC_osKernelSuspend_1 (void) {
   /* Resume the kernel */
   osKernelResume(0U);
 
+  /* Synchronize tick */
+  osDelay(1U);
+
   /* Create higher priority thread */
   arg = 0U;
   id = osThreadNew(Th_osKernelSuspend_1, &arg, &attr);
