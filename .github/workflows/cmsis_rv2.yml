@@ -49,7 +49,7 @@ jobs:
           repository: ARM-software/CMSIS-FreeRTOS
           path: CMSIS-FreeRTOS
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'    
           cache: 'pip'
@@ -64,7 +64,7 @@ jobs:
           pip install -r ./CMSIS-RTOS2_Validation/Project/requirements.txt
 
       - name: Cache packs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           key: packs-${{ github.run_id }}-${{ matrix.compiler }}-${{ matrix.rtos }}
           restore-keys: |
@@ -100,7 +100,7 @@ jobs:
       
       - name: Initialize CodeQL
         if: matrix.compiler == 'GCC'
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: c-cpp
           queries: security-and-quality
@@ -129,11 +129,11 @@ jobs:
 
       - name: Perform CodeQL Analysis
         if: matrix.compiler == 'GCC'
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
       - name: Upload Test Reports
         if: ${{ !cancelled() && env.ARM_UBL_ACTIVATION_CODE }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.rtos }}-${{ matrix.compiler }}
           path: ./CMSIS-RTOS2_Validation/Project/*.junit
@@ -150,7 +150,7 @@ jobs:
     steps:
       - name: Download Test Reports
         if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
 
