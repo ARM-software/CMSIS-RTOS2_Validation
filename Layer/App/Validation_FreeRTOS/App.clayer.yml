@@ -10,6 +10,7 @@ layer:
 
   components:
     # [Cvendor::]Cclass[&Cbundle]:Cgroup[:Csub][&Cvariant][@[>=]Cversion]
+    - component: ARM::CMSIS:OS Tick
     - component: ARM::CMSIS:RTOS2:FreeRTOS&Cortex-M
 
     - component: ARM::RTOS&FreeRTOS:Config&CMSIS RTOS2
