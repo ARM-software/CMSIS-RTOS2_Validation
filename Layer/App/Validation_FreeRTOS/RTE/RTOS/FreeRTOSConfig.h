@@ -176,7 +176,7 @@
 //  <i> Enable or disable static memory allocation.
 //  <i> When enabled RTOS objects can be created using application provided RAM.
 //  <i> Default: 1
-#ifndef
+#ifndef configSUPPORT_STATIC_ALLOCATION
 #define configSUPPORT_STATIC_ALLOCATION           1
 #endif
 
@@ -184,7 +184,7 @@
 //  <i> Enable or disable dynamic memory allocation.
 //  <i> When enabled RTOS objects can be created using RAM automatically allocated from the FreeRTOS heap.
 //  <i> Default: 1
-#ifndef
+#ifndef configSUPPORT_DYNAMIC_ALLOCATION
 #define configSUPPORT_DYNAMIC_ALLOCATION          1
 #endif
 
@@ -194,7 +194,7 @@
 //  <i> - vApplicationGetIdleTaskMemory and vApplicationGetTimerTaskMemory
 //  <i> - vApplicationGetPassiveIdleTaskMemory (when kernel uses SMP)
 //  <i> Default: 1
-#ifndef
+#ifndef configKERNEL_PROVIDED_STATIC_MEMORY
 #define configKERNEL_PROVIDED_STATIC_MEMORY       1
 #endif
 
@@ -202,7 +202,7 @@
 //  <i> Global heap buffer must be provided externally when using application allocated heap.
 //  <i> The buffer must be declared as: uint8_t ucHeap[ configTOTAL_HEAP_SIZE ].
 //  <i> Default: 0
-#ifndef
+#ifndef configAPPLICATION_ALLOCATED_HEAP
 #define configAPPLICATION_ALLOCATED_HEAP          0
 #endif
 
@@ -210,7 +210,7 @@
 //  <i> Enable or disable stack allocation for any task from a separate heap.
 //  <i> Thread-safe implementation of pvPortMallocStack and vPortFreeStack is required when using separate heap.
 //  <i> Default: 0
-#ifndef
+#ifndef configSTACK_ALLOCATION_FROM_SEPARATE_HEAP
 #define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP 0
 #endif
 
@@ -218,7 +218,7 @@
 //  <i> Enable or disable bounds checking and obfuscation to heap block pointers.
 //  <i> This setting only applies to Heap_4 and Heap_5.
 //  <i> Default: 0
-#ifndef
+#ifndef configENABLE_HEAP_PROTECTOR
 #define configENABLE_HEAP_PROTECTOR               0
 #endif
 // </h>
