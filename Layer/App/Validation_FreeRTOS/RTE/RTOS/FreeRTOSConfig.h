@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------
- * Copyright (c) 2013-2023 Arm Limited. All rights reserved.
+ * Copyright (c) 2013-2024 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -17,7 +17,7 @@
  *
  * --------------------------------------------------------------------------
  *
- * $Revision:   V10.5.0
+ * $Revision:   V10.6.0
  *
  * Project:     CMSIS-FreeRTOS
  * Title:       FreeRTOS configuration definitions
@@ -52,56 +52,56 @@
 //  <i> Stack for idle task and default task stack in words.
 //  <i> Default: 128
 #ifndef configMINIMAL_STACK_SIZE
-#define configMINIMAL_STACK_SIZE                ((uint16_t)(128))
+#define configMINIMAL_STACK_SIZE                  ((uint16_t)(128))
 #endif
 
 //  <o>Total heap size [bytes] <0-0xFFFFFFFF>
 //  <i> Heap memory size in bytes.
 //  <i> Default: 8192
 #ifndef configTOTAL_HEAP_SIZE
-#define configTOTAL_HEAP_SIZE                   ((size_t)8192)
+#define configTOTAL_HEAP_SIZE                     ((size_t)8192)
 #endif
 
 //  <o>Kernel tick frequency [Hz] <0-0xFFFFFFFF>
 //  <i> Kernel tick rate in Hz.
 //  <i> Default: 1000
 #ifndef configTICK_RATE_HZ
-#define configTICK_RATE_HZ                      ((TickType_t)1000)
+#define configTICK_RATE_HZ                        ((TickType_t)1000)
 #endif
 
 //  <o>Timer task stack depth [words] <0-65535>
 //  <i> Stack for timer task in words.
 //  <i> Default: 80
 #ifndef configTIMER_TASK_STACK_DEPTH
-#define configTIMER_TASK_STACK_DEPTH            80
+#define configTIMER_TASK_STACK_DEPTH              80
 #endif
 
 //  <o>Timer task priority <0-56>
 //  <i> Timer task priority.
 //  <i> Default: 40 (High)
 #ifndef configTIMER_TASK_PRIORITY
-#define configTIMER_TASK_PRIORITY               40
+#define configTIMER_TASK_PRIORITY                 40
 #endif
 
 //  <o>Timer queue length <0-1024>
 //  <i> Timer command queue length.
 //  <i> Default: 5
 #ifndef configTIMER_QUEUE_LENGTH
-#define configTIMER_QUEUE_LENGTH                5
+#define configTIMER_QUEUE_LENGTH                  5
 #endif
 
 //  <o>Preemption interrupt priority
 //  <i> Maximum priority of interrupts that are safe to call FreeRTOS API.
 //  <i> Default: 16
 #ifndef configMAX_SYSCALL_INTERRUPT_PRIORITY
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY    16
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY      16
 #endif
 
 //  <q>Use time slicing
 //  <i> Enable setting to use timeslicing.
 //  <i> Default: 1
 #ifndef configUSE_TIME_SLICING
-#define configUSE_TIME_SLICING                  1
+#define configUSE_TIME_SLICING                    1
 #endif
 
 //  <q>Use tickless idle
@@ -109,14 +109,14 @@
 //  <i> disable it to keep the tick interrupt running at all times.
 //  <i> Default: 0
 #ifndef configUSE_TICKLESS_IDLE
-#define configUSE_TICKLESS_IDLE                 0
+#define configUSE_TICKLESS_IDLE                   0
 #endif
 
 //  <q>Idle should yield
 //  <i> Control Yield behaviour of the idle task.
 //  <i> Default: 1
 #ifndef configIDLE_SHOULD_YIELD
-#define configIDLE_SHOULD_YIELD                 1
+#define configIDLE_SHOULD_YIELD                   1
 #endif
 
 //  <o>Check for stack overflow
@@ -125,7 +125,7 @@
 //  <i> Callback function vApplicationStackOverflowHook implementation is required when stack checking is enabled.
 //  <i> Default: 0
 #ifndef configCHECK_FOR_STACK_OVERFLOW
-#define configCHECK_FOR_STACK_OVERFLOW          2
+#define configCHECK_FOR_STACK_OVERFLOW            2
 #endif
 
 //  <q>Use idle hook
@@ -133,7 +133,7 @@
 //  <i> Callback function vApplicationIdleHook implementation is required when idle hook is enabled.
 //  <i> Default: 0
 #ifndef configUSE_IDLE_HOOK
-#define configUSE_IDLE_HOOK                     0
+#define configUSE_IDLE_HOOK                       0
 #endif
 
 //  <q>Use tick hook
@@ -141,7 +141,7 @@
 //  <i> Callback function vApplicationTickHook implementation is required when tick hook is enabled.
 //  <i> Default: 0
 #ifndef configUSE_TICK_HOOK
-#define configUSE_TICK_HOOK                     0
+#define configUSE_TICK_HOOK                       0
 #endif
 
 //  <q>Use deamon task startup hook
@@ -149,7 +149,7 @@
 //  <i> Callback function vApplicationDaemonTaskStartupHook implementation is required when deamon task startup hook is enabled.
 //  <i> Default: 0
 #ifndef configUSE_DAEMON_TASK_STARTUP_HOOK
-#define configUSE_DAEMON_TASK_STARTUP_HOOK      0
+#define configUSE_DAEMON_TASK_STARTUP_HOOK        0
 #endif
 
 //  <q>Use malloc failed hook
@@ -157,7 +157,7 @@
 //  <i> Callback function vApplicationMallocFailedHook implementation is required when malloc failed hook is enabled.
 //  <i> Default: 0
 #ifndef configUSE_MALLOC_FAILED_HOOK
-#define configUSE_MALLOC_FAILED_HOOK            0
+#define configUSE_MALLOC_FAILED_HOOK              0
 #endif
 
 //  <o>Queue registry size
@@ -165,25 +165,80 @@
 //  <i> The queue registry is used by kernel aware debuggers to locate queue and semaphore structures and display associated text names.
 //  <i> Default: 0
 #ifndef configQUEUE_REGISTRY_SIZE
-#define configQUEUE_REGISTRY_SIZE               0
+#define configQUEUE_REGISTRY_SIZE                 0
 #endif
 
-// <h>Event Recorder configuration
-//  <i> Initialize and setup Event Recorder level filtering.
-//  <i> Settings have no effect when Event Recorder is not present.
+// <h>Memory Allocation Configuration
+// <i> Enable and configure memory allocation specific features.
+// <i> To configure FreeRTOS heap size use configTOTAL_HEAP_SIZE.
+
+//  <q> Support static memory allocation
+//  <i> Enable or disable static memory allocation.
+//  <i> When enabled RTOS objects can be created using application provided RAM.
+//  <i> Default: 1
+#ifndef
+#define configSUPPORT_STATIC_ALLOCATION           1
+#endif
+
+//  <q> Support dynamic memory allocation
+//  <i> Enable or disable dynamic memory allocation.
+//  <i> When enabled RTOS objects can be created using RAM automatically allocated from the FreeRTOS heap.
+//  <i> Default: 1
+#ifndef
+#define configSUPPORT_DYNAMIC_ALLOCATION          1
+#endif
+
+//  <q>Use kernel provided static memory
+//  <i> When enabled FreeRTOS kernel provides static memory for Idle and Timer tasks.
+//  <i> Otherwise user shall provide implementation of:
+//  <i> - vApplicationGetIdleTaskMemory and vApplicationGetTimerTaskMemory
+//  <i> - vApplicationGetPassiveIdleTaskMemory (when kernel uses SMP)
+//  <i> Default: 1
+#ifndef
+#define configKERNEL_PROVIDED_STATIC_MEMORY       1
+#endif
+
+//  <q>Use application allocated heap
+//  <i> Global heap buffer must be provided externally when using application allocated heap.
+//  <i> The buffer must be declared as: uint8_t ucHeap[ configTOTAL_HEAP_SIZE ].
+//  <i> Default: 0
+#ifndef
+#define configAPPLICATION_ALLOCATED_HEAP          0
+#endif
+
+//  <q>Use separate heap for stack allocation
+//  <i> Enable or disable stack allocation for any task from a separate heap.
+//  <i> Thread-safe implementation of pvPortMallocStack and vPortFreeStack is required when using separate heap.
+//  <i> Default: 0
+#ifndef
+#define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP 0
+#endif
+
+//  <q>Use heap protector
+//  <i> Enable or disable bounds checking and obfuscation to heap block pointers.
+//  <i> This setting only applies to Heap_4 and Heap_5.
+//  <i> Default: 0
+#ifndef
+#define configENABLE_HEAP_PROTECTOR               0
+#endif
+// </h>
+
+// <h>Event Recorder Configuration
+// <i> Initialize and setup Event Recorder level filtering.
+// <i> Settings have no effect when Event Recorder is not present.
 
 //  <q>Initialize Event Recorder
 //  <i> Initialize Event Recorder before FreeRTOS kernel start.
 //  <i> Default: 1
 #ifndef configEVR_INITIALIZE
-#define configEVR_INITIALIZE                    1
+#define configEVR_INITIALIZE                      1
 #endif
 
 //  <e>Setup recording level filter
 //  <i> Enable configuration of FreeRTOS events recording level
 //  <i> Default: 1
 #ifndef configEVR_SETUP_LEVEL
-#define configEVR_SETUP_LEVEL                   1
+#define configEVR_SETUP_LEVEL                     1
 #endif
 
 //  <o>Tasks functions
@@ -191,7 +246,7 @@
 //  <i> Default: 0x05
 //    <0x00=>Off <0x01=>Errors <0x05=>Errors + Operation <0x0F=>All
 #ifndef configEVR_LEVEL_TASKS
-#define configEVR_LEVEL_TASKS                   0x05
+#define configEVR_LEVEL_TASKS                     0x05
 #endif
 
 //  <o>Queue functions
@@ -200,7 +255,7 @@
 //    <0x00=>Off <0x01=>Errors <0x05=>Errors + Operation <0x0F=>All
 
 #ifndef configEVR_LEVEL_QUEUE
-#define configEVR_LEVEL_QUEUE                   0x05
+#define configEVR_LEVEL_QUEUE                     0x05
 #endif
 
 //  <o>Timer functions
@@ -208,7 +263,7 @@
 //  <i> Default: 0x05
 //    <0x00=>Off <0x01=>Errors <0x05=>Errors + Operation <0x0F=>All
 #ifndef configEVR_LEVEL_TIMERS
-#define configEVR_LEVEL_TIMERS                  0x05
+#define configEVR_LEVEL_TIMERS                    0x05
 #endif
 
 //  <o>Event Groups functions
@@ -216,7 +271,7 @@
 //  <i> Default: 0x05
 //    <0x00=>Off <0x01=>Errors <0x05=>Errors + Operation <0x0F=>All
 #ifndef configEVR_LEVEL_EVENTGROUPS
-#define configEVR_LEVEL_EVENTGROUPS             0x05
+#define configEVR_LEVEL_EVENTGROUPS               0x05
 #endif
 
 //  <o>Heap functions
@@ -224,7 +279,7 @@
 //  <i> Default: 0x05
 //    <0x00=>Off <0x01=>Errors <0x05=>Errors + Operation <0x0F=>All
 #ifndef configEVR_LEVEL_HEAP
-#define configEVR_LEVEL_HEAP                    0x05
+#define configEVR_LEVEL_HEAP                      0x05
 #endif
 
 //  <o>Stream Buffer functions
@@ -232,7 +287,7 @@
 //  <i> Default: 0x05
 //    <0x00=>Off <0x01=>Errors <0x05=>Errors + Operation <0x0F=>All
 #ifndef configEVR_LEVEL_STREAMBUFFER
-#define configEVR_LEVEL_STREAMBUFFER            0x05
+#define configEVR_LEVEL_STREAMBUFFER              0x05
 #endif
 //  </e>
 // </h>
@@ -289,12 +344,37 @@
 #endif
 // </h>
 
+// <h> Symmetric Multiprocessing Configuration
+// <i> Enable and configure FreeRTOS for Symmetric Multiprocessing (SMP).
+
+//  <q>Number of processor cores
+//  <i> Sets the number of available processor cores.
+//  <i> Default: 1
+#ifndef configNUMBER_OF_CORES
+#define configNUMBER_OF_CORES                 1
+#endif
+
+//  <q>Use processor core affinity
+//  <i> Enables the control for task to run on specific processor cores.
+//  <i> Task that has no processor affinity set may run on any available core.
+//  <i> Default: 0
+#ifndef configUSE_CORE_AFFINITY
+#define configUSE_CORE_AFFINITY               0
+#endif
+
+//  <q>Use passive idle hook
+//  <i> Enable callback function call on each idle task iteration.
+//  <i> Callback function vApplicationPassiveIdleHook implementation is required when idle hook is enabled.
+//  <i> Default: 0
+#ifndef configUSE_PASSIVE_IDLE_HOOK
+#define configUSE_PASSIVE_IDLE_HOOK           0
+#endif
+// </h>
+
 //------------- <<< end of configuration section >>> ---------------------------
 
 /* Defines needed by FreeRTOS to implement CMSIS RTOS2 API. Do not change! */
 #define configCPU_CLOCK_HZ                      (SystemCoreClock)
-#define configSUPPORT_STATIC_ALLOCATION         1
-#define configSUPPORT_DYNAMIC_ALLOCATION        1
 #define configUSE_PREEMPTION                    1
 #define configUSE_TIMERS                        1
 #define configUSE_MUTEXES                       1
