@@ -29,7 +29,7 @@ PACK_DIRS="
 
 # Specify file names to be added to pack base directory
 PACK_BASE_FILES="
-  LICENSE.txt
+  LICENSE
   README.md
 "
 
