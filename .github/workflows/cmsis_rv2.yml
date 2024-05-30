@@ -72,7 +72,7 @@ jobs:
           path: ${{env.CMSIS_PACK_ROOT}}
 
       - name: Setup vcpkg environment
-        uses: JonatanAntoni/actions/vcpkg@main
+        uses: ARM-software/cmsis-actions/vcpkg@main
         with:
           config: ./CMSIS-RTOS2_Validation/Project/vcpkg-configuration.json
           cache: "-${{ matrix.compiler }}-${{ matrix.rtos }}"
