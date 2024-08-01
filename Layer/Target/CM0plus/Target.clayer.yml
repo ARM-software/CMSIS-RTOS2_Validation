@@ -1,11 +1,10 @@
 layer:
   type: Target
   description: CM0+ target components and files
+  for-device: ARMCM0P
 
   packs:
     - pack: ARM::Cortex_DFP
-
-  device: ARMCM0P
 
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]

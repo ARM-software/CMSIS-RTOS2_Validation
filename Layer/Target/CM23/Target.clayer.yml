@@ -1,13 +1,12 @@
 layer:
   type: Target
   description: CM23 target components and files
+  for-device: ARMCM23
+  processor:
+    trustzone: off
 
   packs:
     - pack: ARM::Cortex_DFP
-
-  device: ARMCM23
-  processor:
-    trustzone: off
 
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]

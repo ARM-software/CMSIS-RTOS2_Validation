@@ -1,13 +1,12 @@
 layer:
   type: Target
   description: CM85 target components and files
+  for-device: ARMCM85
+  processor:
+    trustzone: off
 
   packs:
     - pack: ARM::Cortex_DFP
-
-  device: ARMCM85
-  processor:
-    trustzone: off
 
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]

@@ -1,11 +1,10 @@
 layer:
   type: Target
   description: CM3 target components and files
+  for-device: ARMCM3
 
   packs:
     - pack: ARM::Cortex_DFP
-
-  device: ARMCM3
 
   components:
     # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
