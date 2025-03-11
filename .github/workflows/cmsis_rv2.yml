@@ -22,7 +22,7 @@ jobs:
         compiler: [AC6, GCC, Clang]
         rtos: [RTX5, FreeRTOS]
     
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -57,7 +57,7 @@ jobs:
       - name: Install system packages
         run: |
           sudo add-apt-repository ppa:deadsnakes/ppa
-          sudo apt-get install libpython3.9 libtinfo5
+          sudo apt-get install libpython3.9 libtinfo6
 
       - name: Python requirements
         run: |
