@@ -263,6 +263,8 @@ void TC_osKernelLock_1 (void) {
 
   /* Unlock kernel */
   osKernelUnlock();
+  /* Second call to account for osKernelLock nesting */
+  osKernelUnlock();
 
   /* Call osKernelLock from ISR */
   TST_IRQHandler = Irq_osKernelLock;
