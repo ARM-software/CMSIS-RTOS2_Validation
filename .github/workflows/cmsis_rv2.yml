@@ -25,26 +25,26 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           path: CMSIS-RTOS2_Validation
       
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           repository: ARM-software/CMSIS_6
           path: CMSIS_6
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           repository: ARM-software/CMSIS-RTX
           path: CMSIS-RTX
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           repository: ARM-software/Cortex_DFP
           path: Cortex_DFP
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           repository: ARM-software/CMSIS-FreeRTOS
           path: CMSIS-FreeRTOS
@@ -141,7 +141,7 @@ jobs:
 
   publish-test-results:
     needs: [build-and-run]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'pull_request'
 
     env:

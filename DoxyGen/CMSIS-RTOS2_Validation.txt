@@ -23,7 +23,7 @@ The CMSIS-RTOS2 validation tests and verifies:
 This manual contains the following chapters:
   - \ref test_results - Explains how to interpret the test results.
   - \ref config - Contains information about test suite configuration options
-  - <a class="el" href="./modules.html">Reference</a> - Explains the individual CMSIS-RTOS2 API tests.
+  - <a class="el" href="./topics.html">Reference</a> - Explains the individual CMSIS-RTOS2 API tests.
 
 This manual assumes that you are familiar with Keil MDK. Refer to
 <a href="http://www2.keil.com/mdk5/install" target="_blank">MDK Version 5 - Getting Started</a> for additional information.
