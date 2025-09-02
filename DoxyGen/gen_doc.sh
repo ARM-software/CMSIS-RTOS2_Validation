@@ -5,7 +5,7 @@
 #
 # Pre-requisites:
 # - bash shell (for Windows: install git for Windows)
-# - doxygen 1.9.2
+# - doxygen 1.13.2
 # - git
 # - gh cli
 
@@ -13,8 +13,8 @@ set -o pipefail
 
 DIRNAME=$(dirname $(realpath $0))
 DOXYGEN=$(which doxygen)
-REQ_DXY_VERSION="1.9.2"
-REQUIRED_GEN_PACK_LIB="0.2.2"
+REQ_DXY_VERSION="1.13.2"
+REQUIRED_GEN_PACK_LIB="0.11.3"
 
 ############ gen-pack library ###########
 
