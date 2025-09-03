@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2023 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2022-2025 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -80,7 +80,8 @@ void Th_osThreadGetState_3  (void *arg);
 void Th_osThreadSuspend_1   (void *arg);
 void Th_osThreadResume_1    (void *arg);
 void Th_osThreadResume_2    (void *arg);
-void Th_osThreadExit_1      (void *arg) __NO_RETURN;
+ __NO_RETURN
+void Th_osThreadExit_1      (void *arg);
 void Th_osThreadTerminate_1 (void *arg);
 void Th_osThreadGetCount_1  (void *arg);
 void Th_osThreadEnumerate_1 (void *arg);

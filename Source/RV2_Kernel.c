@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ARM Limited or its affiliates. All rights reserved.
+ * Copyright (C) 2022-2025 ARM Limited or its affiliates. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -21,8 +21,8 @@
 /*-----------------------------------------------------------------------------
  *      Test implementation
  *----------------------------------------------------------------------------*/
-void Th_osKernelSuspend_1 (void *arg) __NO_RETURN;
-void Th_osKernelResume_1  (void *arg) __NO_RETURN;
+__NO_RETURN void Th_osKernelSuspend_1 (void *arg);
+__NO_RETURN void Th_osKernelResume_1  (void *arg);
 
 void Irq_osKernelInitialize       (void);
 void Irq_osKernelGetInfo          (void);
