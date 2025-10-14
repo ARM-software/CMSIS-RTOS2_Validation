@@ -72,6 +72,8 @@ solution:
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
         - configENABLE_FPU: 0
+      define-asm:
+        - configENABLE_FPU: 0
 
     - type: CM33
       device: ARMCM33
