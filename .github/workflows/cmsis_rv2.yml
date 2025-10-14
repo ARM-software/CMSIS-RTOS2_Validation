@@ -76,7 +76,6 @@ jobs:
         uses: ARM-software/cmsis-actions/vcpkg@main
         with:
           config: ./CMSIS-RTOS2_Validation/Project/vcpkg-configuration.json
-          cache: "-${{ matrix.compiler }}-${{ matrix.rtos }}"
 
       - name: Activate Arm tool license
         run: |
