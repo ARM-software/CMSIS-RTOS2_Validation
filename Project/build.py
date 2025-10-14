@@ -39,13 +39,15 @@ class CompilerAxis(Enum):
     AC6   = ('AC6')
     GCC   = ('GCC')
     CLANG = ('Clang')
+    IAR = ('IAR')
 
     @property
     def image_ext(self):
         ext = {
             CompilerAxis.AC6: 'axf',
             CompilerAxis.GCC: 'elf',
-            CompilerAxis.CLANG: 'elf'
+            CompilerAxis.CLANG: 'elf',
+            CompilerAxis.IAR: 'out'
         }
         return ext[self]
 
@@ -54,7 +56,8 @@ class CompilerAxis(Enum):
         ext = {
             CompilerAxis.AC6: 'AC6',
             CompilerAxis.GCC: 'GCC',
-            CompilerAxis.CLANG: 'CLANG'
+            CompilerAxis.CLANG: 'CLANG',
+            CompilerAxis.IAR: 'IAR'
         }
         return ext[self]
 

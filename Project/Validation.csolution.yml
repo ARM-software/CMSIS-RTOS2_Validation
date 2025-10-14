@@ -2,6 +2,12 @@ solution:
   created-for: CMSIS-Toolbox@2.5.0
   cdefault:
 
+  select-compiler:
+    - compiler: AC6
+    - compiler: GCC
+    - compiler: IAR
+    - compiler: CLANG
+
   misc:
     - for-compiler: GCC
       Link:
@@ -11,6 +17,8 @@ solution:
         - -lcrt0-semihost
         - -lsemihost
     - for-compiler: IAR
+      C-CPP:
+        - -e
       Link:
         - --semihosting
 
@@ -64,6 +72,8 @@ solution:
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
         - configENABLE_FPU: 0
+      define-asm:
+        - configENABLE_FPU: 0
 
     - type: CM33
       device: ARMCM33
@@ -104,4 +114,4 @@ solution:
     - project: ./Validation.cproject.yml
 
   output-dirs:
-    outdir:  ./$Project$.$BuildType$+$TargetType$_$Compiler$/$Project$.$BuildType$+$TargetType$_OutDir
+    outdir: ./$Project$.$BuildType$+$TargetType$_$Compiler$/$Project$.$BuildType$+$TargetType$_OutDir
