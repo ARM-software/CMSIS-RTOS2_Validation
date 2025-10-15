@@ -22,14 +22,14 @@ jobs:
       matrix:
         compiler: [AC6, GCC, Clang, IAR]
         rtos: [RTX5, FreeRTOS]
-    
+
     runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v5
         with:
           path: CMSIS-RTOS2_Validation
-      
+
       - uses: actions/checkout@v5
         with:
           repository: ARM-software/CMSIS_6
@@ -52,7 +52,7 @@ jobs:
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.10'    
+          python-version: '3.10'
           cache: 'pip'
 
       - name: Install system packages
@@ -64,32 +64,20 @@ jobs:
         run: |
           pip install -r ./CMSIS-RTOS2_Validation/Project/requirements.txt
 
-      - name: Cache packs
-        uses: actions/cache@v4
-        with:
-          key: packs-${{ matrix.compiler }}-${{ matrix.rtos }}
-          restore-keys: |
-              packs-${{ matrix.compiler }}-${{ matrix.rtos }}
-          path: ${{env.CMSIS_PACK_ROOT}}
-
       - name: Setup vcpkg environment
         uses: ARM-software/cmsis-actions/vcpkg@main
         with:
           config: ./CMSIS-RTOS2_Validation/Project/vcpkg-configuration.json
 
       - name: Activate Arm tool license
-        run: |
-          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
-            armlm activate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
-          else
-            armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
-          fi
+        uses: ARM-software/cmsis-actions/armlm@v1
+        with:
+          code: ${{ env.ARM_UBL_ACTIVATION_CODE }}
 
       - name: Register local packs
         run: |
           cpackget init https://www.keil.com/pack/index.pidx
           cpackget rm ARM::CMSIS ARM::Cortex_DFP ARM::CMSIS-RTX ARM::CMSIS-FreeRTOS || echo "Ok"
-
           cpackget add ./CMSIS_6/ARM.CMSIS.pdsc
           cpackget add ./CMSIS-RTX/ARM.CMSIS-RTX.pdsc
           cpackget add ./CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
@@ -97,14 +85,14 @@ jobs:
 
       - uses: ammaraskar/gcc-problem-matcher@master
         if: matrix.compiler == 'GCC'
-      
+
       - name: Initialize CodeQL
         if: matrix.compiler == 'GCC'
         uses: github/codeql-action/init@v4
         with:
           languages: c-cpp
           queries: security-and-quality
-  
+
       - name: Build
         working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |
@@ -146,7 +134,7 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
     steps:
       - name: Download Test Reports
         if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
@@ -163,4 +151,3 @@ jobs:
           report_individual_runs: true
           event_name: ${{ github.event.workflow_run.event }}
           files: "artifacts/**/*.junit"
-  
