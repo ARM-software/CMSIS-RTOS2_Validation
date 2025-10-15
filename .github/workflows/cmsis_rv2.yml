@@ -69,7 +69,7 @@ jobs:
         with:
           key: packs-${{ matrix.compiler }}-${{ matrix.rtos }}
           restore-keys: |
-              packs-
+              packs-${{ matrix.compiler }}-${{ matrix.rtos }}
           path: ${{env.CMSIS_PACK_ROOT}}
 
       - name: Setup vcpkg environment
