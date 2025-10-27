@@ -121,7 +121,7 @@ jobs:
 
       - name: Upload Test Reports
         if: ${{ !cancelled() && env.ARM_UBL_ACTIVATION_CODE }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: test-results-${{ matrix.rtos }}-${{ matrix.compiler }}
           path: ./CMSIS-RTOS2_Validation/Project/*.junit
