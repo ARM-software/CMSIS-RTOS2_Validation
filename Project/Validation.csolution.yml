@@ -1,5 +1,5 @@
 solution:
-  created-for: CMSIS-Toolbox@2.5.0
+  created-for: CMSIS-Toolbox@2.13.0
   cdefault:
 
   select-compiler:
@@ -39,6 +39,8 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM0plus/Board.clayer.yml
 
     - type: CM3
       device: ARMCM3
@@ -47,6 +49,8 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM3/Board.clayer.yml
 
     - type: CM4
       device: ARMCM4
@@ -55,6 +59,8 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM4/Board.clayer.yml
 
     - type: CM7
       device: ARMCM7
@@ -63,6 +69,8 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM7/Board.clayer.yml
 
     - type: CM23
       device: ARMCM23
@@ -74,6 +82,8 @@ solution:
         - configENABLE_FPU: 0
       define-asm:
         - configENABLE_FPU: 0
+      variables:
+        - Board-Layer: ../Layer/Board/CM23/Board.clayer.yml
 
     - type: CM33
       device: ARMCM33
@@ -82,6 +92,8 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM33/Board.clayer.yml
 
     - type: CM55
       device: ARMCM55
@@ -90,6 +102,8 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM55/Board.clayer.yml
 
     - type: CM85
       device: ARMCM85
@@ -98,6 +112,8 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM85/Board.clayer.yml
 
   build-types:
     - type: RTX5
@@ -112,6 +128,3 @@ solution:
 
   projects:
     - project: ./Validation.cproject.yml
-
-  output-dirs:
-    outdir: ./$Project$.$BuildType$+$TargetType$_$Compiler$/$Project$.$BuildType$+$TargetType$_OutDir

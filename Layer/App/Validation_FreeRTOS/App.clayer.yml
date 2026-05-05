@@ -39,4 +39,4 @@ layer:
 
     - group: Source files
       files:
-        - file: ./main.c 
+        - file: ./app_main.c 
