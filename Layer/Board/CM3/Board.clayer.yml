@@ -1,0 +1,41 @@
+layer:
+  type: Target
+  description: CM3 target components and files
+  for-device: ARMCM3
+
+  # List the packs used in the layer.
+  packs:
+    - pack: ARM::Cortex_DFP
+
+  # List components to use for your application.
+  # A software component is a re-usable unit that may be configurable.
+  components:
+    # [Cvendor::] Cclass [&Cbundle] :Cgroup [:Csub] [&Cvariant] [@[>=]Cversion]
+    - component: ARM::CMSIS:CORE
+    - component: Device:Startup&C Startup
+
+  # List of source groups and files added to a project or a layer.
+  groups:
+    - group: Board
+      files:
+        - file: ./main.c
+        - file: ./main.h
+
+    - group: FVP
+      files:
+        - file: ./fvp_config.txt
+
+  # Linker configuration and definitions.
+  linker:
+    - for-compiler: AC6
+      script: RTE/Device/$Dname$/ac6_linker_script.sct
+      regions: RTE/Device/$Dname$/regions_$Dname$.h
+    - for-compiler: GCC
+      script: RTE/Device/$Dname$/gcc_linker_script.ld
+      regions: RTE/Device/$Dname$/regions_$Dname$.h
+    - for-compiler: CLANG
+      script: RTE/Device/$Dname$/clang_linker_script.ld
+      regions: RTE/Device/$Dname$/regions_$Dname$.h
+    - for-compiler: IAR
+      script: RTE/Device/$Dname$/iar_linker_script.icf
+      regions: RTE/Device/$Dname$/regions_$Dname$.h

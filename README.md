@@ -41,7 +41,3 @@ Currently, the following tests are executed in the [CMSIS_RV2](./.github/workflo
 | RTX5     |  ARMCM33  | AC6, GCC, CLANG |
 | RTX5     |  ARMCM55  | AC6, GCC, CLANG |
 | RTX5     |  ARMCM85  | AC6, GCC, CLANG |
-
-## License
-
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

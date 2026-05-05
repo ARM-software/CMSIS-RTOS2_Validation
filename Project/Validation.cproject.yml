@@ -11,42 +11,5 @@ project:
       for-context:
         - .FreeRTOS
 
-    #Target: CM0plus
-    - layer: ../Layer/Target/CM0plus/Target.clayer.yml
-      for-context:
-        - +CM0plus
-
-    #Target: CM3
-    - layer: ../Layer/Target/CM3/Target.clayer.yml
-      for-context:
-        - +CM3
-
-    #Target: CM4
-    - layer: ../Layer/Target/CM4/Target.clayer.yml
-      for-context:
-        - +CM4
-
-    #Target: CM7
-    - layer: ../Layer/Target/CM7/Target.clayer.yml
-      for-context:
-        - +CM7
-
-    #Target: CM23
-    - layer: ../Layer/Target/CM23/Target.clayer.yml
-      for-context:
-        - +CM23
-
-    #Target: CM33
-    - layer: ../Layer/Target/CM33/Target.clayer.yml
-      for-context:
-        - +CM33
-
-    #Target: CM55
-    - layer: ../Layer/Target/CM55/Target.clayer.yml
-      for-context:
-        - +CM55
-        
-    #Target: CM85
-    - layer: ../Layer/Target/CM85/Target.clayer.yml
-      for-context:
-        - +CM85
+    # Board-Layer: Board specific configuration
+    - layer: $Board-Layer$
