@@ -38,8 +38,9 @@ These prerequisites can be installed automatically using `vcpkg`:
 Python packages required to build and run with `build.py`:
 
 - python-matrix-runner 1.3
+- lxml
 
-These can be installed with `pip``:
+These can be installed with `pip`:
 
 ```Shell
  ./Project $ pip install -r requirements.txt
