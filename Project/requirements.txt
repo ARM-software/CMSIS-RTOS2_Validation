@@ -3,4 +3,3 @@
 # Python requirements for build.py script
 #
 python-matrix-runner~=1.3
-lxml>=6.1.0
