@@ -18,7 +18,7 @@ env:
 jobs:
   build-and-run:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         compiler: [AC6, GCC, Clang, IAR]
         rtos: [RTX5, FreeRTOS]
@@ -78,7 +78,7 @@ jobs:
           cpackget add ./CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
           cpackget add ./Cortex_DFP/ARM.Cortex_DFP.pdsc
 
-      - uses: ammaraskar/gcc-problem-matcher@master
+      - uses: ammaraskar/gcc-problem-matcher@0.3.0
         if: matrix.compiler == 'GCC'
 
       - name: Initialize CodeQL

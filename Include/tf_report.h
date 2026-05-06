@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 ARM Limited or its affiliates. All rights reserved.
+ * Copyright 2022, 2026 Arm Limited and/or its affiliates.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -26,8 +26,8 @@
  *----------------------------------------------------------------------------*/
 
 /*
-  Print Output Format <0=> Plain Text <1=> XML
-  Set the test results output format to plain text or XML
+  Print Output Format <0=> Plain Text <1=> JUnit XML
+  Set the test results output format to plain text or JUnit XML
 */
 #ifndef PRINT_XML_REPORT
 #define PRINT_XML_REPORT            0

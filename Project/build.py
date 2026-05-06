@@ -12,7 +12,7 @@ from lxml.etree import XMLSyntaxError
 from zipfile import ZipFile
 
 from matrix_runner import main, matrix_axis, matrix_action, matrix_command, matrix_filter, \
-    ConsoleReport, CropReport, TransformReport, JUnitReport
+    ConsoleReport, CropReport, JUnitReport
 
 
 @matrix_axis("device", "d", "Device(s) to be considered.")
@@ -158,8 +158,7 @@ def cbuild(config):
 
 
 @matrix_command(test_report=ConsoleReport() |
-                            CropReport('<\?xml version="1.0"\?>', '</report>') |
-                            TransformReport('validation.xsl') |
+                            CropReport(r'<\?xml version="1.0"', '</testsuites>') |
                             JUnitReport(title=lambda title, result: f"{result.command.config.rtos}."
                                                                     f"{result.command.config.device}."
                                                                     f"{result.command.config.compiler}."
