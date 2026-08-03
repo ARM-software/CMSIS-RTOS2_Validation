@@ -26,33 +26,39 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout CMSIS-RTOS2_Validation
+        uses: actions/checkout@v7
         with:
           path: CMSIS-RTOS2_Validation
 
-      - uses: actions/checkout@v7
+      - name: Checkout CMSIS_6 
+        uses: actions/checkout@v7
         with:
           repository: ARM-software/CMSIS_6
           path: CMSIS_6
 
-      - uses: actions/checkout@v7
+      - name: Checkout CMSIS-RTX
+        uses: actions/checkout@v7
         with:
           repository: ARM-software/CMSIS-RTX
           path: CMSIS-RTX
 
-      - uses: actions/checkout@v7
+      - name: Checkout Cortex_DFP
+        uses: actions/checkout@v7
         with:
           repository: ARM-software/Cortex_DFP
           path: Cortex_DFP
 
-      - uses: actions/checkout@v7
+      - name: Checkout CMSIS-FreeRTOS
+        uses: actions/checkout@v7
         with:
           repository: ARM-software/CMSIS-FreeRTOS
           path: CMSIS-FreeRTOS
 
-      - uses: actions/setup-python@v6
+      - name: Setup Python
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.13'
+          python-version: '3.14'
           cache: 'pip'
 
       - name: Python requirements
@@ -124,7 +130,7 @@ jobs:
 
   publish-test-results:
     needs: [build-and-run]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'pull_request'
 
     env:
