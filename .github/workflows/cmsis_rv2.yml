@@ -31,7 +31,7 @@ jobs:
         with:
           path: CMSIS-RTOS2_Validation
 
-      - name: Checkout CMSIS_6 
+      - name: Checkout CMSIS_6
         uses: actions/checkout@v7
         with:
           repository: ARM-software/CMSIS_6
