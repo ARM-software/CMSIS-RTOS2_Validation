@@ -85,11 +85,11 @@ def project_name(config):
 
 
 def output_dir(config):
-    return f"Validation.{config.rtos}+{config.device[1]}_OutDir"
+    return f"out/Validation/{config.device[1]}/{config.rtos}"
 
 
 def model_config(config):
-    return f"../Layer/Target/{config.device[1]}/model_config.txt"
+    return f"../Layer/Board/{config.device[1]}/fvp_config.txt"
 
 
 @matrix_action
@@ -112,7 +112,7 @@ def build(config, results):
     file = f"Validation-{config_suffix(config)}.zip"
     logging.info("Archiving build output to %s...", file)
     with ZipFile(file, "w") as archive:
-        for content in iglob(f"{project_name(config)}/**/*", recursive=True):
+        for content in iglob(f"{output_dir(config)}/**/*", recursive=True):
             if Path(content).is_file():
                 archive.write(content)
 
@@ -167,7 +167,7 @@ def cbuild(config):
 def model_exec(config):
     cmdline = [MODEL_EXECUTABLE[config.device][0], "-q", "--simlimit", 100, "-f", model_config(config)]
     cmdline += MODEL_EXECUTABLE[config.device][1]
-    cmdline += ["-a", f"{project_name(config)}/{output_dir(config)}/Validation.{config.compiler.image_ext}"]
+    cmdline += ["-a", f"{output_dir(config)}/Validation.{config.compiler.image_ext}"]
     return cmdline
 
 

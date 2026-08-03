@@ -1,5 +1,5 @@
 solution:
-  created-for: CMSIS-Toolbox@2.5.0
+  created-for: CMSIS-Toolbox@2.13.0
   cdefault:
 
   select-compiler:
@@ -39,6 +39,15 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM0plus/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_MPS2_Cortex-M0plus
+            config-file: ../Layer/Board/CM0plus/fvp_config.txt
+            args: ""
 
     - type: CM3
       device: ARMCM3
@@ -47,6 +56,15 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM3/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_MPS2_Cortex-M3
+            config-file: ../Layer/Board/CM3/fvp_config.txt
+            args: ""
 
     - type: CM4
       device: ARMCM4
@@ -55,6 +73,15 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM4/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_MPS2_Cortex-M4
+            config-file: ../Layer/Board/CM4/fvp_config.txt
+            args: ""
 
     - type: CM7
       device: ARMCM7
@@ -63,6 +90,15 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM7/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_MPS2_Cortex-M7
+            config-file: ../Layer/Board/CM7/fvp_config.txt
+            args: ""
 
     - type: CM23
       device: ARMCM23
@@ -74,6 +110,15 @@ solution:
         - configENABLE_FPU: 0
       define-asm:
         - configENABLE_FPU: 0
+      variables:
+        - Board-Layer: ../Layer/Board/CM23/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_MPS2_Cortex-M23
+            config-file: ../Layer/Board/CM23/fvp_config.txt
+            args: ""
 
     - type: CM33
       device: ARMCM33
@@ -82,6 +127,15 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM33/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_MPS2_Cortex-M33
+            config-file: ../Layer/Board/CM33/fvp_config.txt
+            args: ""
 
     - type: CM55
       device: ARMCM55
@@ -90,6 +144,15 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM55/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_Corstone_SSE-300
+            config-file: ../Layer/Board/CM55/fvp_config.txt
+            args: ""
 
     - type: CM85
       device: ARMCM85
@@ -98,6 +161,15 @@ solution:
         - TST_IRQ_NUM_A: 0
         - TST_IRQ_HANDLER_B: Interrupt1_Handler
         - TST_IRQ_NUM_B: 1
+      variables:
+        - Board-Layer: ../Layer/Board/CM85/Board.clayer.yml
+      target-set:
+        - set:
+          debugger:
+            name: Arm-FVP
+            model: FVP_Corstone_SSE-310
+            config-file: ../Layer/Board/CM85_noTZ/fvp_config.txt
+            args: ""
 
   build-types:
     - type: RTX5
@@ -112,6 +184,3 @@ solution:
 
   projects:
     - project: ./Validation.cproject.yml
-
-  output-dirs:
-    outdir: ./$Project$.$BuildType$+$TargetType$_$Compiler$/$Project$.$BuildType$+$TargetType$_OutDir

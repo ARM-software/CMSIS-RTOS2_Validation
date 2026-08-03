@@ -26,48 +26,43 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           path: CMSIS-RTOS2_Validation
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: ARM-software/CMSIS_6
           path: CMSIS_6
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: ARM-software/CMSIS-RTX
           path: CMSIS-RTX
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: ARM-software/Cortex_DFP
           path: Cortex_DFP
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: ARM-software/CMSIS-FreeRTOS
           path: CMSIS-FreeRTOS
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.10'
+          python-version: '3.13'
           cache: 'pip'
-
-      - name: Install system packages
-        run: |
-          sudo add-apt-repository ppa:deadsnakes/ppa
-          sudo apt-get install libpython3.9 libtinfo6
 
       - name: Python requirements
         run: |
           pip install -r ./CMSIS-RTOS2_Validation/Project/requirements.txt
 
-      - name: Setup vcpkg environment
-        uses: ARM-software/cmsis-actions/vcpkg@main
+      - name: Install tools
+        uses: ARM-software/cmsis-actions/vcpkg@v1
         with:
-          config: ./CMSIS-RTOS2_Validation/Project/vcpkg-configuration.json
+          config: "CMSIS-RTOS2_Validation/.ci/vcpkg-configuration.json"
 
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1
@@ -121,7 +116,7 @@ jobs:
 
       - name: Upload Test Reports
         if: ${{ !cancelled() && env.ARM_UBL_ACTIVATION_CODE }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-${{ matrix.rtos }}-${{ matrix.compiler }}
           path: ./CMSIS-RTOS2_Validation/Project/*.junit
@@ -138,7 +133,7 @@ jobs:
     steps:
       - name: Download Test Reports
         if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
 
