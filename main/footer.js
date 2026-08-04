@@ -1,7 +1,7 @@
 function writeHeader() {
-    document.write('Version 0.9.0-dev105');
+    document.write('Version 0.9.0-dev106');
 };
 
 function writeFooter()  {
-    document.write('Generated on Tue Aug  4 2026 14:35:15 for CMSIS-RTOS2 Validation 0.9.0-dev105+gb416ce3. Copyright &copy; 2022-2026 Arm Limited (or its affiliates). All rights reserved.');
+    document.write('Generated on Tue Aug  4 2026 15:57:20 for CMSIS-RTOS2 Validation 0.9.0-dev106+gf5e2c7f. Copyright &copy; 2022-2026 Arm Limited (or its affiliates). All rights reserved.');
 };
