@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2023 ARM Limited or its affiliates. All rights reserved.
+ * Copyright 2022-2023, 2026 Arm Limited and/or its affiliates.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -100,10 +100,8 @@ static const char *tc_Eval (void);
  *----------------------------------------------------------------------------*/
 static void TR_Print_Open_TC (uint32_t num, const char *fn) {
 #if (PRINT_XML_REPORT == 1)
-  PRINT(("<tc>%s", TF_EOL));
-  PRINT(("<no>%d</no>%s",     num, TF_EOL));
-  PRINT(("<func>%s</func>%s", fn,  TF_EOL));
-  PRINT(("<dbgi>%s", TF_EOL));
+  (void)num;
+  PRINT(("    <testcase name=\"%s\">%s", fn, TF_EOL));
 #else
   PRINT(("TEST %02d: %-32s ", num, fn));
 #endif
@@ -115,16 +113,15 @@ static void TR_Print_Open_TC (uint32_t num, const char *fn) {
  *----------------------------------------------------------------------------*/
 static void TR_Print_WriteDebug (const char *fn, uint32_t ln, char *desc, const char *res) {
 #if (PRINT_XML_REPORT == 1)
-  PRINT(("<detail>%s", TF_EOL));
-  PRINT(("<module>%s</module>%s", fn, TF_EOL));
-  PRINT(("<line>%d</line>%s",     ln, TF_EOL));
   if (res != NULL) {
-    PRINT(("<type>%s</type>%s",  res, TF_EOL));
+    PRINT(("      <failure message=\"%s\">%s (%d)", res, fn, ln));
+  } else {
+    PRINT(("      <failure>%s (%d)", fn, ln));
   }
   if (desc != NULL) {
-    PRINT(("<desc>%s</desc>%s", desc, TF_EOL));
+    PRINT((": %s", desc));
   }
-  PRINT(("</detail>%s", TF_EOL));
+  PRINT(("</failure>%s", TF_EOL));
 #else
   PRINT(("%s  %s (%d)", TF_EOL, fn, ln));
   if (res != NULL) {
@@ -141,9 +138,10 @@ static void TR_Print_WriteDebug (const char *fn, uint32_t ln, char *desc, const 
  *----------------------------------------------------------------------------*/
 static void TR_Print_Close_TC (const char *res) {
 #if (PRINT_XML_REPORT == 1)
-  PRINT(("</dbgi>%s", TF_EOL));
-  PRINT(("<res>%s</res>%s", res, TF_EOL));
-  PRINT(("</tc>%s", TF_EOL));
+  if (res == NotExe) {
+    PRINT(("      <skipped/>%s", TF_EOL));
+  }
+  PRINT(("    </testcase>%s", TF_EOL));
 #else
   if ((res == Passed) || (res == NotExe))
     PRINT(("%s%s", res, TF_EOL));
@@ -158,15 +156,10 @@ static void TR_Print_Close_TC (const char *res) {
  *----------------------------------------------------------------------------*/
 static void TR_Print_Open (const char *title, const char *date, const char *time, const char *fn) {
 #if (PRINT_XML_REPORT == 1)
+  (void)fn;
   PRINT(("<?xml version=\"1.0\"?>%s", TF_EOL));
-  PRINT(("<?xml-stylesheet href=\"TR_Style.xsl\" type=\"text/xsl\" ?>%s", TF_EOL));
-  PRINT(("<report>%s", TF_EOL));
-  PRINT(("<test>%s", TF_EOL));
-  PRINT(("<title>%s</title>%s", title, TF_EOL));
-  PRINT(("<date>%s</date>%s",   date,  TF_EOL));
-  PRINT(("<time>%s</time>%s",   time,  TF_EOL));
-  PRINT(("<file>%s</file>%s",   fn,    TF_EOL));
-  PRINT(("<test_cases>%s", TF_EOL));
+  PRINT(("<testsuites>%s", TF_EOL));
+  PRINT(("  <testsuite name=\"%s\" timestamp=\"%s %s\">%s", title, date, time, TF_EOL));
 #else
   (void)fn;
   PRINT(("%s   %s   %s %s%s", title, date, time, TF_EOL, TF_EOL));
@@ -179,17 +172,8 @@ static void TR_Print_Open (const char *title, const char *date, const char *time
  *----------------------------------------------------------------------------*/
 static void TR_Print_Close (void) {
 #if (PRINT_XML_REPORT == 1)
-  PRINT(("</test_cases>%s", TF_EOL));
-  PRINT(("<summary>%s", TF_EOL));
-  PRINT(("<tcnt>%d</tcnt>%s", TestReport.tests,    TF_EOL));
-  PRINT(("<exec>%d</exec>%s", TestReport.executed, TF_EOL));
-  PRINT(("<pass>%d</pass>%s", TestReport.passed,   TF_EOL));
-  PRINT(("<fail>%d</fail>%s", TestReport.failed,   TF_EOL));
-  PRINT(("<warn>%d</warn>%s", TestReport.warnings, TF_EOL));
-  PRINT(("<tres>%s</tres>%s", tr_Eval(),            TF_EOL));
-  PRINT(("</summary>%s", TF_EOL));
-  PRINT(("</test>%s", TF_EOL));
-  PRINT(("</report>%s", TF_EOL));
+  PRINT(("  </testsuite>%s", TF_EOL));
+  PRINT(("</testsuites>%s", TF_EOL));
 #else
   PRINT(("\nTest Summary: %d Tests, %d Executed, %d Passed, %d Failed, %d Warnings.%s",
          TestReport.tests,

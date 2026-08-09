@@ -11,12 +11,12 @@ This repository contains a test suite that validates CMSIS-RTOS2 implementations
 
 | Directory         | Contents                                                                          |
 |-------------------|-----------------------------------------------------------------------------------|
+| .ci               | CI required files (specifies build tools)                                         |
 | .github/workflows | Workflow YML files for running the test suite and for creating the documentation. |
 | Doxygen           | Doxygen input files for creating the documentation.                               |
 | Include           | Include files for test cases etc.                                                 |
 | Layer             | Layers for creating the projects.                                                 |
 | Project           | An example project that shows unit testing.                                       |
-| Script            | Various shell scripts.                                                            |
 | Source            | Test case source code.                                                            |
 
 ## Test matrix

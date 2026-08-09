@@ -1,8 +1,10 @@
 # Execute Validation Project
 
-Validation project uses CMSIS Project Manager to generate independent projects.
+Validation project uses CMSIS-Toolbox to build and run test configurations.
 
-Independent project can be generated for specific RTOS, DEVICE and COMPILER. Possible values for all variables are listed below:
+The solution file `Validation.csolution.yml` defines all target types and build types. It is the input file for build and references the application layer and the board layer for each target device.
+
+A test configuration can be built for any combination of RTOS, DEVICE and COMPILER. Possible values are listed below:
 
 | RTOS     |  Device  | Compiler |
 |----------|----------|----------|
@@ -15,8 +17,6 @@ Independent project can be generated for specific RTOS, DEVICE and COMPILER. Pos
 |          |  CM55    |          |
 |          |  CM85    |          |
 
-Input file for cbuild is Validation.csolution.yml
-
 ## Prerequisites
 
 - [CMSIS-Toolbox 2.13.0 or later](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/releases)
@@ -27,22 +27,11 @@ Input file for cbuild is Validation.csolution.yml
 - [LLVM/Clang Embedded Toolchain 22.1.0 or later](https://developer.arm.com/Tools%20and%20Software/Arm%20Toolchain%20for%20Embedded)
 - [CMake 3.31.5 or later](https://cmake.org/download/)
 - [Ninja 1.13.2 or later](https://github.com/ninja-build/ninja/releases)
-- Python (to use `build.py` script)
 
-These prerequisites can be installed automatically using `vcpkg`:
-
-```Shell
- ./Project $ vcpkg activate
-```
-
-Python packages required to build and run with `build.py`:
-
-- python-matrix-runner 1.3
-
-These can be installed with `pip`:
+These prerequisites can be installed automatically using `vcpkg` with the configuration file `.ci/vcpkg-configuration.json`:
 
 ```Shell
- ./Project $ pip install -r requirements.txt
+ $ vcpkg activate --vcpkg-configuration=.ci/vcpkg-configuration.json
 ```
 
 Required CMSIS Packs:
@@ -54,53 +43,25 @@ Required CMSIS Packs:
 
 These get installed automatically if missing. One can explicitly install the packs using `cpackget` from CMSIS-Toolbox.
 
-## Build and Execute Projects with Arm Virtual Hardware
+## Build and Execute Project with Arm Virtual Hardware
 
-The simplest way to execute this validation suite is to build and run configured targets using Python script:
-
-```Shell
- ./Project $ python build.py build run
-```
-
-Use `--verbose` command to output more information:
-
-```Shell
- ./Project $ python build.py --verbose build run
-```
-
-Above commands will build all defined projects and run each target. One might be interested in only one RTOS/Device/Compiler combination and can also build and run a project for specific combination, see below.
-
-## Build and Execute Project for Specific Target
-
-To build and execute validation suite for specific target use the following command:
-
-```Shell
- ./Project $ python build.py build run -r {RTOS} -d {DEVICE} -c {COMPILER}
-```
-
-> Note: Mentioned commands can be executed either in Windows command prompt or bash shell.
-
-Python script is used to simplify build commands and Virtual Hardware Target model execution. One can call cbuild and execute the model manually, see below.
-
-## Manually Build and Execute Project for Specific Target
-
-Behind the scenes, build.py script calls cbuild and VHT model executable to build and execute the test suite.
-
-The following command will build the project for specified RTOS/Device/Compiler and its output is an executable (either Validation.axf or Validation.elf):
+The following command will build the project for specified RTOS/Device/Compiler and its output is an executable (either `Validation.axf`, `Validation.elf` or `Validation.out`):
 
 ```Shell
  ./Project $ cbuild Validation.csolution.yml --update-rte --context .{RTOS}+{DEVICE} --toolchain {COMPILER}
- ```
-
-Executable file is then used as input parameter when calling Virtual Hardware Target model to run the validation:
-
-```Shell
- ./Project $ {AVH_MODEL} -f ../Layer/Board/{DEVICE}/fvp_config.txt -a out/Validation/{DEVICE}/{RTOS}/Validation.axf
 ```
 
-Please see a table below for a possible {AVH_MODEL} variable value when a project for specified {DEVICE} was built:
+Executable file is then used as input parameter when calling the FVP model to run the validation:
 
-| AVH_MODEL                 | DEVICE  |
+```Shell
+ ./Project $ {FVP_MODEL} -q --simlimit 100 -f ../Layer/Board/{DEVICE}/fvp_config.txt -a out/Validation/{DEVICE}/{RTOS}/Validation.{EXT}
+```
+
+Test results are output to stdout in JUnit XML format.
+
+Please see the tables below for possible values of `{FVP_MODEL}` and `{EXT}`:
+
+| FVP_MODEL                 | DEVICE  |
 |---------------------------|---------|
 | FVP_MPS2_Cortex-M0plus    | CM0plus |
 | FVP_MPS2_Cortex-M3        | CM3     |
@@ -111,13 +72,19 @@ Please see a table below for a possible {AVH_MODEL} variable value when a projec
 | FVP_MPS2_Cortex-M55       | CM55    |
 | FVP_MPS2_Cortex-M85       | CM85    |
 
-## Debug the Project using Keil MDK-Professional
+| EXT  | COMPILER    |
+|------|-------------|
+| axf  | AC6         |
+| elf  | GCC / CLANG |
+| out  | IAR         |
 
-All projects can be opened and debugged using Keil MDK-Professional no matter whether the project was build using Python script or manually with cbuild.
-After the project was successfully built, follow the steps below:
+## Build and Execute Project using Keil Studio for VS Code
 
-1. Go into folder Validation.{RTOS}+{DEVICE}_{COMPILER} and double click the generated cprj file
-2. In uVision, open dialog Options for Target->Debug and configure the debugger
-    - Configuration File 'fvp_config.txt' for each target can be found in folder [**.\Layer\Board**](https://github.com/ARM-software/CMSIS-RTOS2_Validation/tree/main/Layer/Board)
+### Quick Start
 
-Documentation on how to [use Keil MDK with Arm Virtual Hardware](https://arm-software.github.io/AVH/main/infrastructure/html/run_mdk_pro.html) describes how to configure the debugger.
+1. Install [Keil Studio for VS Code](https://marketplace.visualstudio.com/items?itemName=Arm.keil-studio-pack) from the VS Code marketplace.
+2. Open the base directory in VS Code.
+3. In VS Code Explorer View right click on `.ci/vcpkg-configuration.json` and select `Activate Environment`. This will download and install
+   the related tools.
+4. Open the [CMSIS View](https://mdk-packs.github.io/vscode-cmsis-solution-docs/userinterface.html#2-main-area-of-the-cmsis-view) in VS Code and use the *Open Solution in Workspace* to open `Project/Validation` solution.
+5. In the CMSIS view, use the [Action buttons](https://github.com/ARM-software/vscode-cmsis-csolution?tab=readme-ov-file#action-buttons) to build, load and run the example on the Arm Virtual Hardware FVP models.

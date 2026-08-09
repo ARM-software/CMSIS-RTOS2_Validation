@@ -18,12 +18,17 @@ env:
 jobs:
   build-and-run:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        compiler: [AC6, GCC, Clang, IAR]
+        compiler: [AC6, GCC, CLANG, IAR]
         rtos: [RTX5, FreeRTOS]
+        device: [CM0plus, CM3, CM4, CM7, CM23, CM33, CM55, CM85]
 
     runs-on: ubuntu-24.04
+
+    env:
+      FVP_EXEC: ${{ fromJSON('{"CM0plus":"FVP_MPS2_Cortex-M0plus","CM3":"FVP_MPS2_Cortex-M3","CM4":"FVP_MPS2_Cortex-M4","CM7":"FVP_MPS2_Cortex-M7","CM23":"FVP_MPS2_Cortex-M23","CM33":"FVP_MPS2_Cortex-M33","CM55":"FVP_MPS2_Cortex-M55","CM85":"FVP_MPS2_Cortex-M85"}')[matrix.device] }}
+      IMG_EXT: ${{ fromJSON('{"AC6":"axf","GCC":"elf","CLANG":"elf","IAR":"out"}')[matrix.compiler] }}
 
     steps:
       - name: Checkout CMSIS-RTOS2_Validation
@@ -61,17 +66,13 @@ jobs:
           python-version: '3.14'
           cache: 'pip'
 
-      - name: Python requirements
-        run: |
-          pip install -r ./CMSIS-RTOS2_Validation/Project/requirements.txt
-
       - name: Install tools
-        uses: ARM-software/cmsis-actions/vcpkg@v1
+        uses: ARM-software/cmsis-actions/vcpkg@v1.1
         with:
           config: "CMSIS-RTOS2_Validation/.ci/vcpkg-configuration.json"
 
       - name: Activate Arm tool license
-        uses: ARM-software/cmsis-actions/armlm@v1
+        uses: ARM-software/cmsis-actions/armlm@v1.1
         with:
           code: ${{ env.ARM_UBL_ACTIVATION_CODE }}
 
@@ -84,7 +85,7 @@ jobs:
           cpackget add ./CMSIS-FreeRTOS/ARM.CMSIS-FreeRTOS.pdsc
           cpackget add ./Cortex_DFP/ARM.Cortex_DFP.pdsc
 
-      - uses: ammaraskar/gcc-problem-matcher@master
+      - uses: ammaraskar/gcc-problem-matcher@cb2e3f949c41b7818628f35f8484a9b0acf90cf9
         if: matrix.compiler == 'GCC'
 
       - name: Initialize CodeQL
@@ -97,15 +98,20 @@ jobs:
       - name: Build
         working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |
-          echo "Build test projects ..."
-          ./build.py --verbose -r ${{ matrix.rtos }} -c ${{ matrix.compiler }} build || echo "::warning::=== Some configurations failed to build! ==="
+          cbuild Validation.csolution.yml --packs --update-rte \
+            --toolchain ${{ matrix.compiler }} \
+            --context .${{ matrix.rtos }}+${{ matrix.device }}
 
       - name: Execute
         if: env.ARM_UBL_ACTIVATION_CODE
         working-directory: ./CMSIS-RTOS2_Validation/Project
         run: |
-          echo "Run test projects ..."
-          ./build.py --verbose -r ${{ matrix.rtos }} -c ${{ matrix.compiler }} run || echo "::warning::==== Some configurations failed to run! ==="
+          ${{ env.FVP_EXEC }} -q --simlimit 100 \
+            -f ../Layer/Board/${{ matrix.device }}/fvp_config.txt \
+            -a out/Validation/${{ matrix.device }}/${{ matrix.rtos }}/Validation.${{ env.IMG_EXT }} \
+            > Validation-${{ matrix.rtos }}-${{ matrix.device }}-${{ matrix.compiler }}.junit
+          echo "Test results:"
+          cat Validation-${{ matrix.rtos }}-${{ matrix.device }}-${{ matrix.compiler }}.junit
 
       - name: Deactivate Arm tool license
         if: always()
@@ -124,7 +130,7 @@ jobs:
         if: ${{ !cancelled() && env.ARM_UBL_ACTIVATION_CODE }}
         uses: actions/upload-artifact@v7
         with:
-          name: test-results-${{ matrix.rtos }}-${{ matrix.compiler }}
+          name: test-results-${{ matrix.rtos }}-${{ matrix.device }}-${{ matrix.compiler }}
           path: ./CMSIS-RTOS2_Validation/Project/*.junit
 
 
